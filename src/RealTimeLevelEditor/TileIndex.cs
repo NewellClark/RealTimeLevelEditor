@@ -9,7 +9,10 @@ using System.Collections;
 namespace RealTimeLevelEditor
 {
 	/// <summary>
-	/// Stores the absolute location of a tile within a level.
+	/// Stores the absolute coordinates of a tile within a level.
+	/// All equality methods and operators have been overridden to take all
+	/// coordinates into account. 
+	/// GetHashCode() has also been overridden to allow efficient hashing. 
 	/// </summary>
 	public struct TileIndex
 	{
