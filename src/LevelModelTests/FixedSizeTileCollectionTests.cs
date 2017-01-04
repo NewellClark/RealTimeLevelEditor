@@ -8,7 +8,7 @@ using Xunit;
 
 namespace LevelModelTests
 {
-	public class LevelChunkTests
+	public class FixedSizeTileCollectionTests
 	{
 		[Fact]
 		internal void AddOrUpdate_Tile_Works()
@@ -68,6 +68,25 @@ namespace LevelModelTests
 			chunk.Tiles.Delete(tile.Index);
 
 			Assert.False(chunk.Tiles.Select(t => t.Index).Contains(tile.Index));
+		}
+
+		[Fact]
+		internal void DeleteAll_Works()
+		{
+			var tiles = new Tile<string>[]
+			{
+				Helpers.GetTile(55, 97, "Barny"),
+				Helpers.GetTile(-100, 223, "Wilma"),
+				Helpers.GetTile(500, 39, "Calvin")
+			};
+			var set = new FixedSizeTileCollection<string>(
+				new Rectangle(-1000, -1000, 2000, 2000),
+				tiles);
+
+			Assert.True(set.Count() == tiles.Count());
+			set.DeleteAll();
+
+			Assert.True(set.Count() == 0);
 		}
 
 		[Fact]

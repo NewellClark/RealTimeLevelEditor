@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
+using System.Reflection;
 
 namespace LevelModelTests
 {
@@ -43,6 +44,12 @@ namespace LevelModelTests
 		}
 
 		[Fact]
+		internal void Tile_JsonCtorParamNamesMatchProperties()
+		{
+			Assert.True(AreJsonCtorParameterNamesValid<Tile<object>>());
+		}
+
+		[Fact]
 		internal void LevelChunk_Serialize()
 		{
 			var tiles = new Tile<string>[]
@@ -60,13 +67,107 @@ namespace LevelModelTests
 			Assert.True(ChunksEqualByValue(chunk, copy));
 		}
 
+		[Fact]
+		internal void LevelChunk_JsonCtorParamNamesMatchProperties()
+		{
+			Assert.True(AreJsonCtorParameterNamesValid<LevelChunk<object>>());
+		}
+
+		[Fact]
+		internal void Size_Serialize()
+		{
+			long x = 29;
+			long y = 18;
+			Size size = new Size(x, 18);
+			string json = JsonConvert.SerializeObject(size);
+			Size copy = JsonConvert.DeserializeObject<Size>(json);
+
+			Assert.True(size == copy);
+			Assert.True(copy.X == x);
+			Assert.True(copy.Y == y);
+		}
+
+		[Fact]
+		internal void Size_JsonCtorParamNamesMatchProperties()
+		{
+			Assert.True(AreJsonCtorParameterNamesValid<Size>());
+		}
+
+
+		private ConstructorInfo GetJsonCtor(Type type)
+		{
+			var ctor = type
+				.GetConstructors(
+					BindingFlags.Public |
+					BindingFlags.NonPublic |
+					BindingFlags.Instance)
+				.Select(x => new
+				{
+					Ctor = x,
+					Attributes = x.GetCustomAttributes<JsonConstructorAttribute>()
+				});
+			var jsonCtor = ctor
+				.Where(x => x.Attributes.Count() > 0)
+				.Select(x => x.Ctor)
+				.SingleOrDefault();
+
+			return jsonCtor;
+		}
+		private ConstructorInfo GetJsonCtor<T>()
+		{
+			return GetJsonCtor(typeof(T));
+		}
+
+		private bool CanPropertyBeSerializedByJson(PropertyInfo property)
+		{
+			return property.GetMethod.IsPublic ||
+				property.GetMethod
+				.GetCustomAttributes<JsonPropertyAttribute>()
+				.Count() > 0;
+		}
+
+		/// <summary>
+		/// Determines whether the paramater names for a class's Json 
+		/// constructor match the names of json-serializable properties
+		/// within that class.
+		/// </summary>
+		/// <param name="type"></param>
+		/// <returns></returns>
+		private bool AreJsonCtorParameterNamesValid(Type type)
+		{
+			var ctor = GetJsonCtor(type);
+
+			if (ctor == null)
+				return false;
+
+			var args = ctor.GetParameters();
+			var propertyNames = type.GetProperties()
+				.Where(x => CanPropertyBeSerializedByJson(x))
+				.Select(x => x.Name.ToLower());
+
+			foreach (var arg in args)
+			{
+				bool result = propertyNames.Contains(arg.Name.ToLower());
+				if (!result)
+					return false;
+			}
+
+			return true;
+		}
+		private bool AreJsonCtorParameterNamesValid<T>()
+		{
+			return AreJsonCtorParameterNamesValid(typeof(T));
+		}
+
 		private bool TilesEqual<T>(Tile<T> lhs, Tile<T> rhs)
 		{
 			return lhs.Index == rhs.Index &&
 				lhs.Data.Equals(rhs.Data);
 		}
 
-		private bool ChunksEqualByValue(LevelChunk<string> lhs, LevelChunk<string> rhs)
+		private bool ChunksEqualByValue(
+			LevelChunk<string> lhs, 
+			LevelChunk<string> rhs)
 		{
 			//return lhs.Region == rhs.Region &&
 			//	Helpers.SeriesHaveSameElementsAndSizes(
@@ -87,6 +188,5 @@ namespace LevelModelTests
 				contentsEqual &&
 				lhs.Tiles.Count() == rhs.Tiles.Count();
 		}
-
 	}
 }

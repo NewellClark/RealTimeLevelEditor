@@ -75,6 +75,22 @@ namespace LevelModelTests
 		}
 
 		[Fact]
+		internal void Area_EnclosedTilesCount_AreEqual()
+		{
+			var rect = new Rectangle(-24, -7993, 5032, 249);
+
+			Assert.True(rect.EnclosedTiles.Count() == rect.Area);
+		}
+
+		[Fact]
+		internal void Size_Works()
+		{
+			var rect = new Rectangle(25, -21, 57, 49);
+			Assert.True(rect.Width == rect.Size.X);
+			Assert.True(rect.Height == rect.Size.Y);
+		}
+
+		[Fact]
 		internal void EqualsOperator_DetectsEquality()
 		{
 			long left = -13245;
@@ -130,16 +146,20 @@ namespace LevelModelTests
 			Assert.False(rect.Contains(outside));
 		}
 
+		/// <summary>
+		/// A tile with an x-coordinate that is equal to Rectangle.Right will
+		/// be just outside the rectangle.
+		/// </summary>
 		[Fact]
 		internal void Contains_RightBoundCheck()
 		{
 			var rect = GetContainmentTestObject();
 			var inside = new TileIndex(rect.Right - 1, 0);
-			var onLine = new TileIndex(rect.Right, 0);
-			var outside = new TileIndex(rect.Right + 1, 0);
+			//var onLine = new TileIndex(rect.Right, 0);
+			var outside = new TileIndex(rect.Right, 0);
 
 			Assert.True(rect.Contains(inside));
-			Assert.True(rect.Contains(onLine));
+			//Assert.True(rect.Contains(onLine));
 			Assert.False(rect.Contains(outside));
 		}
 
@@ -156,16 +176,20 @@ namespace LevelModelTests
 			Assert.False(rect.Contains(outside));
 		}
 
+		/// <summary>
+		/// A tile with a y-coordinate that is equal to Rectangle.Bottom will
+		/// be just outside the rectangle.
+		/// </summary>
 		[Fact]
 		internal void Contains_BottomBoundCheck()
 		{
 			var rect = GetContainmentTestObject();
 			var inside = new TileIndex(0, rect.Bottom - 1);
-			var onLine = new TileIndex(0, rect.Bottom);
-			var outside = new TileIndex(0, rect.Bottom + 1);
+			//var onLine = new TileIndex(0, rect.Bottom);
+			var outside = new TileIndex(0, rect.Bottom);
 
 			Assert.True(rect.Contains(inside));
-			Assert.True(rect.Contains(onLine));
+			//Assert.True(rect.Contains(onLine));
 			Assert.False(rect.Contains(outside));
 		}
 
