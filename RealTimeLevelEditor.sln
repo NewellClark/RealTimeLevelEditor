@@ -18,6 +18,8 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "LevelModelTests", "src\Leve
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MiscHelpers", "..\MiscHelpers\MiscHelpers\MiscHelpers.xproj", "{A83EE61D-3EB8-499D-A956-6B11BB95B482}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ConsoleTestApp", "src\ConsoleTestApp\ConsoleTestApp.xproj", "{3497A84B-E1DB-4943-A8E7-41F71EBE683C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,6 +42,10 @@ Global
 		{A83EE61D-3EB8-499D-A956-6B11BB95B482}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A83EE61D-3EB8-499D-A956-6B11BB95B482}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A83EE61D-3EB8-499D-A956-6B11BB95B482}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3497A84B-E1DB-4943-A8E7-41F71EBE683C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3497A84B-E1DB-4943-A8E7-41F71EBE683C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3497A84B-E1DB-4943-A8E7-41F71EBE683C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3497A84B-E1DB-4943-A8E7-41F71EBE683C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -49,5 +55,6 @@ Global
 		{3EB6FE8D-CDDB-408E-B870-849F14FF89F4} = {0696B674-02E9-46A7-BCF5-A3132C84F7EB}
 		{00CFC90A-495B-4F25-BF04-5903516C4B1C} = {0696B674-02E9-46A7-BCF5-A3132C84F7EB}
 		{A83EE61D-3EB8-499D-A956-6B11BB95B482} = {0696B674-02E9-46A7-BCF5-A3132C84F7EB}
+		{3497A84B-E1DB-4943-A8E7-41F71EBE683C} = {0696B674-02E9-46A7-BCF5-A3132C84F7EB}
 	EndGlobalSection
 EndGlobal

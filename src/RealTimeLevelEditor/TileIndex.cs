@@ -1,8 +1,10 @@
 ﻿using MiscHelpers;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections;
 
 namespace RealTimeLevelEditor
 {
@@ -11,12 +13,13 @@ namespace RealTimeLevelEditor
 	/// </summary>
 	public struct TileIndex
 	{
-		public TileIndex(long x, long y)
+		[JsonConstructor]
+		public TileIndex(long x, long y) 
 		{
 			X = x;
 			Y = y;
 		}
-
+	
 		public long X { get; }
 		public long Y { get; }
 
@@ -30,6 +33,10 @@ namespace RealTimeLevelEditor
 		{
 			var casted = obj as TileIndex?;
 			return casted == this;
+		}
+		public override string ToString()
+		{
+			return $"({X}, {Y})";
 		}
 
 		public static bool operator==(TileIndex lhs, TileIndex rhs)
