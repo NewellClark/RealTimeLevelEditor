@@ -1,0 +1,18 @@
+﻿1. LevelChunk.TileCollection indexer does not currently have a setter. The indexer 
+	provides key-value lookup, where TileIndex is the key, and Tile is the value. A Tile<T> 
+	is essentially a key-value pair of (TileIndex, T). If write-access were provided in the
+	indexer, a user could set a TileIndex to a Tile with a different TileIndex. To avoid 
+	this, I'd have to either:
+	a. Change the TileIndex of the Tile before putting it in the collection.
+	b. Create a new Tile and give it Data value of the Tile that the user tried to set the
+		indexer to, and the index that was passed into the indexer, and put that into the 
+		collection. This is confusing and potentially surprising to the 
+		end-user (i.e. you or me in 2 weeks or so). 
+	Until we decide which of these two options is best, I'm leaving the indexer as read-only.
+2. What should the indexer do when handed an index that doesn't exist in the collection? It
+	could either:
+	a. Return a new Tile with it's Data property set to default(T)
+	b. Throw an IndexOutOfRangeException.
+3. Should LevelChunk.TileCollection.Delete(TileIndex index) throw when index is out 
+	of range? Unlike when adding a tile, calling delete in a tile index that's
+	guaranteed to not be in the collection seems fairly harmless.

@@ -16,15 +16,17 @@ namespace RealTimeLevelEditor
 	/// </summary>
 	public struct TileIndex
 	{
-		[JsonConstructor]
-		public TileIndex(long x, long y) 
+		public TileIndex(long x, long y)
 		{
 			X = x;
 			Y = y;
 		}
-	
-		public long X { get; }
-		public long Y { get; }
+		
+		[JsonProperty]
+		public long X { get; private set; }
+
+		[JsonProperty]
+		public long Y { get; private set; }
 
 		public override int GetHashCode()
 		{

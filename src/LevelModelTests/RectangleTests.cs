@@ -1,4 +1,5 @@
-﻿using RealTimeLevelEditor;
+﻿using Newtonsoft.Json;
+using RealTimeLevelEditor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -114,6 +115,64 @@ namespace LevelModelTests
 			Rectangle? rect2 = null;
 
 			Assert.False(rect1.Equals(rect2));
+		}
+
+		[Fact]
+		internal void Contains_LeftBoundCheck()
+		{
+			var rect = GetContainmentTestObject();
+			var inside = new TileIndex(rect.Left + 1, 0);
+			var onLine = new TileIndex(rect.Left, 0);
+			var outside = new TileIndex(rect.Left - 1, 0);
+
+			Assert.True(rect.Contains(inside));
+			Assert.True(rect.Contains(onLine));
+			Assert.False(rect.Contains(outside));
+		}
+
+		[Fact]
+		internal void Contains_RightBoundCheck()
+		{
+			var rect = GetContainmentTestObject();
+			var inside = new TileIndex(rect.Right - 1, 0);
+			var onLine = new TileIndex(rect.Right, 0);
+			var outside = new TileIndex(rect.Right + 1, 0);
+
+			Assert.True(rect.Contains(inside));
+			Assert.True(rect.Contains(onLine));
+			Assert.False(rect.Contains(outside));
+		}
+
+		[Fact]
+		internal void Contains_TopBoundCheck()
+		{
+			var rect = GetContainmentTestObject();
+			var inside = new TileIndex(0, rect.Top + 1);
+			var onLine = new TileIndex(0, rect.Top);
+			var outside = new TileIndex(0, rect.Top - 1);
+
+			Assert.True(rect.Contains(inside));
+			Assert.True(rect.Contains(onLine));
+			Assert.False(rect.Contains(outside));
+		}
+
+		[Fact]
+		internal void Contains_BottomBoundCheck()
+		{
+			var rect = GetContainmentTestObject();
+			var inside = new TileIndex(0, rect.Bottom - 1);
+			var onLine = new TileIndex(0, rect.Bottom);
+			var outside = new TileIndex(0, rect.Bottom + 1);
+
+			Assert.True(rect.Contains(inside));
+			Assert.True(rect.Contains(onLine));
+			Assert.False(rect.Contains(outside));
+		}
+
+
+		private Rectangle GetContainmentTestObject()
+		{
+			return new Rectangle(-50, -30, 100, 60);
 		}
 	}
 }
