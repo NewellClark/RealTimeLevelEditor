@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace RealTimeLevelEditor
 {
-	public partial class LevelChunk<T>
+	public class LevelChunk<T>
 	{
 		[JsonConstructor]
 		internal LevelChunk(Rectangle region, IEnumerable<Tile<T>> tiles)
 		{
-			Tiles = new TileCollection(region, tiles);
+			Tiles = new FixedSizeTileCollection<T>(region, tiles);
 		}
 
 		internal LevelChunk(Rectangle region)
@@ -31,7 +31,7 @@ namespace RealTimeLevelEditor
 		/// <summary>
 		/// Gets a collection that contains all the tiles in the current region.
 		/// </summary>
-		public TileCollection Tiles { get; }
+		public FixedSizeTileCollection<T> Tiles { get; }
 	}
 
 	//internal class LevelChunk<T>

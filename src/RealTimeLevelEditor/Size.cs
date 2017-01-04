@@ -41,5 +41,15 @@ namespace RealTimeLevelEditor
 				lhs.Y == rhs.Y;
 		}
 		public static bool operator!=(Size lhs, Size rhs) => !(lhs == rhs);
+
+		public static Size operator*(Size lhs, Size rhs)
+		{
+			return new Size(lhs.X * rhs.X, lhs.Y * rhs.Y);
+		}
+		public static Size operator*(Size lhs, long rhs)
+		{
+			return new Size(lhs.X * rhs, lhs.Y * rhs);
+		}
+		public static Size operator*(long lhs, Size rhs) => rhs * lhs;
 	}
 }

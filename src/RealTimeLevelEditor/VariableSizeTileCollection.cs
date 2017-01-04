@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 
 namespace RealTimeLevelEditor
 {
-	public class Level<T> : TileCollection<T>
+	public class VariableSizeTileCollection<T> : TileCollection<T>
 	{
-		public Level(TileCollection<LevelChunk<T>> chunkRepository)
+		public VariableSizeTileCollection(IEnumerable<Tile<T>> tiles)
 		{
-			throw new NotImplementedException();
+			_tiles = new Dictionary<TileIndex, Tile<T>>();
+			
 		}
+
 		public override Tile<T> this[TileIndex index]
 		{
 			get
@@ -38,5 +40,8 @@ namespace RealTimeLevelEditor
 		{
 			throw new NotImplementedException();
 		}
+
+
+		private Dictionary<TileIndex, Tile<T>> _tiles;
 	}
 }

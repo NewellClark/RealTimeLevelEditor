@@ -34,7 +34,7 @@ namespace RealTimeLevelEditor
 
 		[JsonProperty]
 		public long Height { get; private set; }
-
+		
 		public long Right => Left + Width;
 
 		public long Bottom => Top + Height;
@@ -44,16 +44,34 @@ namespace RealTimeLevelEditor
 		public Size Size => new Size(Width, Height);
 
 		/// <summary>
-		/// Indicates whether the specified TileIndex is inside the current rectangle, inclusive.
+		/// Indicates whether the specified TileIndex would fit inside the 
+		/// current Rectangle.
+		/// Note that the Left and Top bounds are inclusive, but the Right and Bottom
+		/// bounds are not (because the right boundary is on the right-hand edge of
+		/// the right-most tile).
 		/// </summary>
 		/// <param name="index"></param>
 		/// <returns></returns>
 		public bool Contains(TileIndex index)
 		{
 			return index.X >= Left &&
-				index.X <= Right &&
+				index.X < Right &&
 				index.Y >= Top &&
-				index.Y <= Bottom; 
+				index.Y < Bottom; 
+		}
+
+		public IEnumerable<TileIndex> EnclosedTiles
+		{
+			get
+			{
+				for (long x = Left; x < Right; x++)
+				{
+					for (long y = Top; y < Bottom; y++)
+					{
+						yield return new TileIndex(x, y);
+					}
+				}
+			}
 		}
 
 		public override int GetHashCode()
