@@ -81,7 +81,7 @@ namespace WebApi.Services {
 
         getExternalLogins(): ng.IPromise<{}> {
             return this.$q((resolve, reject) => {
-                let url = `api/Account/getExternalLogins?returnUrl=%2FexternalLogin&generateState=true`;
+                let url = 'api/Account/getExternalLogins?returnUrl=%2FexternalLogin&generateState=true';
                 this.$http.get(url).then((result: any) => {
                     resolve(result.data);
                 }).catch((result) => {
