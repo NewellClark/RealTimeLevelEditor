@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RealTimeLevelEditor
+namespace LevelModelTests
 {
-    public class Level<T>
+    public class LevelTests
     {
-
     }
 }

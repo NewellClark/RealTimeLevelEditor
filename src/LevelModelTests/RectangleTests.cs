@@ -75,6 +75,14 @@ namespace LevelModelTests
 		}
 
 		[Fact]
+		internal void Size_Works()
+		{
+			var rect = new Rectangle(25, -21, 57, 49);
+			Assert.True(rect.Width == rect.Size.X);
+			Assert.True(rect.Height == rect.Size.Y);
+		}
+
+		[Fact]
 		internal void EqualsOperator_DetectsEquality()
 		{
 			long left = -13245;

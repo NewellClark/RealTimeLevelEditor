@@ -16,7 +16,7 @@ namespace RealTimeLevelEditor
 			Tiles = new TileCollection(region, tiles);
 		}
 
-		internal LevelChunk(Rectangle region) 
+		internal LevelChunk(Rectangle region)
 			: this(region, new Tile<T>[] { }) { }
 
 		/// <summary>

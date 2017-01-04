@@ -41,6 +41,8 @@ namespace RealTimeLevelEditor
 
 		public long Area => Width * Height;
 
+		public Size Size => new Size(Width, Height);
+
 		/// <summary>
 		/// Indicates whether the specified TileIndex is inside the current rectangle, inclusive.
 		/// </summary>
