@@ -45,15 +45,20 @@ namespace LevelModelTests
 		[Fact]
 		internal void LevelChunk_Serialize()
 		{
+			var tiles = new Tile<string>[]
+			{
+				Helpers.GetTile(50, 22, "Only One - YellowCard"),
+				Helpers.GetTile(-27, 809, "Lady Gaga - Hair"),
+				Helpers.GetTile(576, 649, "Angels and AirWaves - The War")
+			};
 			var chunk = new LevelChunk<string>(
-				new Rectangle(45, -900, 256, 128), 
-				Helpers.GetTestTiles());
+				new Rectangle(-10000, -10000, 20000, 20000),
+				tiles);
 			var json = JsonConvert.SerializeObject(chunk);
 			var copy = JsonConvert.DeserializeObject<LevelChunk<string>>(json);
 
 			Assert.True(ChunksEqualByValue(chunk, copy));
 		}
-
 
 		private bool TilesEqual<T>(Tile<T> lhs, Tile<T> rhs)
 		{
@@ -63,9 +68,24 @@ namespace LevelModelTests
 
 		private bool ChunksEqualByValue(LevelChunk<string> lhs, LevelChunk<string> rhs)
 		{
-			return lhs.Region == rhs.Region &&
-				Helpers.SeriesHaveSameElementsAndSizes(
-					lhs.Tiles, rhs.Tiles, (l, r) => l == r);
+			//return lhs.Region == rhs.Region &&
+			//	Helpers.SeriesHaveSameElementsAndSizes(
+			//		lhs.Tiles, rhs.Tiles, (l, r) => l == r);
+
+			bool regionsEqual = lhs.Region == rhs.Region;
+			bool contentsEqual = true;
+			foreach (var tile in lhs.Tiles)
+			{
+				if (!rhs.Tiles.Contains(tile.Index))
+				{
+					contentsEqual = false;
+					break;
+				}
+			}
+
+			return regionsEqual &&
+				contentsEqual &&
+				lhs.Tiles.Count() == rhs.Tiles.Count();
 		}
 
 	}

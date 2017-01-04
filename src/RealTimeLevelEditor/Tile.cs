@@ -1,4 +1,5 @@
 ﻿using MiscHelpers;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,8 +21,12 @@ namespace RealTimeLevelEditor
 		}
 		internal Tile(TileIndex index)
 			: this(index, default(T)) { }
+		[JsonConstructor]
+		private Tile() { }
 
-		public TileIndex Index { get; }
+		[JsonProperty]
+		public TileIndex Index { get; private set; }
+
 		public T Data { get; set; }
 
 		/// <summary>

@@ -26,31 +26,6 @@ namespace LevelModelTests
 		}
 
 		/// <summary>
-		/// Determines whether two series are the same size and have the same elements.
-		/// Orders may be different.
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="lhs"></param>
-		/// <param name="rhs"></param>
-		/// <param name="equalityComparer"></param>
-		/// <returns></returns>
-		public static bool SeriesHaveSameElementsAndSizes<T>(
-			IEnumerable<T> lhs,
-			IEnumerable<T> rhs,
-			Func<T, T, bool> equalityComparer)
-		{
-			if (lhs.Count() != rhs.Count())
-				return false;
-			foreach (T item in lhs)
-			{
-				if (!rhs.Contains(item))
-					return false;
-			}
-
-			return true;
-		}
-
-		/// <summary>
 		/// Gets a test chunk that contains a single tile with the specified data value and 
 		/// a non-default region.
 		/// </summary>
@@ -68,8 +43,6 @@ namespace LevelModelTests
 		{
 			var region = new Rectangle(13327L, -4443332L, 10000L, 5600L);
 			return new LevelChunk<T>(region, tiles);
-
-
 		}
 
 		public static LevelChunk<T> GetEmptyChunk<T>()

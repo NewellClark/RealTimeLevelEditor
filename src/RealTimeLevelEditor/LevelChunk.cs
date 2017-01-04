@@ -19,11 +19,18 @@ namespace RealTimeLevelEditor
 		internal LevelChunk(Rectangle region) 
 			: this(region, new Tile<T>[] { }) { }
 
+		/// <summary>
+		/// Gets the bounding region for the current chunk within the level.
+		/// Bounding-region is inclusive.
+		/// </summary>
 		public Rectangle Region
 		{
 			get { return Tiles.Region; }
 		}
 
+		/// <summary>
+		/// Gets a collection that contains all the tiles in the current region.
+		/// </summary>
 		public TileCollection Tiles { get; }
 	}
 
