@@ -69,6 +69,7 @@ namespace LevelModelTests
 
 			Assert.False(chunk.Tiles.Select(t => t.Index).Contains(tile.Index));
 		}
+
 		[Fact]
 		internal void Delete_Enumerable_works()
 		{
