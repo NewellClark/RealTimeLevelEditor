@@ -6,10 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Clark-Russell")]
-[assembly: AssemblyProduct("RealTimeLevelEditor")]
+[assembly: AssemblyCompany("Hewlett-Packard")]
+[assembly: AssemblyProduct("LevelModelTests")]
 [assembly: AssemblyTrademark("")]
-[assembly: InternalsVisibleTo("LevelModelTests")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
 // to COM components.  If you need to access a type in this assembly from
@@ -17,4 +16,4 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("51612e7e-ce88-4812-8a8f-28bf6edefc8e")]
+[assembly: Guid("00cfc90a-495b-4f25-bf04-5903516c4b1c")]
