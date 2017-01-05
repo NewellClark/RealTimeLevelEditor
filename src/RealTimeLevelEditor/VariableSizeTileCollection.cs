@@ -7,7 +7,7 @@ namespace RealTimeLevelEditor
 {
 	public class VariableSizeTileCollection<T> : TileCollection<T>
 	{
-		public VariableSizeTileCollection() 
+		public VariableSizeTileCollection()
 			: this(new Tile<T>[] { }) { }
 		public VariableSizeTileCollection(IEnumerable<Tile<T>> tiles)
 		{

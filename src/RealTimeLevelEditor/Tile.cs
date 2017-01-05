@@ -33,9 +33,9 @@ namespace RealTimeLevelEditor
 		/// Overridden to use the hashcode of Index.
 		/// </summary>
 		/// <returns></returns>
-		public override int GetHashCode()
-		{
-			return Index.GetHashCode();
-		}
+		//public override int GetHashCode()
+		//{
+		//	return Index.GetHashCode();
+		//}
 	}
 }
