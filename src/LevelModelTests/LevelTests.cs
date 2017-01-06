@@ -95,14 +95,14 @@ namespace LevelModelTests
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
-		private Level<T> CreateDefault<T>()
+		protected virtual Level<T> CreateDefault<T>()
 		{
 			return new Level<T>(
 				new MockRepository<T>(), 
 				_chunkSize);
 		}
 
-		private IEnumerable<TileIndex> GetSampleIndeces()
+		protected IEnumerable<TileIndex> GetSampleIndeces()
 		{
 			return Helpers.Sample(_sampleRegion, _sampleResolution);
 		}
@@ -110,7 +110,7 @@ namespace LevelModelTests
 		private const long _sampleResolution = 9;
 		private readonly Rectangle _sampleRegion =
 			new Rectangle(-200, -160, 400, 320);
-		private readonly Size _chunkSize =
+		protected readonly Size _chunkSize =
 			new Size(31, 24);
 	}
 }
