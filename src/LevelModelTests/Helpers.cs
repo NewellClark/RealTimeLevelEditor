@@ -50,5 +50,28 @@ namespace LevelModelTests
 			var region = new Rectangle(16663, -3324, 45, 32);
 			return new LevelChunk<T>(region, new Tile<T>[] { });
 		}
+
+		/// <summary>
+		/// Gets a series of sample points from the specified region, with the specified space
+		/// between them.
+		/// </summary>
+		/// <param name="region"></param>
+		/// <param name="resolution">Amount of space to leave between sample points.</param>
+		/// <returns></returns>
+		public static IEnumerable<TileIndex> Sample(Rectangle region, Size resolution)
+		{
+			for (long x = region.Left; x < region.Right; x += resolution.X)
+			{
+				for (long y = region.Top; y < region.Bottom; y += resolution.Y)
+				{
+					yield return new TileIndex(x, y);
+				}
+			}
+		}
+
+		public static IEnumerable<TileIndex> Sample(Rectangle region, long resolution)
+		{
+			return Sample(region, new Size(resolution, resolution));
+		}
 	}
 }

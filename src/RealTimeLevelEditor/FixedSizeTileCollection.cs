@@ -16,8 +16,10 @@ namespace RealTimeLevelEditor
 		{
 			Region = region;
 			_tiles = new Dictionary<TileIndex, Tile<T>>();
-			AddOrUpdate(tiles);
+			AddOrUpdateNonVirtual(tiles);
 		}
+		public FixedSizeTileCollection(Rectangle region)
+			: this(region, new Tile<T>[] { }) { }
 
 		/// <summary>
 		/// 
@@ -26,11 +28,22 @@ namespace RealTimeLevelEditor
 		/// <exception cref="ArgumentOutOfRangeException"></exception>
 		public override void AddOrUpdate(Tile<T> tile)
 		{
+			AddOrUpdateNonVirtual(tile);
+		}
+
+		private void AddOrUpdateNonVirtual(Tile<T> tile)
+		{
 			if (!Region.Contains(tile.Index))
 				throw new ArgumentOutOfRangeException(
 					$"{nameof(tile)}.{nameof(tile.Index)}");
 
 			_tiles[tile.Index] = tile;
+		}
+
+		private void AddOrUpdateNonVirtual(IEnumerable<Tile<T>> tiles)
+		{
+			foreach (var tile in tiles)
+				AddOrUpdateNonVirtual(tile);
 		}
 
 		public override void Delete(TileIndex tile)
@@ -57,9 +70,15 @@ namespace RealTimeLevelEditor
 		{
 			get
 			{
-				if (!Contains(index))
+				if (!Region.Contains(index))
+				{
 					throw new IndexOutOfRangeException(
 						$"{index} is not inside rectangular region {Region}.");
+				}
+				if (!Contains(index))
+					throw new KeyNotFoundException(
+						$"There is no tile in the current collection with an index of {index}.");
+
 				return _tiles[index];
 			}
 		}

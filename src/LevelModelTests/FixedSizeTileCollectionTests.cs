@@ -11,7 +11,7 @@ namespace LevelModelTests
 	public class FixedSizeTileCollectionTests
 	{
 		[Fact]
-		internal void AddOrUpdate_Tile_Works()
+		internal void AddOrUpdate_AddsNew()
 		{
 			var tile = Helpers.GetTile(156, -300, "I'm a tile");
 			var chunk = new LevelChunk<string>(
@@ -28,6 +28,22 @@ namespace LevelModelTests
 			Assert.True(countAfter == countBefore + 1);
 			Assert.True(copy.Index == tile.Index);
 			Assert.True(copy.Data == tile.Data);
+		}
+
+		[Fact]
+		internal void AddOrUpdate_Updates()
+		{
+			var index = new TileIndex(-4, 3);
+			var original = Helpers.GetTile(index.X, index.Y, "Original");
+			var set = new FixedSizeTileCollection<string>(
+				new Rectangle(-20, -20, 40, 40));
+			set.AddOrUpdate(original);
+
+			var changed = Helpers.GetTile(index.X, index.Y, "Changed");
+			set.AddOrUpdate(changed);
+
+			Assert.True(set.Count == 1);
+			Assert.True(set[index].Data == changed.Data);
 		}
 
 		[Fact]
@@ -154,6 +170,9 @@ namespace LevelModelTests
 			Assert.True(chunk.Tiles[tile.Index] == tile);
 		}
 
+		/// <summary>
+		/// Index is outside the bounding-box of the chunk.
+		/// </summary>
 		[Fact]
 		internal void Indexer_ThrowsWhenIndexOutOfRange()
 		{
@@ -164,6 +183,22 @@ namespace LevelModelTests
 
 			Assert.Throws<IndexOutOfRangeException>(
 				() => chunk.Tiles[tile.Index]);
+		}
+
+		/// <summary>
+		/// Index is within bounds but there is no tile in the collection with that index.
+		/// </summary>
+		[Fact]
+		internal void Indexer_ThrowsWhenIndexNotFound()
+		{
+			var set = new FixedSizeTileCollection<string>(
+				new Rectangle(-50, -50, 100, 100),
+				new Tile<string>[] { Helpers.GetTile(0, 1, "Hello!") });
+			Assert.Throws<KeyNotFoundException>(
+				() =>
+				{
+					var tile = set[new TileIndex(25, 30)];
+				});
 		}
 	}
 }
