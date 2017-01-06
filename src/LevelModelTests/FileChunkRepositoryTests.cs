@@ -16,7 +16,7 @@ namespace LevelModelTests
 			return new Level<T>(repo, _chunkSize);
 		}
 
-		private string GetTestDirectory()
+		protected string GetTestDirectory()
 		{
 			string root = Path.GetTempPath();
 			Guid directory = Guid.NewGuid();

@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace RealTimeLevelEditor
 {
+	/// <summary>
+	/// Saves chunks to files.
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
 	public partial class FileChunkRepository<T> : IChunkRepository<T>
 	{
 		public IEnumerable<TileIndex> Indeces

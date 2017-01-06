@@ -14,7 +14,6 @@ namespace RealTimeLevelEditor
 			if (!_directory.Exists)
 				_directory.Create();
 		}
-
 		
 		private string GetFilePathForChunkIndex(TileIndex chunkIndex)
 		{
