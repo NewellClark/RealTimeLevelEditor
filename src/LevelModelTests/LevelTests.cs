@@ -111,6 +111,6 @@ namespace LevelModelTests
 		private readonly Rectangle _sampleRegion =
 			new Rectangle(-200, -160, 400, 320);
 		protected readonly Size _chunkSize =
-			new Size(31, 24);
+			new Size(21, 34);
 	}
 }

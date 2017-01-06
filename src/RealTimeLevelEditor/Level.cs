@@ -39,6 +39,19 @@ namespace RealTimeLevelEditor
 			_repo.Save(chunkTile);
 		}
 
+		public override void AddOrUpdate(IEnumerable<Tile<T>> tiles)
+		{
+			var groups = from tile in tiles
+						 group tile by tile.Index.ToChunkIndex(_chunkSize);
+
+			foreach (var grouping in groups)
+			{
+				var chunk = LoadOrCreate(grouping.Key);
+				chunk.Data.Tiles.AddOrUpdate(grouping);
+				_repo.Save(chunk);
+			}
+		}
+
 		public override bool Contains(TileIndex index)
 		{
 			var chunkIndex = index.ToChunkIndex(_chunkSize);
@@ -58,6 +71,21 @@ namespace RealTimeLevelEditor
 			_repo.Save(chunk);
 		}
 
+		public override void Delete(IEnumerable<TileIndex> indeces)
+		{
+			var groups = from index in indeces
+						 group index by index.ToChunkIndex(_chunkSize);
+
+			foreach (var grouping in groups)
+			{
+				if (!_repo.Contains(grouping.Key))
+					continue;
+				var chunk = _repo.Load(grouping.Key);
+				chunk.Data.Tiles.Delete(grouping);
+				_repo.Save(chunk);
+			}
+		}
+
 		public override IEnumerator<Tile<T>> GetEnumerator()
 		{
 			var chunks = _repo.Indeces
@@ -72,7 +100,21 @@ namespace RealTimeLevelEditor
 			}
 		}
 
-		
+		public override int Count
+		{
+			get
+			{
+				int count = 0;
+				foreach (var index in _repo.Indeces)
+				{
+					var chunk = _repo.Load(index);
+					count += chunk.Data.Tiles.Count;
+				}
+
+				return count;
+			}
+		}
+
 		private Tile<LevelChunk<T>> CreateEmpty(TileIndex chunkIndex)
 		{
 			var topLeft = new TileIndex(

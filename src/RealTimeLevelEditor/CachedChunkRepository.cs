@@ -5,6 +5,10 @@ using System.Threading.Tasks;
 
 namespace RealTimeLevelEditor
 {
+	/// <summary>
+	/// Wraps an IChunkRepository`T. Caches loaded chunks for faster lookups.
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
 	public class CachedChunkRepository<T> : IChunkRepository<T> 
 	{
 		public CachedChunkRepository(IChunkRepository<T> inner)
