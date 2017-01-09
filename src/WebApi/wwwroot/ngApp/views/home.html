@@ -1,2 +1,61 @@
-<canvas ng-mousedown="controller.mouseDown($event)" width="450" height="450" id="theCanvas"/>
+<div class="btn-toolbar" role="toolbar"  style="background-color: ThreeDDarkShadow; position: absolute; width: 100%;">
+    <div class="btn-group mr-2" role="group" aria-label="First group">
+        <button ng-click="controller.Scroll()" type="button" class="btn">Scroll</button>
+        <button type="button" class="btn btn-secondary">2</button>
+        <button type="button" class="btn btn-secondary">3</button>
+        <button type="button" class="btn btn-secondary">4</button>
+    </div>
+    <div class="btn-group mr-2" role="group" aria-label="Second group">
+        <button type="button" class="btn btn-secondary">5</button>
+        <button type="button" class="btn btn-secondary">6</button>
+        <button type="button" class="btn btn-secondary">7</button>
+    </div>
+    <div class="btn-group" role="group" aria-label="Third group">
+        <button type="button" class="btn btn-secondary">8</button>
+    </div>
+</div>
+
+<div style="width: 150px; height: 100%; position: absolute; right: 0px; background-color: gainsboro;">
+    
+    <ul class="nav nav-tabs nav-tabs-justified">
+        <li>
+            <a ng-click="controller.typeMenuVisible=true" href="#">Types</a>
+        </li>
+        <li><a ng-click="controller.typeMenuVisible=false" href="#">Edit</a></li>
+    </ul>
+<div ng-show="controller.typeMenuVisible">
+    <table class="table table-bordered table-hover" style="background-color: white;">
+        <tr ng-repeat="type in controller.types">
+            <td style="width: 35px;">
+            <div style="width: 35px; height: 17px;">
+                     <div style="width: 20px; height: 15px; background-color: {{type.color}};"></div></td>
+            </div>
+            <td><div style="font-size: small;">{{type.name}}</div></td>
+        </tr>
+    </table>
+</div>
+<div ng-hide="controller.typeMenuVisible">
+    <table class="table table-bordered">
+        <thead>
+            <th>{{controller.fireType.name}}</th>
+            <th><div style="width: 20; height: 15; background-color: {{controller.fireType.color}};"></div></th>
+        </thead>
+        <tr ng-repeat="property in controller.fireType.properties">
+            <td><div style="font-size: small;">{{property.property}}</div></td>
+            <td><input style="width: 50px" class="input-sm" value="{{property.value}}"/></td>
+        </tr>
+    </table>
+    <br />
+    <br />
+    <br />
+    New property name:
+    <input style="width: 135;" class="input-sm" ng-model="controller.propertyToAdd"/>
+    <button ng-click="controller.addProperty()" class="btn btn-primary">Add</button>
+</div>
+</div>
+
+
+
+<!--<button ng-click="controller.Scroll()" style="position:absolute;">Scroll</button>-->
+<canvas style="cursor: crosshair;" ng-mousedown="controller.mouseDown($event)" ng-mousemove="controller.mouseMove($event)" ng-mouseup="controller.mouseUp($event)" width="450" height="450" id="theCanvas"/>
 
