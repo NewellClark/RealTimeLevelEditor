@@ -7,7 +7,8 @@ namespace RealTimeLevelEditor
 {
 	public class Level<T> : TileCollection<T>
 	{
-		public Level(IChunkRepository<T> chunkRepository,
+		public Level(
+			IChunkRepository<T> chunkRepository,
 			Size chunkSize)
 		{
 			_chunkSize = chunkSize;

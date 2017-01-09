@@ -1,10 +1,11 @@
-using System;
+﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using WebApi.Data;
 
-namespace WebApi.Data.Migrations
+namespace WebApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -169,6 +170,39 @@ namespace WebApi.Data.Migrations
                         .HasName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("WebApi.Models.ChunkDbEntry", b =>
+                {
+                    b.Property<Guid>("LevelId");
+
+                    b.Property<long>("X");
+
+                    b.Property<long>("Y");
+
+                    b.Property<string>("JsonData");
+
+                    b.HasKey("LevelId", "X", "Y");
+
+                    b.ToTable("Chunks");
+                });
+
+            modelBuilder.Entity("WebApi.Models.LevelDbEntry", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<long>("ChunkHeight");
+
+                    b.Property<string>("ChunkIndecesJson");
+
+                    b.Property<long>("ChunkWidth");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Levels");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>

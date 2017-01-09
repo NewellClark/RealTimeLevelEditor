@@ -42,7 +42,9 @@
     "Microsoft.VisualStudio.Web.CodeGenerators.Mvc": {
       "version": "1.0.0-preview2-final",
       "type": "build"
-    }
+    },
+    "RealTimeLevelEditor": "1.0.0-*",
+    "MiscHelpers": "1.0.0-*"
   },
 
   "tools": {
