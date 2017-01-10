@@ -16,6 +16,13 @@ namespace WebApi.Services
 			_defaultChunkSize = new Size(100, 100);
 		}
 
+		/// <summary>
+		/// Loads the level with the specified <paramref name="id"/>. Throws if level does not exist.
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns>Object containing a <c>Level`T</c> for the specified level, as well as other
+		/// information about the level.</returns>
+		/// <exception cref="ArgumentException">No level with specified <paramref name="id"/> exists.</exception>
 		public ILoadedLevel<T> Load(Guid id)
 		{
 			var data = _db.Levels
@@ -70,6 +77,14 @@ namespace WebApi.Services
 			_db.SaveChanges();
 
 			return true;
+		}
+
+		public bool Exists(Guid levelId)
+		{
+			var data = _db.Levels
+				.Where(x => x.Id == levelId)
+				.SingleOrDefault();
+			return data != null;
 		}
 
 		private class LoadedLevel : ILoadedLevel<T>
