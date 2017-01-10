@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebApi.Data;
 using WebApi.Models;
+using WebApi.ViewModels.Levels;
 
 namespace WebApi.Services
 {
@@ -37,15 +38,16 @@ namespace WebApi.Services
 				Level = new Level<T>(
 					new ChunkDatabaseRepository<T>(id, _db),
 					data.ChunkSize),
-				Id = id,
-				Name = data.Name
+				Info = new LevelInfoViewModel(data)
 			};
 		}
 
-		public ILoadedLevel<T> Create(string levelName)
+		public ILoadedLevel<T> Create(string ownerId, string levelName)
 		{
 			var data = new LevelDbEntry();
 			data.Name = levelName;
+			data.OwnerId = ownerId;
+			data.DateCreated = DateTime.UtcNow;
 			_db.Add(data);
 			_db.SaveChanges();
 
@@ -54,20 +56,28 @@ namespace WebApi.Services
 				Level = new Level<T>(
 					new ChunkDatabaseRepository<T>(data.Id, _db),
 					_defaultChunkSize),
-				Id = data.Id,
-				Name = data.Name
+				Info = new LevelInfoViewModel(data)
 			};
 		}
 
-		public bool Delete(Guid id)
+		public IEnumerable<LevelInfoViewModel> FindLevelsForUser(string ownerId)
+		{
+			var levels = _db.Levels
+				.Where(x => x.OwnerId == ownerId)
+				.Select(x => new LevelInfoViewModel(x));
+
+			return levels;
+		}
+
+		public bool Delete(Guid levelId)
 		{
 			var data = _db.Levels
-				.Where(x => x.Id == id)
+				.Where(x => x.Id == levelId)
 				.SingleOrDefault();
 			if (data == null)
 				return false;
 
-			var chunkRepo = new ChunkDatabaseRepository<T>(id, _db);
+			var chunkRepo = new ChunkDatabaseRepository<T>(levelId, _db);
 			var toDelete = chunkRepo.Indeces.ToArray();
 			foreach (var index in toDelete)
 			{
@@ -91,8 +101,7 @@ namespace WebApi.Services
 		private class LoadedLevel : ILoadedLevel<T>
 		{
 			public Level<T> Level { get; set; }
-			public Guid Id { get; set; }
-			public string Name { get; set; }
+			public LevelInfoViewModel Info { get; set; }
 		}
 
 		private ApplicationDbContext _db;

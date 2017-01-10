@@ -57,14 +57,15 @@ namespace WebApi
 			// Add application services.
 			services.AddTransient<IEmailSender, AuthMessageSender>();
 			services.AddTransient<ISmsSender, AuthMessageSender>();
-			
-			
-						// add security policies
-						services.AddAuthorization(options =>
-						{
-							options.AddPolicy("AdminOnly", policy => policy.RequireClaim("IsAdmin"));
-						});
-			
+			services.AddScoped<ILoadedLevelService<string>, LoadedLevelService<string>>();
+			services.AddTransient<ApplicationUserService, ApplicationUserService>();
+
+			// add security policies
+			services.AddAuthorization(options =>
+			{
+				options.AddPolicy("AdminOnly", policy => policy.RequireClaim("IsAdmin"));
+			});
+
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -105,8 +106,8 @@ namespace WebApi
 				);
 			});
 
-		   // initialize sample data
-		   SampleData.Initialize(app.ApplicationServices).Wait();
+			// initialize sample data
+			SampleData.Initialize(app.ApplicationServices).Wait();
 
 		}
 	}

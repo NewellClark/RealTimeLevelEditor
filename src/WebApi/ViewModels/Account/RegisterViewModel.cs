@@ -8,17 +8,17 @@ namespace WebApi.ViewModels.Account
 {
 	public class RegisterViewModel
 	{
-		[Required]
+		//[Required]
 		[EmailAddress]
 		[Display(Name = "Email")]
 		public string Email { get; set; }
 
 		[Required]
-		[StringLength(100, MinimumLength = 4, ErrorMessage = "Username must be between 4 and 100 characters in length")]
+		[StringLength(100, ErrorMessage = "Username must be at most 100 characters in length")]
 		public string UserName { get; set; }
 
 		[Required]
-		[StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+		[StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 4)]
 		[DataType(DataType.Password)]
 		[Display(Name = "Password")]
 		public string Password { get; set; }
