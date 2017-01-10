@@ -17,7 +17,7 @@ namespace WebApiTests
 		{
 			using (var db = new DbProvider())
 			{
-				var repo = new LevelDatabaseRepository<string>(db.DbContext);
+				var repo = new LoadedLevelService<string>(db.DbContext);
 				var level = repo.Create(GetTestName());
 
 				var inDatabase = db.DbContext.Levels
@@ -34,7 +34,7 @@ namespace WebApiTests
 		{
 			using (var db = new DbProvider())
 			{
-				var repo = new LevelDatabaseRepository<string>(db.DbContext);
+				var repo = new LoadedLevelService<string>(db.DbContext);
 				var level = repo.Create(GetTestName());
 				var loaded = repo.Load(level.Id);
 
@@ -48,7 +48,7 @@ namespace WebApiTests
 		{
 			using (var db = new DbProvider())
 			{
-				var repo = new LevelDatabaseRepository<string>(db.DbContext);
+				var repo = new LoadedLevelService<string>(db.DbContext);
 				var id = Guid.NewGuid();
 				repo.Delete(id);
 
@@ -62,7 +62,7 @@ namespace WebApiTests
 		{
 			using (var db = new DbProvider())
 			{
-				var repo = new LevelDatabaseRepository<string>(db.DbContext);
+				var repo = new LoadedLevelService<string>(db.DbContext);
 				var level = repo.Create(GetTestName());
 				var levelDbModel = db.DbContext.Levels
 					.Where(x => x.Id == level.Id)

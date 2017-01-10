@@ -8,9 +8,9 @@ using WebApi.Models;
 
 namespace WebApi.Services
 {
-	public class LevelDatabaseRepository<T>
+	public class LoadedLevelService<T> : ILoadedLevelService<T>
 	{
-		public LevelDatabaseRepository(ApplicationDbContext db)
+		public LoadedLevelService(ApplicationDbContext db)
 		{
 			_db = db;
 			_defaultChunkSize = new Size(100, 100);
@@ -86,6 +86,7 @@ namespace WebApi.Services
 				.SingleOrDefault();
 			return data != null;
 		}
+
 
 		private class LoadedLevel : ILoadedLevel<T>
 		{
