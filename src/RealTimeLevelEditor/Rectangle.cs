@@ -74,6 +74,17 @@ namespace RealTimeLevelEditor
 			}
 		}
 
+		public Rectangle ToChunkCoordinates(Size chunkSize)
+		{
+			var topLeft = new TileIndex(Left, Top).ToChunkIndex(chunkSize);
+			var rightBottom = new TileIndex(Right, Bottom).ToChunkIndex(chunkSize);
+			return new Rectangle(
+				topLeft.X,
+				topLeft.Y,
+				rightBottom.X - topLeft.X,
+				rightBottom.Y - topLeft.Y);
+		}
+
 		public override int GetHashCode()
 		{
 			return Hashing.StartingPrime

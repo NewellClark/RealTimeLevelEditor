@@ -64,6 +64,7 @@ namespace WebApi.Services
 		{
 			var levels = _db.Levels
 				.Where(x => x.OwnerId == ownerId)
+				.ToArray()	//	Without this I've gotten TargetInvocationException.
 				.Select(x => new LevelInfoViewModel(x));
 
 			return levels;
@@ -95,6 +96,20 @@ namespace WebApi.Services
 				.Where(x => x.Id == levelId)
 				.SingleOrDefault();
 			return data != null;
+		}
+
+		public LevelInfoViewModel GetInfo(Guid levelId)
+		{
+			var level = _db.Levels
+				.Where(x => x.Id == levelId)
+				.SingleOrDefault();
+
+			if (level == null)
+				return null;
+
+			var result = new LevelInfoViewModel(level);
+
+			return result;
 		}
 
 
