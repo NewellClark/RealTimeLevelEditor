@@ -68,14 +68,8 @@ namespace LevelModelTests
 			var tiles = GetSampleIndeces()
 				.Select(x => new Tile<string>(x, "Tile Text"));
 
-			int counter = 0;
-			foreach (var tile in tiles)
-			{
-				counter++;
-				level.AddOrUpdate(tile);
-
-				Assert.Equal(counter, level.Count);
-			}
+			level.AddOrUpdate(tiles);
+			Assert.Equal(tiles.Count(), level.Count);
 		}
 
 		[Fact]

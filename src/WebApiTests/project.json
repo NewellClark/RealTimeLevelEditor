@@ -3,7 +3,10 @@
 	"testRunner": "xunit",
 	"dependencies": {
 		"xunit": "2.2.0-beta2-build3300",
-		"RealTimeLevelEditor": "1.0.0-*",
+		"WebApi": "1.0.0-*",
+		"Microsoft.EntityFrameworkCore.SqlServer": "1.0.0",
+		"Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.0.0",
+		"LevelModelTests": "1.0.0-*",
 		"dotnet-test-xunit": "2.2.0-preview2-build1029"
 	},
 	"frameworks": {

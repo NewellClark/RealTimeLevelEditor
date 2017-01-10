@@ -6,12 +6,21 @@ using Newtonsoft.Json;
 using RealTimeLevelEditor;
 using static System.Console;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
+using WebApi.Data;
 
 namespace ConsoleTestApp
 {
 	public class Program
 	{
 		public static void Main(string[] args)
+		{
+
+
+			ReadLine();
+		}
+
+		private static void JsonSerializationTests()
 		{
 			var lookup = new Dictionary<TileIndex, string>
 			{
@@ -40,8 +49,6 @@ namespace ConsoleTestApp
 			WriteLine("After Deserialization:");
 			WriteLine(PrintDictionary(deserialized));
 			WriteLine();
-
-			ReadLine();
 		}
 
 		private static string PrintDictionary<K, V>(IDictionary<K, V> lookup)
