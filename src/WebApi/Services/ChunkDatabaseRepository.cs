@@ -8,6 +8,7 @@ using System.Collections.Concurrent;
 using Newtonsoft.Json;
 using WebApi.Models;
 using System.Diagnostics;
+using MiscHelpers;
 
 namespace WebApi.Services
 {
@@ -32,7 +33,7 @@ namespace WebApi.Services
 
 		public bool Contains(TileIndex chunkIndex)
 		{
-			return LoadChunkDataFromDatabase(chunkIndex) == null;
+			return LoadChunkDataFromDatabase(chunkIndex) != null;
 		}
 
 		public bool Delete(TileIndex chunkIndex)
@@ -62,6 +63,8 @@ namespace WebApi.Services
 			{
 				data = CreateNewChunkDbEntry(chunk);
 				_db.Add(data);
+				_db.SaveChanges();
+				return;
 			}
 			else
 			{
@@ -79,8 +82,7 @@ namespace WebApi.Services
 		private ChunkDbEntry LoadChunkDataFromDatabase(TileIndex chunkIndex)
 		{
 			var data = _db.Chunks
-				.Where(x => new { x.LevelId, x.X, x.Y }
-					.Equals(new { LevelId = _levelId, X = chunkIndex.X, Y = chunkIndex.Y }))
+				.Where(x => new ChunkKeyMembers(x) == new ChunkKeyMembers(_levelId, chunkIndex))
 				.SingleOrDefault();
 			return data;
 		}
@@ -94,6 +96,51 @@ namespace WebApi.Services
 				Y = chunk.Index.Y,
 				JsonData = JsonConvert.SerializeObject(chunk)
 			};
+		}
+
+		private class ChunkKeyMembers
+		{
+			public ChunkKeyMembers(Guid levelId, long x, long y)
+			{
+				LevelId = levelId;
+				X = x;
+				Y = y;
+			}
+			public ChunkKeyMembers(ChunkDbEntry chunk) 
+				: this(chunk.LevelId, chunk.X, chunk.Y) { }
+			public ChunkKeyMembers(Guid id, TileIndex chunkIndex)
+				: this(id, chunkIndex.X, chunkIndex.Y) { }
+
+			public Guid LevelId { get; set; }
+
+			public long X { get; set; }
+
+			public long Y { get; set; }
+
+			public static bool operator==(ChunkKeyMembers lhs, ChunkKeyMembers rhs)
+			{
+				return lhs?.LevelId == rhs?.LevelId &&
+					lhs?.X == rhs?.X &&
+					lhs?.Y == rhs?.Y;
+			}
+
+			public static bool operator!=(ChunkKeyMembers lhs, ChunkKeyMembers rhs)
+			{
+				return !(lhs == rhs);
+			}
+
+			public override bool Equals(object obj)
+			{
+				return this == (obj as ChunkKeyMembers);
+			}
+
+			public override int GetHashCode()
+			{
+				return Hashing.StartingPrime
+					.CombineHashCodes(LevelId)
+					.CombineHashCodes(X)
+					.CombineHashCodes(Y);
+			}
 		}
 	}
 }
