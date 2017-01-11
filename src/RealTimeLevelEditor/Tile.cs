@@ -14,12 +14,12 @@ namespace RealTimeLevelEditor
 	/// be Json-serializable using Newtonsoft's JSON serialization library.</typeparam>
 	public class Tile<T>
 	{
-		internal Tile(TileIndex index, T data)
+		public Tile(TileIndex index, T data)
 		{
 			Index = index;
 			Data = data;
 		}
-		internal Tile(TileIndex index)
+		public Tile(TileIndex index)
 			: this(index, default(T)) { }
 		[JsonConstructor]
 		private Tile() { }

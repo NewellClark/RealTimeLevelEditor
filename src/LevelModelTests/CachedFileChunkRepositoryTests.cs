@@ -9,12 +9,12 @@ namespace LevelModelTests
 {
 	public class CachedFileChunkRepositoryTests : LevelTests
 	{
-		protected override Level<T> CreateDefault<T>()
+		protected override Level<T> CreateDefault<T>(Size chunkSize)
 		{
 			return new Level<T>(
 				new CachedChunkRepository<T>(
 					new FileChunkRepository<T>(GetTestDirectory())),
-				_chunkSize);
+				chunkSize);
 		}
 
 		protected string GetTestDirectory()

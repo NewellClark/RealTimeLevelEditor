@@ -94,7 +94,7 @@ namespace WebApi.Services
 				LevelId = _levelId,
 				X = chunk.Index.X,
 				Y = chunk.Index.Y,
-				JsonData = JsonConvert.SerializeObject(chunk)
+				JsonData = JsonConvert.SerializeObject(chunk, Formatting.Indented)
 			};
 		}
 

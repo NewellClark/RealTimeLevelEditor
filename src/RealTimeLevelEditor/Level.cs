@@ -87,6 +87,70 @@ namespace RealTimeLevelEditor
 			}
 		}
 
+		public void Delete(Rectangle region)
+		{
+			Delete(region.EnclosedTiles);
+		}
+
+		public Size ChunkSize => _chunkSize;
+
+		/// <summary>
+		/// Gets all the chunks that at least partially overlap the specified region.
+		/// The region is specified in tile-coordinates, not chunk coordinates.
+		/// </summary>
+		/// <param name="region">The region to load chunks from. Must be specified in
+		/// Tile coordinates, not chunk coordinates.</param>
+		/// <returns>Every chunk that overlaps the specified region.</returns>
+		public IEnumerable<Tile<LevelChunk<T>>> GetChunksInRegion(Rectangle region)
+		{
+			Rectangle chunkRegion = region.ToChunkCoordinates(ChunkSize);
+			var results = _repo.Indeces
+				.Where(x => chunkRegion.Contains(x))
+				.Select(x => _repo.Load(x));
+
+			return results;
+		}
+
+		/// <summary>
+		/// Gets all the tiles who's indeces are included in the specified group.
+		/// </summary>
+		/// <param name="tileIndeces"></param>
+		/// <returns></returns>
+		public IEnumerable<Tile<T>> GetExistingTiles(IEnumerable<TileIndex> tileIndeces)
+		{
+			var tileGroups = tileIndeces
+				.GroupBy(x => x.ToChunkIndex(ChunkSize))
+				.Where(x => _repo.Contains(x.Key))
+				.Select(x =>
+				{
+					var chunk = _repo.Load(x.Key);
+					return x.Where(y => chunk.Data.Tiles.Contains(y))
+					.Select(y => chunk.Data.Tiles[y]);
+				});
+
+			foreach (var tileGroup in tileGroups)
+			{
+				foreach (var tile in tileGroup)
+				{
+					yield return tile;
+				}
+			}
+		}
+
+		public IEnumerable<Tile<T>> GetTilesInRegion(Rectangle region)
+		{
+			var groupByChunks = GetChunksInRegion(region)
+				.Select(x => x.Data.Tiles);
+			
+			foreach (var chunkGroup in groupByChunks)
+			{
+				var inRegion = chunkGroup
+					.Where(x => chunkGroup.Region.Contains(x.Index));
+				foreach (var tile in inRegion)
+					yield return tile;
+			}
+		}
+
 		public override IEnumerator<Tile<T>> GetEnumerator()
 		{
 			var chunks = _repo.Indeces

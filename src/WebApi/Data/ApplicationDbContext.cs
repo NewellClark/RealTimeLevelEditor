@@ -28,6 +28,11 @@ namespace WebApi.Data
 
 			var chunkConfig = builder.Entity<ChunkDbEntry>();
 			chunkConfig.HasKey(x => new { x.LevelId, x.X, x.Y });
+
+			var levelConfig = builder.Entity<LevelDbEntry>();
+			levelConfig.HasOne(x => x.Owner)
+				.WithMany(x => x.Levels)
+				.HasForeignKey(x => x.OwnerId);
 		}
 	}
 }

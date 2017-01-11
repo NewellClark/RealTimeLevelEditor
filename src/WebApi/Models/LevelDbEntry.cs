@@ -10,6 +10,12 @@ namespace WebApi.Models
 	{
 		public Guid Id { get; set; }
 
+		public string OwnerId { get; set; }
+
+		public virtual ApplicationUser Owner { get; set; }
+
+		public DateTime DateCreated { get; set; }
+
 		/// <summary>
 		/// Descriptive name given by the user.
 		/// </summary>
