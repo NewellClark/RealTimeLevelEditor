@@ -1,0 +1,221 @@
+﻿Note: you must be logged in to use any of the API functions.
+
+
+1. Create Level
+	Type: POST
+	URL: api/levels
+	Request body:
+	{
+		"name": "The Name Of My Level"
+	}
+
+	Response body:
+	{
+		"levelId": "a0bfad27-8bde-420f-0144-08d43a46eb54",
+		"ownerId": "3ab63d0e-f044-45da-894d-eccffc984e06",
+		"dateCreated": "2017-01-11T18:07:14.9082217Z",
+		"name": "My super level",
+		"chunkWidth": 100,
+		"chunkHeight": 100
+	}
+
+2. Get all levels belonging to logged-in user
+	Type: GET
+	URL: api/levels
+	Request body:
+	[
+		{
+			"levelId": "908991da-8f28-48b3-3c82-08d439a49749",
+			"ownerId": "3ab63d0e-f044-45da-894d-eccffc984e06",
+			"dateCreated": "2017-01-10T22:04:04.1511319",
+			"name": "Properly-sized chunks this time kthxbai",
+			"chunkWidth": 100,
+			"chunkHeight": 100
+		},
+		{
+			"levelId": "a0bfad27-8bde-420f-0144-08d43a46eb54",
+			"ownerId": "3ab63d0e-f044-45da-894d-eccffc984e06",
+			"dateCreated": "2017-01-11T18:07:14.9082217",
+			"name": "My super level",
+			"chunkWidth": 100,
+			"chunkHeight": 100
+		}
+	]
+
+3. Delete level
+	Type: DELETE
+	URL: api/levels/{levelId}
+	Response body: empty
+	
+4. Load all tiles in region
+	Type: POST
+	URL: api/levels/{levelId}/region
+	Remarks: 
+		The response body consists of an array containing every chunk that touches the requested region,
+			even slightly. This means that you will get tiles in a larger region than you requested.
+			Also, note that the size of this region could change in the future. 
+		Also note that each chunk is itself wrapped in a Tile object, where the "data" field of the 
+			tile object is the chunk itself, and the "index" field is the "chunk index" (basically the
+			tile index of the top-left corner divided by the chunk size and rounded down). 
+		Unless otherwise noted, all tile index values that you send to the server should be in 
+			tile-coordinates, not chunk-coordinates.
+	Request body: 
+	{
+		"left": -2000,
+		"top": -1950,
+		"width": 200,
+		"height": 175
+	}
+
+	Response body:
+	[
+		{
+			"index": {
+				"x": -20,
+				"y": -20
+			},
+			"data": {
+				"region": {
+					"left": -2000,
+					"top": -2000,
+					"width": 100,
+					"height": 100
+				},
+				"tiles": [
+					{
+						"index": {
+							"x": -2000,
+							"y": -2000
+						},
+						"data": "9ac6a858-3c58-4b78-81fc-6f0386ff10fc"
+					},
+					{
+						"index": {
+							"x": -2000,
+							"y": -1960
+						},
+						"data": "8e11a265-c98c-44ab-8997-eda46a86a8df"
+					}
+				]
+			}
+		},
+		{
+			"index": {
+				"x": -20,
+				"y": -19
+			},
+			"data": {
+				"region": {
+					"left": -2000,
+					"top": -1900,
+					"width": 100,
+					"height": 100
+				},
+				"tiles": [
+					{
+						"index": {
+							"x": -2000,
+							"y": -1880
+						},
+						"data": "5f0426b8-cce4-4b77-9207-43bf7bd5c7a6"
+					},
+					{
+						"index": {
+							"x": -2000,
+							"y": -1840
+						},
+						"data": "012a2e76-3619-4e83-bf5d-735ebcd05dc5"
+					}
+				]
+			}
+		}
+	]
+
+5. Load all tiles at specific positions
+	Type: POST
+	URL: api/levels/{levelId}/tiles
+	Remarks: If one of the positions in the request does not have a tile located at it,
+		the server will simply omit that position from the response.
+	Request body:
+	[
+		{
+			"x": -2000,
+			"y": -2000
+		},
+		{
+			"x": -2000,
+			"y": -1960
+		},
+		{
+			"x": -1969,
+			"y": 405
+		}
+	]
+
+	Response body:
+	[
+		{
+			"index": {
+				"x": -2000,
+				"y": -2000
+			},
+			"data": "9ac6a858-3c58-4b78-81fc-6f0386ff10fc"
+		},
+		{
+			"index": {
+				"x": -2000,
+				"y": -1960
+			},
+			"data": "8e11a265-c98c-44ab-8997-eda46a86a8df"
+		}
+	]
+
+6. Add or update tiles 
+	Type: PUT
+	URL: api/levels/{levelId}/tiles
+	Remarks: The tiles specified will either be added (if there are no tiles at the specified positions),
+		or, if there are tiles at the specified positions, the "data" field of said tiles will be updated
+		to match that of the corrasponding tile in the request.
+	Request body:
+	[
+		{
+			"index": {
+				"x": -400,
+				"y": 20
+			},
+			"data": "9ac6a858-3c58-4b78-81fc-6f0386ff10fc"
+		},
+		{
+			"index": {
+				"x": -2001,
+				"y": -1960
+			},
+			"data": "8e11a265-c98c-44ab-8997-eda46a86a8df"
+		}
+	]
+
+7. Delete all tiles in region
+	Type: DELETE
+	URL: api/levels/{levelId}/region
+	Request body:
+	{
+		"left": 45,
+		"top": -167,
+		"width": 1000,
+		"height": 3
+	}
+
+8. Delete all tiles at positions
+	Type: DELETE
+	URL: api/levels/{levelId}/tiles
+	Request body:
+	[
+		{
+			"x": -10,
+			"y": 5
+		},
+		{
+			"x": 1000,
+			"y": 508
+		}
+	]

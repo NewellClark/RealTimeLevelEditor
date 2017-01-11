@@ -1,0 +1,118 @@
+﻿/**********************************************************************
+RealTimeLevelEditor API Documentation
+***********************************************************************/
+{
+	/*
+	A TileIndex is nothing more than a 2D integer point. It is used to keep track of the 
+		positions of tiles and chunks, among other things.
+	One thing to keep in mind is that in some circumstances, a tile index will be in "tile 
+		units" (i.e. one unit = 1 tile), whereas in other circumstances, the numbers will be
+		in "chunk units" (i.e. one unit = 1 chunk). More about this will be explained below. 
+	*/
+	"TileIndex": {
+		"x": 123,
+		"y": 876
+	},
+
+
+	/*
+	A Rectangle simply marks a region. Like the tile index, all fields are long integers.
+	*/
+	"Rectangle": {
+		"left": 45,
+		"top": 66,
+		"width": 100,
+		"height": 75
+	},
+
+	/*
+	A Tile is basically a package that ties some other object (the "data" field) to a TileIndex (the
+		"index" field). 
+	Individual game tiles are obviously tiles, but the Tile object is also used to represent some other 
+		objects in the system. For example, when you receive chunks of data from the server, the chunks
+		themselves will actually be wrapped in a tile (more on that will be explained below). 
+	*/
+	"Tile": {
+		"index": {
+			"x": 123,
+			"y": 456
+		},
+		"data": {
+			//	Could be anything.
+		}
+	},
+
+	/*
+	On the server, levels are stored in chunks. The size of these chunks is configurable on 
+		the back-end. The default size is 100x100 game tiles.
+	A LevelChunk is simply an object that contains both a Rectangle and an array that contains all 
+		the tiles that are located within the region specified by the aformentioned Rectangle. 
+	*/
+	"LevelChunk": {
+		"region": {
+			"left": -2000,
+			"top": -1900,
+			"width": 100,
+			"height": 100
+		},
+		"tiles": [
+			{
+				"index": {
+					"x": -2000,
+					"y": -1880
+				},
+				"data": "5f0426b8-cce4-4b77-9207-43bf7bd5c7a6"
+			},
+			{
+				"index": {
+					"x": -2000,
+					"y": -1840
+				},
+				"data": "012a2e76-3619-4e83-bf5d-735ebcd05dc5"
+			},
+			{
+				"index": {
+					"x": -1960,
+					"y": -1880
+				},
+				"data": "569e1645-3e0c-4750-b2fa-d80df519091f"
+			}
+		]
+	},
+
+	/*
+	Note that if you receive a chunk from the server, it will always be wrapped in a tile object,
+		where the "index" property is the index of the top-left corner of the chunk, in 
+		chunk-coordinates (tile-coordinates divided-by chunk-size). 
+	*/
+	"chunkWrappedInTile": {
+		"index": {
+			"x": -20,
+			"y": -20
+		},
+		"data": {
+			"region": {
+				"left": -2000,
+				"top": -2000,
+				"width": 100,
+				"height": 100
+			},
+			"tiles": [
+				{
+					"index": {
+						"x": -2000,
+						"y": -2000
+					},
+					"data": "9ac6a858-3c58-4b78-81fc-6f0386ff10fc"
+				},
+				{
+					"index": {
+						"x": -2000,
+						"y": -1960
+					},
+					"data": "8e11a265-c98c-44ab-8997-eda46a86a8df"
+				}
+			]
+		}
+	}
+}
