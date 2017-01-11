@@ -1,8 +1,8 @@
 <div class="btn-toolbar" role="toolbar"  style="background-color: ThreeDDarkShadow; position: absolute; width: 100%;">
     <div class="btn-group mr-2" role="group" aria-label="First group">
         <button ng-click="controller.Scroll()" type="button" class="btn">Scroll</button>
-        <button type="button" class="btn btn-secondary">2</button>
-        <button type="button" class="btn btn-secondary">3</button>
+        <button ng-click="controller.ToggleSelect()" type="button" class="btn btn-secondary">Select</button>
+        <button ng-click="controller.ToggleDraw()" type="button" class="btn btn-secondary">Draw</button>
         <button type="button" class="btn btn-secondary">4</button>
     </div>
     <div class="btn-group mr-2" role="group" aria-label="Second group">
@@ -33,12 +33,16 @@
             <td><div style="font-size: small;">{{type.name}}</div></td>
         </tr>
     </table>
+    <select ng-model="controller.BMPIndex" ng-change="controller.handleBMPSelect()" name="repeatSelect" id="repeatSelect">
+        <option  ng-repeat="option in controller.tileImages" value="{{option.id}}">{{option.name}}</option>
+    </select>
+    <img src="../../images/tileblock.png"/>
 </div>
 <div ng-hide="controller.typeMenuVisible">
     <table class="table table-bordered">
         <thead>
             <th>{{controller.fireType.name}}</th>
-            <th><div style="width: 20; height: 15; background-color: {{controller.fireType.color}};"></div></th>
+            <th><div style="width: 20; height: 15; background-color: {{controller.fireType.color}};"><input ng-model="controller.colorToAdd" type="color"/></div></th>
         </thead>
         <tr ng-repeat="property in controller.fireType.properties">
             <td><div style="font-size: small;">{{property.property}}</div></td>
