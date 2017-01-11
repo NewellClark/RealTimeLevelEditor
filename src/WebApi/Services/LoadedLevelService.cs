@@ -48,6 +48,8 @@ namespace WebApi.Services
 			data.Name = levelName;
 			data.OwnerId = ownerId;
 			data.DateCreated = DateTime.UtcNow;
+			data.ChunkWidth = _defaultChunkSize.X;
+			data.ChunkHeight = _defaultChunkSize.Y;
 			_db.Add(data);
 			_db.SaveChanges();
 

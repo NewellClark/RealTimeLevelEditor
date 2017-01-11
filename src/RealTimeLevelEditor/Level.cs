@@ -87,6 +87,11 @@ namespace RealTimeLevelEditor
 			}
 		}
 
+		public void Delete(Rectangle region)
+		{
+			Delete(region.EnclosedTiles);
+		}
+
 		public Size ChunkSize => _chunkSize;
 
 		/// <summary>
@@ -104,6 +109,46 @@ namespace RealTimeLevelEditor
 				.Select(x => _repo.Load(x));
 
 			return results;
+		}
+
+		/// <summary>
+		/// Gets all the tiles who's indeces are included in the specified group.
+		/// </summary>
+		/// <param name="tileIndeces"></param>
+		/// <returns></returns>
+		public IEnumerable<Tile<T>> GetExistingTiles(IEnumerable<TileIndex> tileIndeces)
+		{
+			var tileGroups = tileIndeces
+				.GroupBy(x => x.ToChunkIndex(ChunkSize))
+				.Where(x => _repo.Contains(x.Key))
+				.Select(x =>
+				{
+					var chunk = _repo.Load(x.Key);
+					return x.Where(y => chunk.Data.Tiles.Contains(y))
+					.Select(y => chunk.Data.Tiles[y]);
+				});
+
+			foreach (var tileGroup in tileGroups)
+			{
+				foreach (var tile in tileGroup)
+				{
+					yield return tile;
+				}
+			}
+		}
+
+		public IEnumerable<Tile<T>> GetTilesInRegion(Rectangle region)
+		{
+			var groupByChunks = GetChunksInRegion(region)
+				.Select(x => x.Data.Tiles);
+			
+			foreach (var chunkGroup in groupByChunks)
+			{
+				var inRegion = chunkGroup
+					.Where(x => chunkGroup.Region.Contains(x.Index));
+				foreach (var tile in inRegion)
+					yield return tile;
+			}
 		}
 
 		public override IEnumerator<Tile<T>> GetEnumerator()

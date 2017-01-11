@@ -8,6 +8,7 @@ using static System.Console;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using WebApi.Data;
+using System.IO;
 
 namespace ConsoleTestApp
 {
@@ -15,9 +16,49 @@ namespace ConsoleTestApp
 	{
 		public static void Main(string[] args)
 		{
+			WriteLine("Enter the filepath to save the random tiles to:");
+			string path = ReadLine();
 
+			var tiles = GetTestTiles(
+				new Rectangle(-2000, -2000, 2000, 2000),
+				new Size(40, 40));
+			string json = JsonConvert.SerializeObject(tiles, Formatting.Indented);
+			try
+			{
+				File.WriteAllText(path, json);
+			}
+			catch (Exception ex)
+			{
+				WriteLine(ex.Message);
+			}
 
 			ReadLine();
+		}
+
+		private static IEnumerable<Tile<T>> GetTestTiles<T>(
+			Rectangle region, 
+			Size density,
+			Func<TileIndex, T> dataFactory)
+		{
+			for (long x = region.Left; x < region.Right; x += density.X)
+			{
+				for (long y = region.Top; y < region.Bottom; y += density.Y)
+				{
+					var index = new TileIndex(x, y);
+					yield return new Tile<T>(
+						index,
+						dataFactory(index));
+				}
+			}
+		}
+
+		private static IEnumerable<Tile<Guid>> GetTestTiles(
+			Rectangle region,
+			Size density)
+		{
+			return GetTestTiles(
+				region, density,
+				x => Guid.NewGuid());
 		}
 
 		private static void JsonSerializationTests()

@@ -23,14 +23,24 @@ namespace WebApi.Controllers
 			_userService = userService;
 		}
 
+		/// <summary>
+		/// Gets all the levels for the currently-authenticated user.
+		/// </summary>
+		/// <returns></returns>
 		[Authorize]
 		[HttpGet]
-		public IEnumerable<LevelInfoViewModel> FindLevelsForUser()
+		public IEnumerable<LevelInfoViewModel> GetAllLevels()
 		{
 			string userId = _userService.WithUserName(User.Identity.Name)?.Id;
 			return _levelLoader.FindLevelsForUser(userId);
 		}
 
+		/// <summary>
+		/// Creates a new level belonging to the currently-authenticated user and returns some information
+		/// about it.
+		/// </summary>
+		/// <param name="levelViewModel"></param>
+		/// <returns></returns>
 		[Authorize]
 		[HttpPost]
 		public IActionResult CreateLevel([FromBody]CreateLevelViewModel levelViewModel)
@@ -45,6 +55,11 @@ namespace WebApi.Controllers
 			return Created(GetLevelUri(result.Info), result.Info);
 		}
 
+		/// <summary>
+		/// Deletes the level with the specified id.
+		/// </summary>
+		/// <param name="levelId"></param>
+		/// <returns></returns>
 		[Authorize]
 		[HttpDelete("{levelId}")]
 		public IActionResult DeleteLevel(Guid levelId)
@@ -61,22 +76,90 @@ namespace WebApi.Controllers
 		}
 
 		[Authorize]
-		[HttpGet]
-		public IActionResult LoadLevelRegion([FromBody]LoadLevelRegionViewModel levelRegion)
+		[HttpPost("{levelId}/region")]
+		public IActionResult LoadRegion(Guid levelId, [FromBody]LoadLevelRegionViewModel region)
 		{
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
 
-			if (!_levelLoader.Exists(levelRegion.LevelId))
-				return NotFound($"The requested level (id: {levelRegion.LevelId}) does not exist.");
+			if (!_levelLoader.Exists(levelId))
+				return GetLevelNotFoundResult(levelId);
 
-			if (!CurrentUserOwnsLevel(levelRegion.LevelId))
+			if (!CurrentUserOwnsLevel(levelId))
 				return Forbid();
 
-			var level = _levelLoader.Load(levelRegion.LevelId).Level;
-			var chunks = level.GetChunksInRegion(levelRegion.Region);
+			var level = _levelLoader.Load(levelId).Level;
+			var chunks = level.GetChunksInRegion(region.Region);
 
 			return Ok(chunks);
+		}
+
+		[Authorize]
+		[HttpPost("{levelId}/tiles")]
+		public IActionResult LoadTiles(Guid levelId, [FromBody]IEnumerable<TileIndex> indecesToLoad)
+		{
+			if (!_levelLoader.Exists(levelId))
+				return GetLevelNotFoundResult(levelId);
+			if (!CurrentUserOwnsLevel(levelId))
+				return Forbid();
+
+			var level = _levelLoader.Load(levelId).Level;
+			var results = level.GetExistingTiles(indecesToLoad);
+
+			return Ok(results);
+		}
+
+		[Authorize]
+		[HttpPut("{levelId}/tiles")]
+		public IActionResult AddOrUpdate(Guid levelId, [FromBody]IEnumerable<Tile<string>> tiles)
+		{
+			if (!_levelLoader.Exists(levelId))
+				return NotFound($"There is no level with an id of {levelId}");
+			if (!CurrentUserOwnsLevel(levelId))
+				return Forbid();
+
+			var level = _levelLoader.Load(levelId);
+			level.Level.AddOrUpdate(tiles);
+
+			return Ok(tiles.Select(x => x.Index));
+		}
+
+		[Authorize]
+		[HttpDelete("{levelId}/region")]
+		public IActionResult DeleteRegion(Guid levelId, [FromBody]LoadLevelRegionViewModel region)
+		{
+			if (!ModelState.IsValid)
+				return BadRequest(ModelState);
+			if (!_levelLoader.Exists(levelId))
+				return GetLevelNotFoundResult(levelId);
+			if (!CurrentUserOwnsLevel(levelId))
+				return Forbid();
+
+			var level = _levelLoader.Load(levelId).Level;
+			level.Delete(region.Region);
+
+			return Ok();
+		}
+
+		[Authorize]
+		[HttpDelete("{levelId}/tiles")]
+		public IActionResult DeleteTiles(Guid levelId, [FromBody]IEnumerable<TileIndex> tileIndeces)
+		{
+			if (!_levelLoader.Exists(levelId))
+				return GetLevelNotFoundResult(levelId);
+			if (!CurrentUserOwnsLevel(levelId))
+				return Forbid();
+
+			var level = _levelLoader.Load(levelId).Level;
+			level.Delete(tileIndeces);
+
+			return Ok();
+		}
+
+
+		private IActionResult GetLevelNotFoundResult(Guid levelId)
+		{
+			return NotFound($"The requested level (id: {levelId}) does not exist.");
 		}
 
 		private string GetLevelUri(LevelInfoViewModel level)

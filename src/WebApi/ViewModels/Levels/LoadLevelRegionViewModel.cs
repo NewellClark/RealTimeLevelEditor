@@ -11,9 +11,6 @@ namespace WebApi.ViewModels.Levels
 	public class LoadLevelRegionViewModel
 	{
 		[Required]
-		public Guid LevelId { get; set; }
-
-		[Required]
 		public long Left { get; set; }
 		
 		[Required]

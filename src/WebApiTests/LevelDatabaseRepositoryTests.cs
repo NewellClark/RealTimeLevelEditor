@@ -18,14 +18,14 @@ namespace WebApiTests
 			using (var db = new DbProvider())
 			{
 				var repo = new LoadedLevelService<string>(db.DbContext);
-				var level = repo.Create(GetTestName());
+				var level = repo.Create(_testOwnerId, GetTestName());
 
 				var inDatabase = db.DbContext.Levels
-					.Where(x => x.Id == level.Id)
+					.Where(x => x.Id == level.Info.LevelId)
 					.SingleOrDefault();
 
-				Assert.True(level.Id == inDatabase.Id);
-				Assert.True(level.Name == inDatabase.Name);
+				Assert.True(level.Info.LevelId == inDatabase.Id);
+				Assert.True(level.Info.Name == inDatabase.Name);
 			}
 		}
 
@@ -35,11 +35,11 @@ namespace WebApiTests
 			using (var db = new DbProvider())
 			{
 				var repo = new LoadedLevelService<string>(db.DbContext);
-				var level = repo.Create(GetTestName());
-				var loaded = repo.Load(level.Id);
+				var level = repo.Create(_testOwnerId, GetTestName());
+				var loaded = repo.Load(level.Info.LevelId);
 
-				Assert.Equal(level.Id, loaded.Id);
-				Assert.Equal(level.Name, loaded.Name);
+				Assert.Equal(level.Info.LevelId, loaded.Info.LevelId);
+				Assert.Equal(level.Info.Name, loaded.Info.Name);
 			}
 		}
 
@@ -63,12 +63,12 @@ namespace WebApiTests
 			using (var db = new DbProvider())
 			{
 				var repo = new LoadedLevelService<string>(db.DbContext);
-				var level = repo.Create(GetTestName());
+				var level = repo.Create(_testOwnerId, GetTestName());
 				var levelDbModel = db.DbContext.Levels
-					.Where(x => x.Id == level.Id)
+					.Where(x => x.Id == level.Info.LevelId)
 					.SingleOrDefault();
 
-				repo.Delete(level.Id);
+				repo.Delete(level.Info.LevelId);
 
 				Assert.DoesNotContain(levelDbModel, db.DbContext.Levels);
 			}
@@ -110,5 +110,7 @@ namespace WebApiTests
 
 			private HashSet<Guid> _preExistingLevels;
 		}
+
+		private const string _testOwnerId = "3ab63d0e-f044-45da-894d-eccffc984e06";
 	}
 }
