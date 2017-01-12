@@ -1,37 +1,42 @@
-<h1>Register</h1>
-
-<fieldset>
-    <legend>Register with a Social Provider</legend>
-    <ul>
-        <li ng-repeat="externalLogin in account.externalLogins">
-            <a target="_self" href="{{externalLogin.url}}">{{externalLogin.name}}</a>
-        </li>
-    </ul>
-
-</fieldset>
-
+﻿
 <fieldset>
     <legend>Local Registration</legend>
-    <ul>
-        <li ng-repeat="message in controller.validationMessages">
+        <div ng-repeat="message in controller.validationMessages"></div>
             {{message}}
-        </li>
-    </ul>
-
-    <form ng-submit="controller.register()">
-        <div>
-            <label>Email:</label>
-            <input ng-model="controller.registerUser.email" />
+    <form ng-submit="controller.register()" class="form-horizontal">
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="email">Email:</label>
+            <div class="col-sm-10">
+                <input ng-model="controller.registerUser.email" type="email" required class="form-control" id="email" placeholder="Enter email">
+            </div>
         </div>
-        <div>
-            <label>Password:</label>
-            <input ng-model="controller.registerUser.password" />
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="pwd">Password:</label>
+            <div class="col-sm-10">
+                <input ng-model="controller.registerUser.password" type="password" required class="form-control" id="pwd" placeholder="Enter password">
+            </div>
         </div>
-        <div>
-            <label>Confirm Password:</label>
-            <input ng-model="controller.registerUser.confirmPassword" />
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="pwd">Confirm Password:</label>
+            <div class="col-sm-10">
+                <input ng-model="controller.registerUser.confirmPassword" type="password" required class="form-control" id="pwd" placeholder="Comfirm password">
+            </div>
         </div>
-        <input type="submit" value="Register" />
+        <!--
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <div class="checkbox">
+                    <label><input type="checkbox"> Remember me</label>
+                </div>
+            </div>
+        </div>
+        -->
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">Submit</button>
+                <a href="/login">       Login</a>
+            </div>
+        </div>
+            
     </form>
-
 </fieldset>
