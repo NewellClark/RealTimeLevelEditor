@@ -41,7 +41,7 @@ namespace WebApi.Controllers
 		/// </summary>
 		/// <param name="levelViewModel"></param>
 		/// <returns></returns>
-		[Authorize]
+	//	[Authorize]
 		[HttpPost]
 		public IActionResult CreateLevel([FromBody]CreateLevelViewModel levelViewModel)
 		{
@@ -75,7 +75,7 @@ namespace WebApi.Controllers
 			return Ok();
 		}
 
-		[Authorize]
+		//[Authorize]
 		[HttpPost("{levelId}/region")]
 		public IActionResult LoadRegion(Guid levelId, [FromBody]LoadLevelRegionViewModel region)
 		{
@@ -109,7 +109,7 @@ namespace WebApi.Controllers
 			return Ok(results);
 		}
 
-		[Authorize]
+	//	[Authorize]
 		[HttpPut("{levelId}/tiles")]
 		public IActionResult AddOrUpdate(Guid levelId, [FromBody]IEnumerable<Tile<string>> tiles)
 		{
@@ -124,7 +124,7 @@ namespace WebApi.Controllers
 			return Ok(tiles.Select(x => x.Index));
 		}
 
-		[Authorize]
+		//[Authorize]
 		[HttpDelete("{levelId}/region")]
 		public IActionResult DeleteRegion(Guid levelId, [FromBody]LoadLevelRegionViewModel region)
 		{
@@ -141,7 +141,7 @@ namespace WebApi.Controllers
 			return Ok();
 		}
 
-		[Authorize]
+		//[Authorize]
 		[HttpDelete("{levelId}/tiles")]
 		public IActionResult DeleteTiles(Guid levelId, [FromBody]IEnumerable<TileIndex> tileIndeces)
 		{

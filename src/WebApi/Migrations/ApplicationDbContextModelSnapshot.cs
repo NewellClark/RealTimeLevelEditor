@@ -211,6 +211,42 @@ namespace WebApi.Migrations
                     b.ToTable("Levels");
                 });
 
+            modelBuilder.Entity("WebApi.Models.TypeDbEntry", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("EditorModel");
+
+                    b.Property<string>("InGameModel");
+
+                    b.Property<string>("LevelId");
+
+                    b.Property<string>("PropertiesJSON");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TilesTypes");
+                });
+
+            modelBuilder.Entity("WebApi.Models.TypeProperty", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("LevelId");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Property");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TypeProperties");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")

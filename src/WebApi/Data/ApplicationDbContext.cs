@@ -12,12 +12,17 @@ namespace WebApi.Data
 	{
 		public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
 			: base(options)
-		{
-		}
+     	{
 
-		public DbSet<LevelDbEntry> Levels { get; set; }
+         }
+
+        public DbSet<LevelDbEntry> Levels { get; set; }
 
 		public DbSet<ChunkDbEntry> Chunks { get; set; }
+
+        public DbSet<TypeDbEntry> TilesTypes { get; set; }
+
+        public DbSet<TypeProperty> TypeProperties { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder builder)
 		{
