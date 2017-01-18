@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Data;
+using WebApi.Models;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -45,21 +46,38 @@ namespace WebApi.Controllers
         }
 
         // POST api/values
-        [HttpPost]
-        public void Post([FromBody]string value)
+        [HttpPost("{levelId}/{propertyId}")]
+        public void Post(string levelId, string propertyId, [FromBody] IEnumerable<PropertyDTO> properties)
         {
+            var v = _db.TypeProperties.Where(x => x.LevelId == levelId && x.Name == propertyId);
+            _db.Remove(v);
+            _db.SaveChanges();
+
+            _db.Add(properties);
+            _db.SaveChanges();
         }
 
         // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        [HttpPut("{levelId}/{propertyId}/{name}")]
+        public void Put(string levelId, string propertyId, string name, [FromBody]string value)
         {
+            TypeProperty typeProperty = _db.TypeProperties.FirstOrDefault(x => x.LevelId == levelId 
+                                                                          && x.Name == propertyId
+                                                                          && x.Property == name);
+            typeProperty.Value = value;
+            _db.SaveChanges();
+                        
         }
 
         // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{levelId}/{propertyId}/{name}")]
+        public void Delete(string levelId, string propertyId, string name)
         {
+            TypeProperty typeProperty = _db.TypeProperties.FirstOrDefault(x => x.LevelId == levelId
+                                                                          && x.Name == propertyId
+                                                                          && x.Property == name);
+            _db.Remove(typeProperty);
+            _db.SaveChanges();
         }
     }
 }
