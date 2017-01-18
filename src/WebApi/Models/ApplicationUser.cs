@@ -10,5 +10,7 @@ namespace WebApi.Models
 	public class ApplicationUser : IdentityUser
 	{
 		public virtual ICollection<LevelDbEntry> Levels { get; set; }
+
+		public virtual ICollection<JoinUserProject> Projects { get; set; }
 	}
 }
