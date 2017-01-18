@@ -13,12 +13,13 @@ namespace WebApi.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.0.0-rtm-21431")
+                .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
                 {
-                    b.Property<string>("Id");
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
@@ -32,6 +33,7 @@ namespace WebApi.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
+                        .IsUnique()
                         .HasName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles");
@@ -103,8 +105,6 @@ namespace WebApi.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("AspNetUserRoles");
                 });
 
@@ -125,7 +125,8 @@ namespace WebApi.Migrations
 
             modelBuilder.Entity("WebApi.Models.ApplicationUser", b =>
                 {
-                    b.Property<string>("Id");
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("AccessFailedCount");
 
@@ -187,6 +188,19 @@ namespace WebApi.Migrations
                     b.ToTable("Chunks");
                 });
 
+            modelBuilder.Entity("WebApi.Models.JoinUserProject", b =>
+                {
+                    b.Property<string>("UserId");
+
+                    b.Property<Guid>("ProjectId");
+
+                    b.HasKey("UserId", "ProjectId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("UserProjects");
+                });
+
             modelBuilder.Entity("WebApi.Models.LevelDbEntry", b =>
                 {
                     b.Property<Guid>("Id")
@@ -204,11 +218,63 @@ namespace WebApi.Migrations
 
                     b.Property<string>("OwnerId");
 
+                    b.Property<Guid?>("ProjectId");
+
                     b.HasKey("Id");
 
                     b.HasIndex("OwnerId");
 
+                    b.HasIndex("ProjectId");
+
                     b.ToTable("Levels");
+                });
+
+            modelBuilder.Entity("WebApi.Models.Project", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("OwnerId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Projects");
+                });
+
+            modelBuilder.Entity("WebApi.Models.TypeDbEntry", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("EditorModel");
+
+                    b.Property<string>("InGameModel");
+
+                    b.Property<string>("LevelId");
+
+                    b.Property<string>("PropertiesJSON");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TilesTypes");
+                });
+
+            modelBuilder.Entity("WebApi.Models.TypeProperty", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("LevelId");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Property");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TypeProperties");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
@@ -248,11 +314,28 @@ namespace WebApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("WebApi.Models.JoinUserProject", b =>
+                {
+                    b.HasOne("WebApi.Models.Project", "Project")
+                        .WithMany("Members")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("WebApi.Models.ApplicationUser", "User")
+                        .WithMany("Projects")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("WebApi.Models.LevelDbEntry", b =>
                 {
                     b.HasOne("WebApi.Models.ApplicationUser", "Owner")
                         .WithMany("Levels")
                         .HasForeignKey("OwnerId");
+
+                    b.HasOne("WebApi.Models.Project")
+                        .WithMany("Levels")
+                        .HasForeignKey("ProjectId");
                 });
         }
     }

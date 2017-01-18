@@ -3,19 +3,20 @@
         <button ng-click="controller.Scroll()" type="button" class="btn">Scroll</button>
         <button ng-click="controller.ToggleSelect()" type="button" class="btn btn-secondary">Select</button>
         <button ng-click="controller.ToggleDraw()" type="button" class="btn btn-secondary">Draw</button>
-        <button type="button" class="btn btn-secondary">4</button>
+        <button ng-click="controller.addRandom()" type="button" class="btn btn-secondary">Randomize</button>
     </div>
     <div class="btn-group mr-2" role="group" aria-label="Second group">
-        <button type="button" class="btn btn-secondary">5</button>
-        <button type="button" class="btn btn-secondary">6</button>
-        <button type="button" class="btn btn-secondary">7</button>
+        <button ng-click="controller.testType()" type="button" class="btn btn-secondary">TestType</button>
+        <button ng-click="controller.loadLevel()" type="button" class="btn btn-secondary">Load</button>
+        <button ng-click="controller.saveRegion()" type="button" class="btn btn-secondary">Save</button>
     </div>
     <div class="btn-group" role="group" aria-label="Third group">
-        <button type="button" class="btn btn-secondary">8</button>
+        <button ng-click="controller.createLevel()" type="button" class="btn btn-secondary">Create Level</button>
     </div>
+    
 </div>
 
-<div style="width: 150px; height: 100%; position: absolute; right: 0px; background-color: gainsboro;">
+<div id ="sideMenu" style="width: 150px; height: 100%; position: absolute; right: 0px; background-color: gainsboro;">
     
     <ul class="nav nav-tabs nav-tabs-justified">
         <li>
@@ -23,12 +24,14 @@
         </li>
         <li><a ng-click="controller.typeMenuVisible=false" href="#">Edit</a></li>
     </ul>
-<div ng-show="controller.typeMenuVisible">
+<div ng-hide="controller.typeMenuVisible">
     <table class="table table-bordered table-hover" style="background-color: white;">
-        <tr ng-repeat="type in controller.types">
+        <tr ng-repeat="type in controller.tileTypes">
             <td style="width: 35px;">
             <div style="width: 35px; height: 17px;">
-                     <div style="width: 20px; height: 15px; background-color: {{type.color}};"></div></td>
+                     <div style="width: 20px; height: 15px;">
+                <img src="../../images/{{type.inGameModel}}" width="20" height="20"/>
+                </div></td>
             </div>
             <td><div style="font-size: small;">{{type.name}}</div></td>
         </tr>
@@ -36,17 +39,24 @@
     <select ng-model="controller.BMPIndex" ng-change="controller.handleBMPSelect()" name="repeatSelect" id="repeatSelect">
         <option  ng-repeat="option in controller.tileImages" value="{{option.id}}">{{option.name}}</option>
     </select>
-    <img src="../../images/tileblock.png"/>
+    <table>
+        <thead><th>X</th><th>Y</th></thead>
+        <tr ng-repeat="xy in controller.Region20">
+            <td>{{xy.data.region.left / 100}}</td>
+            <td>{{xy.data.region.top /100}}</td>
+        </tr>
+    </table>
 </div>
-<div ng-hide="controller.typeMenuVisible">
-    <table class="table table-bordered">
+<div ng-show="controller.typeMenuVisible">
+    <table class="table-bordered" style="background-color: white">
         <thead>
             <th>{{controller.fireType.name}}</th>
-            <th><div style="width: 20; height: 15; background-color: {{controller.fireType.color}};"><input ng-model="controller.colorToAdd" type="color"/></div></th>
+            <th></th>
         </thead>
-        <tr ng-repeat="property in controller.fireType.properties">
-            <td><div style="font-size: small;">{{property.property}}</div></td>
-            <td><input style="width: 50px" class="input-sm" value="{{property.value}}"/></td>
+        {{controller.mpx}},{{controller.mpy}}<br/>
+        <tr ng-repeat="property in controller.propertyBuffer">
+            <td><div style="font-size: small;">{{property.name}}</div></td>
+            <td><input style="border: none; font-size: small; width: 50px;" value="{{property.value}}"/></td>
         </tr>
     </table>
     <br />

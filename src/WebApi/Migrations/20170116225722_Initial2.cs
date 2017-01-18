@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace WebApi.Migrations
 {
-    public partial class FirstMigration : Migration
+    public partial class Initial2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -77,16 +77,35 @@ namespace WebApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Levels",
+                name: "TilesTypes",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    ChunkIndecesJson = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: true)
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    EditorModel = table.Column<string>(nullable: true),
+                    InGameModel = table.Column<string>(nullable: true),
+                    LevelId = table.Column<string>(nullable: true),
+                    PropertiesJSON = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Levels", x => x.Id);
+                    table.PrimaryKey("PK_TilesTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TypeProperties",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    LevelId = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
+                    Property = table.Column<string>(nullable: true),
+                    Value = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TypeProperties", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -175,6 +194,29 @@ namespace WebApi.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Levels",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    ChunkHeight = table.Column<long>(nullable: false),
+                    ChunkIndecesJson = table.Column<string>(nullable: true),
+                    ChunkWidth = table.Column<long>(nullable: false),
+                    DateCreated = table.Column<DateTime>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    OwnerId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Levels", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Levels_AspNetUsers_OwnerId",
+                        column: x => x.OwnerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
                 table: "AspNetRoles",
@@ -215,6 +257,11 @@ namespace WebApi.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Levels_OwnerId",
+                table: "Levels",
+                column: "OwnerId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -239,6 +286,12 @@ namespace WebApi.Migrations
 
             migrationBuilder.DropTable(
                 name: "Levels");
+
+            migrationBuilder.DropTable(
+                name: "TilesTypes");
+
+            migrationBuilder.DropTable(
+                name: "TypeProperties");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

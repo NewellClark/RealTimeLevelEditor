@@ -8,8 +8,8 @@ using WebApi.Data;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170109200915_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20170116225722_Initial2")]
+    partial class Initial2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -193,13 +193,59 @@ namespace WebApi.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<long>("ChunkHeight");
+
                     b.Property<string>("ChunkIndecesJson");
+
+                    b.Property<long>("ChunkWidth");
+
+                    b.Property<DateTime>("DateCreated");
 
                     b.Property<string>("Name");
 
+                    b.Property<string>("OwnerId");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("OwnerId");
+
                     b.ToTable("Levels");
+                });
+
+            modelBuilder.Entity("WebApi.Models.TypeDbEntry", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("EditorModel");
+
+                    b.Property<string>("InGameModel");
+
+                    b.Property<string>("LevelId");
+
+                    b.Property<string>("PropertiesJSON");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TilesTypes");
+                });
+
+            modelBuilder.Entity("WebApi.Models.TypeProperty", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("LevelId");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Property");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TypeProperties");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
@@ -237,6 +283,13 @@ namespace WebApi.Migrations
                         .WithMany("Roles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("WebApi.Models.LevelDbEntry", b =>
+                {
+                    b.HasOne("WebApi.Models.ApplicationUser", "Owner")
+                        .WithMany("Levels")
+                        .HasForeignKey("OwnerId");
                 });
         }
     }
