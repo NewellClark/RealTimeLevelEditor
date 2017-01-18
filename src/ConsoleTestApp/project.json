@@ -4,12 +4,16 @@
     "emitEntryPoint": true
   },
 
-	"dependencies": {
-		"Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.1.0",
-		"Microsoft.EntityFrameworkCore.SqlServer": "1.1.0",
-		"Microsoft.NETCore.App": "1.1.0",
-		"Newtonsoft.Json": "9.0.2-beta1"
-	},
+  "dependencies": {
+    "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.0.0",
+    "Microsoft.EntityFrameworkCore.SqlServer": "1.0.0",
+    "Microsoft.NETCore.App": {
+      "type": "platform",
+      "version": "1.0.1"
+    },
+    "Newtonsoft.Json": "9.0.2-beta1",
+    "RealTimeLevelEditor": "1.0.0-*",
+    "WebApi": "1.0.0-*" },
 
   "frameworks": {
     "netcoreapp1.0": {
