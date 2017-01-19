@@ -12,17 +12,21 @@ namespace WebApi.Data
 	{
 		public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
 			: base(options)
-     	{
+		{
 
-         }
+		 }
 
-        public DbSet<LevelDbEntry> Levels { get; set; }
+		public DbSet<LevelDbEntry> Levels { get; set; }
 
 		public DbSet<ChunkDbEntry> Chunks { get; set; }
 
-        public DbSet<TypeDbEntry> TilesTypes { get; set; }
+		public DbSet<TypeDbEntry> TilesTypes { get; set; }
 
-        public DbSet<TypeProperty> TypeProperties { get; set; }
+		public DbSet<TypeProperty> TypeProperties { get; set; }
+
+		public DbSet<Project> Projects { get; set; }
+
+		public DbSet<JoinUserProject> UserProjects { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder builder)
 		{
@@ -38,6 +42,9 @@ namespace WebApi.Data
 			levelConfig.HasOne(x => x.Owner)
 				.WithMany(x => x.Levels)
 				.HasForeignKey(x => x.OwnerId);
+
+			var userProjectConfig = builder.Entity<JoinUserProject>();
+			userProjectConfig.HasKey(x => new { x.UserId, x.ProjectId });
 		}
 	}
 }
