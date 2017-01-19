@@ -10,7 +10,11 @@ using WebApi.Models;
 
 namespace WebApi.Controllers
 {
-    [Route("api/teams")]
+    public class UserIdDTO {
+        public string UserId;
+    }
+
+    [Route("api/projects")]
     public class TeamController : Controller
     {
         ApplicationDbContext _db;
@@ -22,28 +26,38 @@ namespace WebApi.Controllers
 
 
         // GET: api/values
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
+       // [HttpGet]
+       // public IEnumerable<string> Get()
+       // {
+            //return _db.UserProjects.Where(x=> x.ProjectId == projectId);
+       // }
 
         // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{projectId}")]
+        public IEnumerable<UserIdDTO> Get(Guid projectId)
         {
-            return "value";
+            
+            return _db.UserProjects.Where(x => x.ProjectId == projectId)
+                .Select(m =>
+                new UserIdDTO
+                {
+                    UserId = m.UserId
+                }).ToList();
         }
 
         // Create team
         [HttpPost("{ownerId}/{projectName}")]
-        public void Post(string ownerId, string projectName)
+        public void Post(string ownerId, string projectName, [FromForm] string name)
         {
             //todo: get actual user Id 
-            string opl = System.Security.Principal.WindowsIdentity.GetCurrent().Name.ToString();
+           // string opl = System.Security.Principal.WindowsIdentity.GetCurrent().Name.ToString();
+
+            Guid guid;
+            guid = Guid.NewGuid();
 
             var newProject = new Project
             {
+                Id = guid,
                 OwnerId = ownerId,
                 Levels = null,
                 Members = null
