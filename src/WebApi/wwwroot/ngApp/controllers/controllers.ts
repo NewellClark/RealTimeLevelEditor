@@ -136,6 +136,22 @@ namespace WebApi.Controllers {
             ]
         };
 
+        addProject() {
+            let data = "Project1";
+            this.$http.post(`api/projects/22686b5a-7d4a-4e5c-8c12-23bf2f762c3e/${data}`, data);
+        }
+
+        addMember() {
+            //let data = { name: "Stephen.Walther@CoderCamps.com" };
+            let projectId = "09c40875-22cd-42de-8976-863fc6dddadd";
+            let newUserId = "40727362-7186-412d-8361-5a0f8d894617";
+            this.$http.post(`api/members/${projectId}/${newUserId}`,null);
+        }
+
+        addLevel() {
+            
+        }
+
     
 
         ToggleSelect() {

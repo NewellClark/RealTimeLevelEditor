@@ -85,8 +85,8 @@ namespace WebApi.Controllers
 			if (!_levelLoader.Exists(levelId))
 				return GetLevelNotFoundResult(levelId);
 
-			if (!CurrentUserOwnsLevel(levelId))
-				return Forbid();
+			//if (!CurrentUserOwnsLevel(levelId))
+			//	return Forbid();
 
 			var level = _levelLoader.Load(levelId).Level;
 			var chunks = level.GetChunksInRegion(region.Region);
@@ -94,14 +94,14 @@ namespace WebApi.Controllers
 			return Ok(chunks);
 		}
 
-		[Authorize]
+		//[Authorize]
 		[HttpPost("{levelId}/tiles")]
 		public IActionResult LoadTiles(Guid levelId, [FromBody]IEnumerable<TileIndex> indecesToLoad)
 		{
 			if (!_levelLoader.Exists(levelId))
 				return GetLevelNotFoundResult(levelId);
-			if (!CurrentUserOwnsLevel(levelId))
-				return Forbid();
+			//if (!CurrentUserOwnsLevel(levelId))
+			//	return Forbid();
 
 			var level = _levelLoader.Load(levelId).Level;
 			var results = level.GetExistingTiles(indecesToLoad);
@@ -115,8 +115,8 @@ namespace WebApi.Controllers
 		{
 			if (!_levelLoader.Exists(levelId))
 				return NotFound($"There is no level with an id of {levelId}");
-			if (!CurrentUserOwnsLevel(levelId))
-				return Forbid();
+			//if (!CurrentUserOwnsLevel(levelId))
+			//	return Forbid();
 
 			var level = _levelLoader.Load(levelId);
 			level.Level.AddOrUpdate(tiles);
