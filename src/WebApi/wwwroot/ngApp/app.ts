@@ -31,6 +31,24 @@ namespace WebApi {
                 controller: WebApi.Controllers.RegisterController,
                 controllerAs: 'controller'
             })
+            .state('createProject', {
+                url: '/createProject',
+                templateUrl: '/ngApp/views/createProject.html',
+                controller: WebApi.Controllers.CreateProjectController,
+                controllerAs: 'controller'
+            })
+            .state('createTeam', {
+                url: '/createTeam',
+                templateUrl: '/ngApp/views/createTeam.html',
+                controller: WebApi.Controllers.CreateTeamController,
+                controllerAs: 'controller'
+            })
+            .state('projects', {
+                url: '/projects',
+                templateUrl: '/ngApp/views/projects.html',
+                controller: WebApi.Controllers.ProjectsController,
+                controllerAs: 'controller'
+            })
             .state('externalRegister', {
                 url: '/externalRegister',
                 templateUrl: '/ngApp/views/externalRegister.html',

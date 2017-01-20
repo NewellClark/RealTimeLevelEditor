@@ -1114,9 +1114,31 @@ namespace WebApi.Controllers {
         }
     }
 
+    export class CreateProjectController {
+        public projectName;
+        public memberName;
+        public userProjects;
+    }
+
+    export class CreateTeamController {
+        public memberName;
+        public projectName;
+        public userProjects;
+    }
+
+    export class ProjectsController {
+        public userProjects;
+        public memberName;
+        public projectName;
+
+        //$ bing state to change views from createProject to createTeam
+        changeView() {
+        
+        }
+
+    }
 
     export class AboutController {
         public message = 'Hello from the about page!';
     }
-
 }
