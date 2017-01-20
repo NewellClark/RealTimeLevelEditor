@@ -1,79 +1,89 @@
-<div class="btn-toolbar" role="toolbar"  style="background-color: ThreeDDarkShadow; position: absolute; width: 100%;">
-    <div class="btn-group mr-2" role="group" aria-label="First group">
-        <button ng-click="controller.Scroll()" type="button" class="btn">Scroll</button>
-        <button ng-click="controller.ToggleSelect()" type="button" class="btn btn-secondary">Select</button>
-        <button ng-click="controller.ToggleDraw()" type="button" class="btn btn-secondary">Draw</button>
-        <button ng-click="controller.addRandom()" type="button" class="btn btn-secondary">Randomize</button>
-    </div>
-    <div class="btn-group mr-2" role="group" aria-label="Second group">
-        <button ng-click="controller.testType()" type="button" class="btn btn-secondary">TestType</button>
-        <button ng-click="controller.loadLevel()" type="button" class="btn btn-secondary">Load</button>
-        <button ng-click="controller.saveRegion()" type="button" class="btn btn-secondary">Save</button>
-    </div>
-    <div class="btn-group" role="group" aria-label="Third group">
-        <button ng-click="controller.createLevel()" type="button" class="btn btn-secondary">Create Level</button>
-        <a href="/login">Login</a>
-        <button ng-click="controller.addProject()">Add project</button>
-        <button ng-click="controller.addMember()">Add member</button>
-        <button ng-click="controller.addLevel()">Add level</button>
-    </div>
-    
+<div class="btn-toolbar" role="toolbar" style="background-color: ThreeDDarkShadow; position: absolute; width: 100%;">
+	<div class="btn-group mr-2" role="group" aria-label="First group">
+		<button ng-click="controller.Scroll()" type="button" class="btn">Scroll</button>
+		<button ng-click="controller.ToggleSelect()" type="button" class="btn btn-secondary">Select</button>
+		<button ng-click="controller.ToggleDraw()" type="button" class="btn btn-secondary">Draw</button>
+		<button ng-click="controller.addRandom()" type="button" class="btn btn-secondary">Randomize</button>
+	</div>
+	<div class="btn-group mr-2" role="group" aria-label="Second group">
+		<button ng-click="controller.testType()" type="button" class="btn btn-secondary">TestType</button>
+		<button ng-click="controller.loadLevel()" type="button" class="btn btn-secondary">Load</button>
+		<button ng-click="controller.saveRegion()" type="button" class="btn btn-secondary">Save</button>
+	</div>
+	<div class="btn-group" role="group" aria-label="Third group">
+		<button ng-click="controller.createLevel()" type="button" class="btn btn-secondary">Create Level</button>
+		<a href="/login">Login</a>
+		<button ng-click="controller.addProject()">Add project</button>
+		<button ng-click="controller.addMember()">Add member</button>
+		<button ng-click="controller.addLevel()">Add level</button>
+	</div>
 </div>
 
-<div id ="sideMenu" style="width: 150px; height: 100%; position: absolute; right: 0px; background-color: gainsboro;">
-    
-    <ul class="nav nav-tabs nav-tabs-justified">
-        <li>
-            <a ng-click="controller.typeMenuVisible=true" href="#">Types</a>
-        </li>
-        <li><a ng-click="controller.typeMenuVisible=false" href="#">Edit</a></li>
-    </ul>
-<div ng-hide="controller.typeMenuVisible">
-    <table class="table table-bordered table-hover" style="background-color: white;">
-        <tr ng-repeat="type in controller.tileTypes">
-            <td style="width: 35px;">
-            <div style="width: 35px; height: 17px;">
-                     <div style="width: 20px; height: 15px;">
-                <img src="../../images/{{type.inGameModel}}" width="20" height="20"/>
-                </div></td>
-            </div>
-            <td><div style="font-size: small;">{{type.name}}</div></td>
-        </tr>
-    </table>
-    <select ng-model="controller.BMPIndex" ng-change="controller.handleBMPSelect()" name="repeatSelect" id="repeatSelect">
-        <option  ng-repeat="option in controller.tileImages" value="{{option.id}}">{{option.name}}</option>
-    </select>
-    <table>
-        <thead><th>X</th><th>Y</th></thead>
-        <tr ng-repeat="xy in controller.Region20">
-            <td>{{xy.data.region.left / 100}}</td>
-            <td>{{xy.data.region.top /100}}</td>
-        </tr>
-    </table>
-</div>
-<div ng-show="controller.typeMenuVisible">
-    <table class="table-bordered" style="background-color: white">
-        <thead>
-            <th>{{controller.fireType.name}}</th>
-            <th></th>
-        </thead>
-        {{controller.mpx}},{{controller.mpy}}<br/>
-        <tr ng-repeat="property in controller.propertyBuffer">
-            <td><div style="font-size: small;">{{property.name}}</div></td>
-            <td><input style="border: none; font-size: small; width: 50px;" value="{{property.value}}"/></td>
-        </tr>
-    </table>
-    <br />
-    <br />
-    <br />
-    New property name:
-    <input style="width: 135;" class="input-sm" ng-model="controller.propertyToAdd"/>
-    <button ng-click="controller.addProperty()" class="btn btn-primary">Add</button>
-</div>
+<div id="sideMenu" style="width: 150px; height: 100%; position: absolute; right: 0px; background-color: gainsboro;">
+	<div>
+		<ul class="nav nav-tabs nav-tabs-justified">
+			<li>
+				<a ng-click="controller.typeMenuVisible=true" href="#">Types</a>
+			</li>
+			<li><a ng-click="controller.typeMenuVisible=false" href="#">Edit</a></li>
+		</ul>
+		<div ng-hide="controller.typeMenuVisible">
+			<table class="table table-bordered table-hover" style="background-color: white;">
+				<tr ng-repeat="type in controller.tileTypes">
+					<td style="width: 35px;">
+						<!--<div style="width: 35px; height: 17px;">-->
+						<div style="width: 20px; height: 15px;">
+							<img src="../../images/{{type.inGameModel}}" width="20" height="20" />
+						</div>
+					</td>
+
+					<td><div style="font-size: small;">{{type.name}}</div></td>
+				</tr>
+			</table>
+		</div>
+		
+		<select ng-model="controller.BMPIndex" ng-change="controller.handleBMPSelect()" name="repeatSelect" id="repeatSelect">
+			<option ng-repeat="option in controller.tileImages" value="{{option.id}}">{{option.name}}</option>
+		</select>
+		<table>
+			<thead>
+				<tr>
+					<th>X</th>
+					<th>Y</th>
+				</tr>
+			</thead>
+			<tr ng-repeat="xy in controller.Region20">
+				<td>{{xy.data.region.left / 100}}</td>
+				<td>{{xy.data.region.top /100}}</td>
+			</tr>
+		</table>
+	</div>
+	<div ng-show="controller.typeMenuVisible">
+		<table class="table-bordered" style="background-color: white">
+			<thead>
+				<tr>
+					<th>{{controller.fireType.name}}</th>
+					<th><br /></th>
+				</tr>
+			</thead>
+			{{controller.mpx}},{{controller.mpy}}
+			
+			<tr ng-repeat="property in controller.propertyBuffer">
+				<td><div style="font-size: small;">{{property.name}}</div></td>
+				<td><input style="border: none; font-size: small; width: 50px;" value="{{property.value}}" /></td>
+			</tr>
+		</table>
+		<br />
+		<br />
+		<br />
+		New property name:
+		<input style="width: 135px;" class="input-sm" ng-model="controller.propertyToAdd" />
+		<button ng-click="controller.addProperty()" class="btn btn-primary">Add</button>
+	</div>
 </div>
 
 
 
 <!--<button ng-click="controller.Scroll()" style="position:absolute;">Scroll</button>-->
-<canvas style="cursor: crosshair;" ng-mousedown="controller.mouseDown($event)" ng-mousemove="controller.mouseMove($event)" ng-mouseup="controller.mouseUp($event)" width="450" height="450" id="theCanvas"/>
+<canvas style="cursor: crosshair;" ng-mousedown="controller.mouseDown($event)" ng-mousemove="controller.mouseMove($event)" ng-mouseup="controller.mouseUp($event)" width="450" height="450" id="theCanvas" />
 
