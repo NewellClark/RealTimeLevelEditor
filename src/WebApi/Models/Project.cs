@@ -13,6 +13,8 @@ namespace WebApi.Models
 
 		public string OwnerId { get; set; }
 
+        public string Name { get; set; }
+
 		public virtual ICollection<JoinUserProject> Members { get; set; }
 
 		public virtual ICollection<LevelDbEntry> Levels { get; set; }

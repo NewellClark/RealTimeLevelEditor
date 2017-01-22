@@ -1,0 +1,9 @@
+﻿
+
+<h1>{{controller.projectName}}</h1><br />
+<table class="table table-bordered table-striped">
+    <tr ng-repeat="level in controller.levelRoster">
+        <td>{{level.name}}</td>
+        <td><button ng-click="controller.editLevelNonAdmin($index)">Edit Level</button></td>
+</tr>
+</table>

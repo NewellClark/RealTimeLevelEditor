@@ -13,10 +13,8 @@
 	<div class="btn-group" role="group" aria-label="Third group">
 		<button ng-click="controller.createLevel()" type="button" class="btn btn-secondary">Create Level</button>
 		<a href="/login">Login</a>
-		<button ng-click="controller.addProject()">Add project</button>
-		<button ng-click="controller.addMember()">Add member</button>
-		<button ng-click="controller.addLevel()">Add level</button>
-	</div>
+		{{controller.levelName}}
+        </div>
 </div>
 
 <div id="sideMenu" style="width: 150px; height: 100%; position: absolute; right: 0px; background-color: gainsboro;">

@@ -42,11 +42,12 @@ namespace WebApi.Services
 			};
 		}
 
-		public ILoadedLevel<T> Create(string ownerId, string levelName)
+		public ILoadedLevel<T> Create(string ownerId, Guid projectId, string levelName)
 		{
 			var data = new LevelDbEntry();
 			data.Name = levelName;
 			data.OwnerId = ownerId;
+            data.ProjectId = projectId;
 			data.DateCreated = DateTime.UtcNow;
 			data.ChunkWidth = _defaultChunkSize.X;
 			data.ChunkHeight = _defaultChunkSize.Y;

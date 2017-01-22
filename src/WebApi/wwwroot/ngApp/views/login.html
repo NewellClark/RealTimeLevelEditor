@@ -1,54 +1,58 @@
-﻿<fieldset>
-    
-    <h1>WebApi</h1>
-    <div>
-        <a href="/">Home</a> /
-        <a href="/about">About</a> /
-        <a href="/register">Register</a> /
-        <a href="/login" ng-show="!account.isLoggedIn()">Login</a>
+﻿<div ng-controller="AccountController as account">
 
-        <a href="#" ng-click="account.logout()" ng-show="account.isLoggedIn()">Logout</a>
-        <div ng-show="account.isLoggedIn()">
-            [{{account.getUserName()}}]
-        </div>
-    </div>
-    <hr />
-    
-    <legend>Login Locally</legend>
-    <ul>
-        <li ng-repeat="error in controller.validationMessages">
-            {{error}}
-        </li>
-    </ul>
+    <fieldset>
 
-    <form ng-submit="controller.login()" class="form-horizontal">
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="email">Email:</label>
-            <div class="col-sm-10">
-                <input ng-model="controller.loginUser.email" type="email" class="form-control" id="email" placeholder="Enter email">
+        <h1>WebApi</h1>
+        <div>
+            <a href="/">Home</a> /
+            <a href="/about">About</a> /
+            <a href="/register">Register</a> /
+            <a href="/login" ng-show="!account.isLoggedIn()">Login</a>
+
+            <a href="#" ng-click="account.logout()" ng-show="account.isLoggedIn()">Logout</a>
+            <div ng-show="account.isLoggedIn()">
+                [{{account.getUserName()}}]
+                <button ng-click="controller.gotoProjects()">Go to Projects</button>
             </div>
         </div>
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="pwd">Password:</label>
-            <div class="col-sm-10">
-                <input ng-model="controller.loginUser.password" type="password" class="form-control" id="pwd" placeholder="Enter password">
-            </div>
-        </div>
-        <!--
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <div class="checkbox">
-                    <label><input type="checkbox"> Remember me</label>
+        <hr />
+
+        <legend>Login Locally</legend>
+        <ul>
+            <li ng-repeat="error in controller.validationMessages">
+                {{error}}
+            </li>
+        </ul>
+
+        <form ng-submit="controller.login()" class="form-horizontal">
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="email">Email:</label>
+                <div class="col-sm-10">
+                    <input ng-model="controller.loginUser.email" type="email" class="form-control" id="email" placeholder="Enter email">
                 </div>
             </div>
-        </div>
-        -->
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default">Submit</button>
-                <a href="/register">       Register</a>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="pwd">Password:</label>
+                <div class="col-sm-10">
+                    <input ng-model="controller.loginUser.password" type="password" class="form-control" id="pwd" placeholder="Enter password">
+                </div>
             </div>
-        </div>
-        
-    </form>
-</fieldset>
+            <!--
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <div class="checkbox">
+                        <label><input type="checkbox"> Remember me</label>
+                    </div>
+                </div>
+            </div>
+            -->
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-default">Submit</button>
+                    <a href="/register">       Register</a>
+                </div>
+            </div>
+
+        </form>
+    </fieldset>
+</div>

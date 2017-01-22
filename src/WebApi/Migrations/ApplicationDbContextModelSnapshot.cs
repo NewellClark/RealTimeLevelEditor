@@ -193,6 +193,10 @@ namespace WebApi.Migrations
 
                     b.Property<Guid>("ProjectId");
 
+                    b.Property<string>("ProjectName");
+
+                    b.Property<string>("UserEmail");
+
                     b.HasKey("UserId", "ProjectId");
 
                     b.HasIndex("ProjectId");
@@ -215,11 +219,15 @@ namespace WebApi.Migrations
 
                     b.Property<DateTime>("DateCreated");
 
+                    b.Property<DateTime>("LastEdited");
+
+                    b.Property<Guid>("LastEditorId");
+
                     b.Property<string>("Name");
 
                     b.Property<string>("OwnerId");
 
-                    b.Property<Guid?>("ProjectId");
+                    b.Property<Guid>("ProjectId");
 
                     b.HasKey("Id");
 
@@ -234,6 +242,8 @@ namespace WebApi.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
 
                     b.Property<string>("OwnerId");
 
@@ -336,7 +346,8 @@ namespace WebApi.Migrations
 
                     b.HasOne("WebApi.Models.Project")
                         .WithMany("Levels")
-                        .HasForeignKey("ProjectId");
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
         }
     }

@@ -5,44 +5,72 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Data;
 using WebApi.Models;
+using Microsoft.AspNetCore.Identity;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace WebApi.Controllers
 {
 
+    //public class UserIdDTO
+    //{
+    //    public string UserId;
+    //    public string UserEmail;
+    //}
+    //public class ProjectIdDTO
+    //{
+    //    public Guid ProjectId;
+    //    public string ProjectName;
+    //}
+
 
     [Route("api/members")]
     public class UsersController : Controller
     {
-        public class ProjectIdDTO
-        {
-            public Guid ProjectId;
-        }
+
+        private readonly UserManager<ApplicationUser> _userManager;
+
+
+        //public class ProjectIdDTO
+        //{
+        //    public Guid ProjectId;
+        //}
 
         ApplicationDbContext _db;
 
-        public UsersController(ApplicationDbContext db)
+        public UsersController(ApplicationDbContext db, UserManager<ApplicationUser> userManager)
         {
             _db = db;
+            _userManager = userManager;
         } 
 
-        // GET: api/values
+        //API dealing with the non-owner users of a project
         [HttpGet]
-        public IEnumerable<string> Get()
+        //Will return non-owned projects of logged in user
+        public IEnumerable<ProjectIdDTO> Get()
         {
-            return new string[] { "value1", "value2" };
-        }
-
-        [HttpGet("{userId}")]
-        public IEnumerable<ProjectIdDTO> Get(string userId)
-        {
+            var userId = _userManager.GetUserId(User);
 
             return _db.UserProjects.Where(x => x.UserId == userId)
                 .Select(m =>
                 new ProjectIdDTO
                 {
-                    ProjectId = m.ProjectId
+                    ProjectId = m.ProjectId,
+                    ProjectName = m.ProjectName
+                }).ToList();
+        }
+
+        //get all the users on a given project referenced by projectId (not project name)
+        [HttpGet("{projectId}/getusers")]
+        public IEnumerable<UserIdDTO> Get(Guid projectId)
+        {
+
+            return _db.UserProjects.Where(x => x.ProjectId == projectId)
+                .Select(m =>
+                new UserIdDTO
+                {
+                    UserId = m.UserId,
+                    UserEmail = m.UserEmail
                 }).ToList();
         }
 

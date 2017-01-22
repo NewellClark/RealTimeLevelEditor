@@ -42,15 +42,15 @@ namespace WebApi.Controllers
 		/// <param name="levelViewModel"></param>
 		/// <returns></returns>
 	//	[Authorize]
-		[HttpPost]
-		public IActionResult CreateLevel([FromBody]CreateLevelViewModel levelViewModel)
+		[HttpPost("{projectId}")]
+		public IActionResult CreateLevel(Guid projectId, [FromBody]CreateLevelViewModel levelViewModel)
 		{
 			if (!ModelState.IsValid || levelViewModel == null)
 			{
 				return BadRequest(ModelState);
 			}
 			string userId = GetUserId();
-			var result = _levelLoader.Create(userId, levelViewModel.Name);
+			var result = _levelLoader.Create(userId, projectId, levelViewModel.Name);
 
 			return Created(GetLevelUri(result.Info), result.Info);
 		}
