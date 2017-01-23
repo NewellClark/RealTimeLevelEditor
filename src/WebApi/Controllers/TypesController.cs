@@ -34,11 +34,11 @@ namespace WebApi.Controllers
         }
      
         // GET api/values/5
-        [HttpGet("{levelId}")]
-        public IEnumerable<TypeDTO> Get(string levelId)
+        [HttpGet("{projectId}")]
+        public IEnumerable<TypeDTO> Get(string projectId)
         {
 
-            return _db.TilesTypes.Where(x => x.LevelId == levelId)
+            return _db.TilesTypes.Where(x => x.LevelId == projectId)
                 .Select(m =>
                 new TypeDTO
                 {
@@ -51,16 +51,16 @@ namespace WebApi.Controllers
         }
 
         // POST api/values
-        [HttpPost("{levelId}")]
-        public void Post(string levelId, [FromBody]TypeDTO type)
+        [HttpPost("{projectId}")]
+        public void Post(string projectId, [FromBody]TypeDTO type)
         {
             
             var addType = new TypeDbEntry
             {
-                EditorModel = type.inGameModel,
-                InGameModel = type.tileModel,
+                EditorModel = type.tileModel,
+                InGameModel = type.inGameModel,
                 PropertiesJSON = type.name,
-                LevelId = levelId    
+                LevelId = projectId    
             };
 
             
@@ -72,10 +72,10 @@ namespace WebApi.Controllers
         }
 
         // PUT api/values/5
-        [HttpPut("{levelId}/{typeName}")]
-        public void Put(string levelId, string typeName, [FromBody]TypeDTO typeUpdate)
+        [HttpPut("{projectId}/{typeName}")]
+        public void Put(string projectId, string typeName, [FromBody]TypeDTO typeUpdate)
         {
-            TypeDbEntry type = _db.TilesTypes.FirstOrDefault(x => x.LevelId == levelId && x.PropertiesJSON == typeName);
+            TypeDbEntry type = _db.TilesTypes.FirstOrDefault(x => x.LevelId == projectId && x.PropertiesJSON == typeName);
 
             type.PropertiesJSON = typeUpdate.name;
             type.EditorModel = typeUpdate.tileModel;
@@ -87,10 +87,10 @@ namespace WebApi.Controllers
         }
 
         // DELETE api/values/5
-        [HttpDelete("{levelId}/{typeName}")]
-        public void Delete(string levelId, string typeName)
+        [HttpDelete("{projectId}/{typeName}")]
+        public void Delete(string projectId, string typeName)
         {
-            TypeDbEntry type = _db.TilesTypes.FirstOrDefault(x => x.LevelId == levelId && x.PropertiesJSON == typeName);
+            TypeDbEntry type = _db.TilesTypes.FirstOrDefault(x => x.LevelId == projectId && x.PropertiesJSON == typeName);
             _db.Remove(type);
             _db.SaveChanges();
         }

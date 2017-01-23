@@ -1,0 +1,27 @@
+﻿<h1>{{controller.projectName}}</h1>
+<br/>
+<br/>
+<h3>Tile Types</h3>
+<table class="table table-striped table-hover table-bordered">
+    <thead>
+    <th>Tile Name</th>
+    <th>Image URL</th>
+    <th>Thumbnail</th>
+    </thead>
+<tr ng-repeat="type in controller.tileTypes">
+    <td>{{type.name}}</td>
+    <td>{{type.tileModel}}</td>
+    <td><img src="{{type.tileModel}}" width="32" height="32"/></td>
+</tr>
+</table>
+<br />
+<h3>Add Tile Type</h3>
+<table>
+    <tr>
+        <td>Tile name:</td>
+        <td><input ng-model="controller.newTypeName"/></td>
+        <td>Tile URL:</td>
+        <td><input ng-model="controller.newTypeURL"/></td>
+        <td><button ng-click="controller.addTileType()">Add</button></td>
+    </tr>
+</table>

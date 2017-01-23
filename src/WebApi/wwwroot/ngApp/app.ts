@@ -61,6 +61,12 @@ namespace WebApi {
                 controller: WebApi.Controllers.LevelNonAdminController,
                 controllerAs: 'controller'
             })
+            .state('editTileTypes', {
+                url: '/editTileTypes',
+                templateUrl: '/ngApp/views/editTileTypes.html',
+                controller: WebApi.Controllers.EditTileTypesController,
+                controllerAs: 'controller'
+            })
             .state('about', {
                 url: '/about',
                 templateUrl: '/ngApp/views/about.html',

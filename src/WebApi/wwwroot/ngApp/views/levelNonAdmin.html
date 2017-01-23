@@ -1,9 +1,25 @@
-﻿
-
-<h1>{{controller.projectName}}</h1><br />
+﻿<h1>{{controller.projectName}}</h1><br />
+<br />
+<br />
+<h3>Team levels</h3>
 <table class="table table-bordered table-striped">
     <tr ng-repeat="level in controller.levelRoster">
         <td>{{level.name}}</td>
         <td><button ng-click="controller.editLevelNonAdmin($index)">Edit Level</button></td>
-</tr>
+    </tr>
+</table>
+<br />
+<br />
+<h3>Project actions</h3>
+<table class="table table-bordered table-striped">
+    <tr>
+        <td>Add new level:</td>
+        <td><input ng-model="controller.levelName" /></td>
+        <td><button ng-click="controller.addLevel()">Add</button></td>
+    </tr>
+    <tr>
+        <td>Edit tile types</td>
+        <td></td>
+        <td><button ng-click="controller.gotoEditTileTypes()">Edit</button></td>
+    </tr>
 </table>

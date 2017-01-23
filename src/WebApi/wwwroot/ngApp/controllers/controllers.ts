@@ -12,6 +12,9 @@ namespace WebApi.Controllers {
         public mapPositionX = 0;
         public mapPositionY = 0;
 
+        public projectId;
+        public projectName;
+
         public loadX = 0;
         public loadY = 0;
 
@@ -534,7 +537,7 @@ namespace WebApi.Controllers {
 
             for (let i = 0; i < this.tileImagesFiles.length; i++) {
                 this.tileImagesData.push(new Image());
-                this.tileImagesData[i].src = "../../images/" + this.tileImagesFiles[i];
+                this.tileImagesData[i].src = this.tileImagesFiles[i];
             }
        
         }
@@ -730,7 +733,7 @@ namespace WebApi.Controllers {
         //Type code
 
         public testType() {
-            this.$http.get(`api/types/${this.levelId}`).then((res) => {
+            this.$http.get(`api/types/${this.projectId}`).then((res) => {
                 let types = <DTOType[]>res.data;
                 console.log(types);
             });
@@ -748,7 +751,7 @@ namespace WebApi.Controllers {
         //];
 
         public loadTypes() {
-            this.$http.get(`api/types/${this.levelId}`).then((res) => {
+            this.$http.get(`api/types/${this.projectId}`).then((res) => {
                 let types = <DTOType[]>res.data;
 
                 console.log(types);
@@ -1022,6 +1025,8 @@ namespace WebApi.Controllers {
 
             this.levelId = localStorage.getItem("levelId");
             this.levelName = localStorage.getItem("levelName");
+            this.projectId = localStorage.getItem("projectId");
+            this.projectName = localStorage.getItem("projectName");
 
             this.getScaleFactor();
             this.addToSelect = false;
@@ -1165,8 +1170,26 @@ namespace WebApi.Controllers {
 
         addProject() {
             let data = this.newProjectName;
-            this.$http.post(`/api/projects/${this.newProjectName}`, data).then(() => {
+            this.$http.post(`/api/projects/${this.newProjectName}`, data).then((res) => {
+
+                let data = <ProjectDTO>res.data;
+                let projectId = data.projectId;
                 this.loadProjectList();
+
+                let type = { tileModel: "../../images/tileblock.png", name: "block"};
+                this.$http.post(`api/types/${projectId}`, type);
+                type = { tileModel: "../../images/tilemario.png", name: "mario" };
+                this.$http.post(`api/types/${projectId}`, type);
+                type = { tileModel: "../../images/tilegoomba.png", name: "goomba" };
+                this.$http.post(`api/types/${projectId}`, type);
+                type = { tileModel: "../../images/tilebrick.png", name: "brick" };
+                this.$http.post(`api/types/${projectId}`, type);
+                type = { tileModel: "../../images/tileitem.png", name: "item" };
+                this.$http.post(`api/types/${projectId}`, type);
+                type = { tileModel: "../../images/tileground.png", name: "ground" };
+                this.$http.post(`api/types/${projectId}`, type);
+
+
             });
         }
 
@@ -1214,6 +1237,11 @@ namespace WebApi.Controllers {
 
     }
 
+    export class ProjectDTO {
+        public projectId;
+        public projectName;
+    }
+
     export class LevelAdminController {
 
         public projectId;
@@ -1249,6 +1277,12 @@ namespace WebApi.Controllers {
 
         }
 
+        gotoEditTileTypes() {
+
+            this.$location.path('/editTileTypes');
+
+        }
+
 
         constructor(private $http: ng.IHttpService, private $location: ng.ILocationService) {
             this.projectId = localStorage.getItem("projectId");
@@ -1271,10 +1305,23 @@ namespace WebApi.Controllers {
             });
         }
 
+        addLevel() {
+            let data = { Name: this.levelName };
+            this.$http.post('/api/levels/' + this.projectId, data).then(() => {
+                this.getLevels();
+            });
+        }
+
         editLevelNonAdmin(index) {
             localStorage.setItem("levelId", this.levelRoster[index].levelId);
             localStorage.setItem("levelName", this.levelRoster[index].name);
             this.$location.path('/level');
+
+        }
+
+        gotoEditTileTypes() {
+
+            this.$location.path('/editTileTypes');
 
         }
 
@@ -1283,6 +1330,55 @@ namespace WebApi.Controllers {
             this.projectName = localStorage.getItem("projectName");
 
             this.getLevels();
+        }
+
+    }
+
+    export class EditTileTypesController {
+
+        public projectId;
+        public projectName;
+
+        public tileTypes;
+
+        public newTypeName;
+        public newTypeURL: string;
+        public displayURL;
+
+        getTileTypes() {
+
+            this.$http.get('api/types/'+this.projectId).then((res) => {
+                this.tileTypes = res.data;
+            });
+
+        }
+
+        addTileType() {
+            
+            if (this.newTypeURL.length > 25) {
+                let l = this.newTypeURL.length;
+                this.displayURL = "..."+this.newTypeURL.substring(l-25,l-1);
+            }
+            else
+            {
+                this.displayURL = this.newTypeURL;
+            }
+            this.tileTypes.push({ name: this.newTypeName, tileModel: this.newTypeURL, displayUrl: this.displayURL });
+
+
+            let data = { tileModel: this.newTypeURL, name: this.newTypeName };
+
+            
+            this.$http.post(`api/types/${this.projectId}`, data);
+
+
+        }
+
+        
+        constructor(private $http: ng.IHttpService) {
+            this.projectId = localStorage.getItem("projectId");
+            this.projectName = localStorage.getItem("projectName");
+            this.getTileTypes();
         }
 
     }

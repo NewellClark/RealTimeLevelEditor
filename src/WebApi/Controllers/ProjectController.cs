@@ -27,6 +27,7 @@ namespace WebApi.Controllers
         public string Name;
     }
 
+
     [Route("api/projects")]
     public class ProjectController : Controller
     {
@@ -91,7 +92,7 @@ namespace WebApi.Controllers
         
         // Create team
         [HttpPost("{newProjectName}")]
-        public void Post(string newProjectName, [FromForm] string name)
+        public ProjectIdDTO Post(string newProjectName, [FromForm] string name)
         {
 
             Guid guid;
@@ -112,6 +113,12 @@ namespace WebApi.Controllers
 
             _db.Projects.Add(newProject);
             _db.SaveChanges();
+
+            return new ProjectIdDTO
+            {
+                ProjectId = guid,
+                ProjectName = newProjectName
+            };
         }
 
         //add user to project
