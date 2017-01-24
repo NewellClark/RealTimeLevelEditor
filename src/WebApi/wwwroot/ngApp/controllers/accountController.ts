@@ -1,6 +1,7 @@
 namespace WebApi.Controllers {
 
     export class AccountController {
+
         public externalLogins;
 
         public getUserName() {
@@ -37,6 +38,10 @@ namespace WebApi.Controllers {
     export class LoginController {
         public loginUser;
         public validationMessages;
+
+        public gotoProjects() {
+            this.$location.path('/projects')
+        }
 
         public login() {
             this.accountService.login(this.loginUser).then(() => {

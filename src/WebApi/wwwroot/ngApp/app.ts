@@ -8,7 +8,7 @@ namespace WebApi {
         // Define routes
         $stateProvider
             .state('home', {
-                url: '/',
+                url: '/level',
                 templateUrl: '/ngApp/views/home.html',
                 controller: WebApi.Controllers.HomeController,
                 controllerAs: 'controller'
@@ -20,7 +20,7 @@ namespace WebApi {
                 controllerAs: 'controller'
             })
             .state('login', {
-                url: '/login',
+                url: '/',
                 templateUrl: '/ngApp/views/login.html',
                 controller: WebApi.Controllers.LoginController,
                 controllerAs: 'controller'
@@ -49,12 +49,24 @@ namespace WebApi {
                 controller: WebApi.Controllers.ProjectsController,
                 controllerAs: 'controller'
             })
-            .state('externalRegister', {
-                url: '/externalRegister',
-                templateUrl: '/ngApp/views/externalRegister.html',
-                controller: WebApi.Controllers.ExternalRegisterController,
+            .state('leveladmin', {
+                url: '/levelAdmin',
+                templateUrl: '/ngApp/views/levelAdmin.html',
+                controller: WebApi.Controllers.LevelAdminController,
                 controllerAs: 'controller'
-            }) 
+            })
+            .state('levelnonadmin', {
+                url: '/levelNonAdmin',
+                templateUrl: '/ngApp/views/levelNonAdmin.html',
+                controller: WebApi.Controllers.LevelNonAdminController,
+                controllerAs: 'controller'
+            })
+            .state('editTileTypes', {
+                url: '/editTileTypes',
+                templateUrl: '/ngApp/views/editTileTypes.html',
+                controller: WebApi.Controllers.EditTileTypesController,
+                controllerAs: 'controller'
+            })
             .state('about', {
                 url: '/about',
                 templateUrl: '/ngApp/views/about.html',

@@ -8,8 +8,8 @@ using WebApi.Data;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170116225722_Initial2")]
-    partial class Initial2
+    [Migration("20170121223147_Initial1")]
+    partial class Initial1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -188,6 +188,25 @@ namespace WebApi.Migrations
                     b.ToTable("Chunks");
                 });
 
+            modelBuilder.Entity("WebApi.Models.JoinUserProject", b =>
+                {
+                    b.Property<string>("UserId");
+
+                    b.Property<Guid>("ProjectId");
+
+                    b.Property<string>("ProjectName");
+
+                    b.Property<string>("UserEmail");
+
+                    b.HasKey("UserId", "ProjectId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserProjects");
+                });
+
             modelBuilder.Entity("WebApi.Models.LevelDbEntry", b =>
                 {
                     b.Property<Guid>("Id")
@@ -201,15 +220,37 @@ namespace WebApi.Migrations
 
                     b.Property<DateTime>("DateCreated");
 
+                    b.Property<DateTime>("LastEdited");
+
+                    b.Property<Guid>("LastEditorId");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("OwnerId");
+
+                    b.Property<Guid>("ProjectId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OwnerId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("Levels");
+                });
+
+            modelBuilder.Entity("WebApi.Models.Project", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
                     b.Property<string>("Name");
 
                     b.Property<string>("OwnerId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OwnerId");
-
-                    b.ToTable("Levels");
+                    b.ToTable("Projects");
                 });
 
             modelBuilder.Entity("WebApi.Models.TypeDbEntry", b =>
@@ -285,11 +326,29 @@ namespace WebApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("WebApi.Models.JoinUserProject", b =>
+                {
+                    b.HasOne("WebApi.Models.Project", "Project")
+                        .WithMany("Members")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("WebApi.Models.ApplicationUser", "User")
+                        .WithMany("Projects")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("WebApi.Models.LevelDbEntry", b =>
                 {
                     b.HasOne("WebApi.Models.ApplicationUser", "Owner")
                         .WithMany("Levels")
                         .HasForeignKey("OwnerId");
+
+                    b.HasOne("WebApi.Models.Project")
+                        .WithMany("Levels")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
         }
     }
