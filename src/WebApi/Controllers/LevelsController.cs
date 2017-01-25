@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Authorization;
 using WebApi.ViewModels.Levels;
 using WebApi.Services;
 using RealTimeLevelEditor;
+using System.IO;
+using System.Text;
+using WebApi.Models;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -156,6 +159,32 @@ namespace WebApi.Controllers
 			return Ok();
 		}
 
+		[HttpGet("{levelId}/download")]
+		public IActionResult DownloadLevel(Guid levelId)
+		{
+			if (!_levelLoader.Exists(levelId))
+				return GetLevelNotFoundResult(levelId);
+			if (!CurrentUserOwnsLevel(levelId))
+				return Forbid();
+
+			var loadedLevel = _levelLoader.Load(levelId);
+			var exporter = new LevelExporter();
+
+			using (var memoryStream = new MemoryStream())
+			using (var writer = new StreamWriter(memoryStream))
+			{
+				exporter.Export(writer, loadedLevel.Level);
+				return File(
+					memoryStream.ToArray(), 
+					"text/plain", 
+					GetLevelDownloadName(loadedLevel));
+			}
+		}
+
+		private string GetLevelDownloadName(ILoadedLevel<string> loadedLevel)
+		{
+			return $"{loadedLevel.Info.Name}.{_levelFileExtension}";
+		}
 
 		private IActionResult GetLevelNotFoundResult(Guid levelId)
 		{
@@ -185,5 +214,6 @@ namespace WebApi.Controllers
 		private ILoadedLevelService<string> _levelLoader;
 		private ApplicationUserService _userService;
 		private const string uri = "api/levels";
+		private static readonly string _levelFileExtension = "json";
 	}
 }
