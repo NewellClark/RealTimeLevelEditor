@@ -13,12 +13,6 @@ namespace WebApi {
                 controller: WebApi.Controllers.HomeController,
                 controllerAs: 'controller'
             })
-            .state('secret', {
-                url: '/secret',
-                templateUrl: '/ngApp/views/secret.html',
-                controller: WebApi.Controllers.SecretController,
-                controllerAs: 'controller'
-            })
             .state('login', {
                 url: '/',
                 templateUrl: '/ngApp/views/login.html',
@@ -29,12 +23,6 @@ namespace WebApi {
                 url: '/register',
                 templateUrl: '/ngApp/views/register.html',
                 controller: WebApi.Controllers.RegisterController,
-                controllerAs: 'controller'
-            })
-            .state('createProject', {
-                url: '/createProject',
-                templateUrl: '/ngApp/views/createProject.html',
-                controller: WebApi.Controllers.CreateProjectController,
                 controllerAs: 'controller'
             })
             .state('createTeam', {
@@ -65,12 +53,6 @@ namespace WebApi {
                 url: '/editTileTypes',
                 templateUrl: '/ngApp/views/editTileTypes.html',
                 controller: WebApi.Controllers.EditTileTypesController,
-                controllerAs: 'controller'
-            })
-            .state('about', {
-                url: '/about',
-                templateUrl: '/ngApp/views/about.html',
-                controller: WebApi.Controllers.AboutController,
                 controllerAs: 'controller'
             })
             .state('notFound', {
