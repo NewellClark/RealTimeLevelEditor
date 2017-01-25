@@ -117,48 +117,7 @@ namespace WebApi.Controllers {
 
         public Region20: Array<DTOChunk> = [];
 
-        public Region = {
-            Dimensions: {
-                Left: 0,
-                Top: 0,
-                Width: 20,
-                Height: 20
-            },
-
-            Tiles:
-            [
-                {
-                    Index: { X: 1, Y: 5 },
-                    Data: { color: "#005500", type: "block", imageInfo: null }
-                },
-                {
-                    Index: { X: 3, Y: 9 },
-                    Data: { color: "#000099", type: "block", imageInfo: null }
-                },
-                {
-                    Index: { X: 10, Y: 18 },
-                    Data: { color: "#ff0000", type: "block", imageInfo: null }
-                }
-            ]
-        };
-
-        addProject() {
-            let data = "Project1";
-            this.$http.post(`api/projects/22686b5a-7d4a-4e5c-8c12-23bf2f762c3e/${data}`, data);
-        }
-
-        addMember() {
-            //let data = { name: "Stephen.Walther@CoderCamps.com" };
-            let projectId = "09c40875-22cd-42de-8976-863fc6dddadd";
-            let newUserId = "40727362-7186-412d-8361-5a0f8d894617";
-            this.$http.post(`api/members/${projectId}/${newUserId}`,null);
-        }
-
-        addLevel() {
-            
-        }
-
-    
+           
 
         ToggleSelect() {
             this.selecting = !this.selecting;
@@ -179,41 +138,6 @@ namespace WebApi.Controllers {
             this.RenderCanvas20();
             return;
 
-          /*  let canvas = <HTMLCanvasElement>document.getElementById('theCanvas');
-            let canvasContext: CanvasRenderingContext2D = canvas.getContext('2d');
-
-            this.getScaleFactor();
-            let td = this.scaleFactor;
-
-            
-
-          for (let i = 0; i < this.Region.Tiles.length; i++) {
-             let tx = td * this.Region.Tiles[i].Index.X + this.mapPositionX + this.mapOffSetX;
-             let ty = td * this.Region.Tiles[i].Index.Y + this.mapPositionY + this.mapOffSetY;
-
-             canvasContext.fillStyle = this.Region.Tiles[i].Data.color;
-             if (this.Region.Tiles[i].Data.imageInfo == null) {
-                 canvasContext.fillRect(tx, ty, td, td);
-             }
-             else
-             {
-                 let j = this.Region.Tiles[i].Data.imageInfo; 
-                 canvasContext.drawImage(this.tileImagesData[j], tx, ty, td, td);
-             }
-            }
-
-          if (this.selectAnchoring == true) {
-              canvasContext.setLineDash([5, 15]);
-              canvasContext.rect(this.selectX0, this.selectY0,
-                  this.selectX1-this.selectX0, this.selectY1-this.selectY0);
-              canvasContext.stroke();
-          }
-
-          if (this.hasSelection == true)
-              this.drawSelection();
-
-          this.drawRadar();
-          */
         }
 
         RenderCanvas20() {
@@ -256,50 +180,7 @@ namespace WebApi.Controllers {
 
         }
 
-        public addRandom() {
-            for (let i = 0; i < 10000; i++) {
-                let x = Math.floor(Math.random() * 500);
-                let y = Math.floor(Math.random() * 500);
-
-                this.Region.Tiles.push({
-                    Index: { X: x, Y: y },
-                    Data: { color: this.colorToAdd, type: "block", imageInfo: Math.floor(Math.random()*9+1) }
-                });
-                
-            }
-        }
-
-        addTile(pixelX, pixelY) {
-
-            let select = <HTMLSelectElement>document.getElementById("repeatSelect");
-
-            let imageInfo = null;
-            if (select.selectedIndex > 0) {
-                imageInfo = select.selectedIndex;//this.tileImagesFiles[select.selectedIndex];
-                let x = 0;
-            }
-
-            let blockX = Math.floor(pixelX / this.scaleFactor);
-            let blockY = Math.floor(pixelY / this.scaleFactor);
-
-            this.Region.Tiles.push({
-                Index: { X: blockX, Y: blockY },
-                Data: { color: this.colorToAdd, type: "block", imageInfo: imageInfo }
-            });
-        }
-
-        removeTile(pixelX, pixelY) {
-            let blockX = Math.floor(pixelX / this.scaleFactor);
-            let blockY = Math.floor(pixelY / this.scaleFactor);
-            for (let i = 0; i < this.Region.Tiles.length; i++) {
-                if (this.Region.Tiles[i].Index.X == blockX &&
-                    this.Region.Tiles[i].Index.Y == blockY) {
-                    this.Region.Tiles.splice(i, 1);;
-                }
-            }
-
-        }
-
+        
 
         //2.0 versions of add and remove tile
         //////////////////////////////////////
@@ -367,32 +248,7 @@ namespace WebApi.Controllers {
         }
 
         selectTiles() {
-           let canvas = <HTMLCanvasElement>document.getElementById('theCanvas');
-
-           let pixelX0 = this.selectX0 - canvas.offsetLeft - this.mapPositionX;
-           let pixelY0 = this.selectY0 - canvas.offsetTop - this.mapPositionY;
-           let pixelX1 = this.selectX1 - canvas.offsetLeft - this.mapPositionX;
-           let pixelY1 = this.selectY1 - canvas.offsetTop - this.mapPositionY;
-
-           pixelX0 /= this.scaleFactor; pixelX1 /= this.scaleFactor;
-           pixelY0 /= this.scaleFactor; pixelY1 /= this.scaleFactor;
-
-           if (this.addToSelect == false) this.selectedTiles = [];
-
-           for (let i = 0; i < this.Region.Tiles.length; i++) {
-               if (this.Region.Tiles[i].Index.X >= pixelX0 && 
-                   this.Region.Tiles[i].Index.Y >= pixelY0 &&
-                   this.Region.Tiles[i].Index.X <= pixelX1 &&
-                   this.Region.Tiles[i].Index.Y <= pixelY1) {
-                   this.selectedTiles.push({
-                       X: this.Region.Tiles[i].Index.X,
-                       Y: this.Region.Tiles[i].Index.Y,
-                       index: i
-                   });
-               }
-           }
-           this.hasSelection = true;
-
+        
         }
 
         Scroll() {
@@ -556,32 +412,12 @@ namespace WebApi.Controllers {
         }
 
         handleDelete() {
-            let td = this.scaleFactor;
-            for (let i = 0; i < this.selectedTiles.length; i++) {
-                this.removeTile(this.selectedTiles[i].X * td,
-                    this.selectedTiles[i].Y * td);
-            }
-
-            this.selectedTiles = [];
-            this.RenderCanvas();
+        
         }
 
         handleBMPSelect() {
 
-            this.loadProperty(this.tileImages[this.BMPIndex].name);
-
-            if (this.selectedTiles != []) {
-
-                for (let i = 0; i < this.selectedTiles.length; i++) {
-
-                    this.Region.Tiles[this.selectedTiles[i].index].Data.imageInfo = this.BMPIndex;
-
-                }
-
-            }
-
-            this.RenderCanvas();
-
+        
         }
 
         public keyUp = (evt: KeyboardEvent) => {
@@ -600,21 +436,7 @@ namespace WebApi.Controllers {
 
         public saveRegion() {
 
-            let data = [];
-            for (let i = 0; i < this.Region.Tiles.length; i++){
-                let x = this.Region.Tiles[i].Index.X;
-                let y = this.Region.Tiles[i].Index.Y;
-                let t = this.Region.Tiles[i].Data.imageInfo;
-
-                data.push({ index: { x: x, y: y }, data: t });
-
-            }
-
-
-            this.$http.put(`api/levels/${this.levelId}/tiles`, data)
-                .then((returned) => {
-                    let rData = returned.data;
-                });
+        
         }
 
         public nearestHundred(n) {
@@ -632,79 +454,12 @@ namespace WebApi.Controllers {
         public loadRegion(x, y, w, h) {
 
             
-           
-            let requestBody = {
-                left: x * this.chunkWidth,
-                top: y * this.chunkHeight,
-                width: w * this.chunkWidth,
-                height: h * this.chunkHeight
-            };
-
-            this.$http.post(`api/levels/${this.levelId}/region`, requestBody)
-                .then((responseBody) => {
-                    let chunks = <DTOChunk[]>responseBody.data;
-
-                    //this.Region.Tiles = [];
-
-                    for (let i = 0; i < chunks.length; i++) {
-                        for (let j = 0; j < chunks[i].data.tiles.length; j++) {
-
-                            let indexX = chunks[i].data.tiles[j].index.x;
-                            let indexY = chunks[i].data.tiles[j].index.y;
-                            let imageIndex = parseInt(chunks[i].data.tiles[j].data);
-
-                            if (imageIndex > 0) {
-                                this.removeTile(indexX, indexY);
-                                this.Region.Tiles.push({
-                                    Index: { X: indexX, Y: indexY },
-                                    Data: { color: this.colorToAdd, type: "block", imageInfo: imageIndex }
-                                });
-                                if (this.Region.Tiles.length > this.tileLimit) return;
-                            }
-                        }
-                    }
-
-                    //  this.chunks.push({
-                    //    x: x,
-                    //    y: y,
-                    //    inRange: true,
-                    //    toBeDeleted: false,
-                    //    deleteTimer: -1
-                    //});
-
-                });
+        
         }
 
         public loadLevel() {
 
-
-
-            let requestBody = { left: 0, top: 0, width: 500, height: 500 };
-
-            this.$http.post(`api/levels/${this.levelId}/region`, requestBody)
-                .then((responseBody) => {
-                    let chunks = <DTOChunk[]>responseBody.data;
-
-                    this.Region.Tiles = [];
-
-                    for (let i = 0; i < chunks.length; i++) {
-                        for (let j = 0; j < chunks[i].data.tiles.length; j++) {
-
-                            let indexX = chunks[i].data.tiles[j].index.x;
-                            let indexY = chunks[i].data.tiles[j].index.y;
-                            let imageIndex = parseInt(chunks[i].data.tiles[j].data);
-
-                            if (imageIndex > 0) {
-                                this.Region.Tiles.push({
-                                    Index: { X: indexX, Y: indexY },
-                                    Data: { color: this.colorToAdd, type: "block", imageInfo: imageIndex }
-                                });
-                            }
-                        }
-                    }
-
-
-                });
+        
         }
 
         //////////////////////////////
@@ -739,16 +494,6 @@ namespace WebApi.Controllers {
             });
         }
 
-        //public tileImages = [
-        //    { id: 0, name: "-------------" },
-        //    { id: 1, name: "tilemario.png" },
-        //];
-
-        //public tileImagesFiles = [
-        //    "-------------",
-        //    "tilemario.png",
-        //    "tilegoomba.png",
-        //];
 
         public loadTypes() {
             this.$http.get(`api/types/${this.projectId}`).then((res) => {
@@ -771,18 +516,6 @@ namespace WebApi.Controllers {
             });
         }
 
-        //public loadProperties() {
-
-        //    for (let i = 0; i < this.tileTypes.length; i++) {
-        //        this.attributeList.push([]);
-        //    }
-
-        //    for (let i = 0; i < this.tileTypes.length; i++) {
-        //        let name = this.tileTypes[i].name;
-        //        this.loadProperty(name, i);
-        //    }
-
-        //}
 
         loadProperty(name) {
             this.$http.get(`api/properties/${this.levelId}/${name}`).then((res) => {
@@ -885,28 +618,11 @@ namespace WebApi.Controllers {
             loadChunkXY(x, y) {
 
                 this.loadRegionObjects(x, y, 1, 1);
-               // this.loadRegion(x, y,
-               //                 1, 1);
 
             }
 
             deleteChunkXY(x, y) {
-
-                let left = x * this.chunkWidth;
-                let top = y * this.chunkHeight;
-                let right = x + this.chunkWidth - 1;
-                let down = y + this.chunkHeight - 1;
-
-
-                for (let i = this.Region.Tiles.length-1; i > -1; i--) {
-                    let tx = this.Region.Tiles[i].Index.X;
-                    let ty = this.Region.Tiles[i].Index.Y;
-
-                    if (tx >= left && tx <= right && ty >= top && ty <= down)
-                        this.Region.Tiles.splice(i, 1);
-                    
-                }
-                
+   
             }
 
               updateChunkRemove() {
@@ -1031,10 +747,7 @@ namespace WebApi.Controllers {
             this.getScaleFactor();
             this.addToSelect = false;
 
-            this.addTile(0, 50);
-            //this.loadChunkXY(0, 0);
             this.loadRegionObjects(0, 0, 1, 1);
-            //this.RenderCanvas();
 
             this.loadTypes();
 
@@ -1047,348 +760,5 @@ namespace WebApi.Controllers {
 
     }
 
-    export class DTOChunk {
-        public index: DTOIndex;
-        public data: DTOData;
-    }
 
-    export class DTOData {
-        public region: DTORegion;
-        public tiles: Array<DTOTile>;
-    }
-
-    export class DTORegion {
-        public top: number;
-        public left: number;
-        public width: number;
-        public height: number;
-    }
-
-    export class DTOTile {
-        public index: DTOIndex;
-        public data: string;
-    }
-
-    export class DTOIndex {
-        public x: number;
-        public y: number;
-    }
-
-    export class DTOType {
-        public tileModel: string;
-        public inGameModel: string;
-        public name: string;
-    }
-
-    export class Property {
-        public name: string;
-        public value: string;
-    }
-
-  
-    export class RegionDTO {
-        public Dimensions: DimensionDTO;
-        public Tiles: TilesDTO;
-    }
-
-    export class DimensionDTO {
-        public Left: number;
-        public Top: number;
-        public Width: number;
-        public Height: number;
-    }
-
-    export class TilesDTO {
-        public Index: IndexDTO;
-        public Data: string;
-    }
-    export class IndexDTO {
-        public X: number;
-        public Y: number;
-    }
-    
-
-    export class SecretController {
-        public secrets;
-
-        constructor($http: ng.IHttpService) {
-            $http.get('/api/secrets').then((results) => {
-                this.secrets = results.data;
-            });
-        }
-    }
-
-    export class CreateProjectController {
-        public projectName;
-        public memberName;
-        public userProjects;
-
-        
-    }
-
-    export class CreateTeamController {
-        public projectId;
-        public projectName;
-
-        public teamMemberEmail;
-        public userProjects;
-        public userEmail;
-        public teamRoster;
-
-        getTeamMembers() {
-            this.$http.get(`/api/members/${this.projectId}/getusers`).then((res) => {
-                this.teamRoster = res.data;
-            });
-        }
-
-        addTeamMember() {
-            
-            this.$http.post(`/api/projects/${this.projectId}/${this.teamMemberEmail}`, "name").then(() => {
-                this.getTeamMembers();
-            });
-        }
-
-        constructor(private $http: ng.IHttpService) {
-            this.projectId = localStorage.getItem("projectId");
-            this.projectName = localStorage.getItem("projectName");
-            this.getTeamMembers();
-        }
-    }
-
-    export class ProjectsController {
-        public userProjects;
-        public memberName;
-        public projectName;
-        public newProjectName: string;
-        public nonAdmin;
-
-        public userId;
-
-        changeView() {
-        
-        }
-
-        addProject() {
-            let data = this.newProjectName;
-            this.$http.post(`/api/projects/${this.newProjectName}`, data).then((res) => {
-
-                let data = <ProjectDTO>res.data;
-                let projectId = data.projectId;
-                this.loadProjectList();
-
-                let type = { tileModel: "../../images/tileblock.png", name: "block"};
-                this.$http.post(`api/types/${projectId}`, type);
-                type = { tileModel: "../../images/tilemario.png", name: "mario" };
-                this.$http.post(`api/types/${projectId}`, type);
-                type = { tileModel: "../../images/tilegoomba.png", name: "goomba" };
-                this.$http.post(`api/types/${projectId}`, type);
-                type = { tileModel: "../../images/tilebrick.png", name: "brick" };
-                this.$http.post(`api/types/${projectId}`, type);
-                type = { tileModel: "../../images/tileitem.png", name: "item" };
-                this.$http.post(`api/types/${projectId}`, type);
-                type = { tileModel: "../../images/tileground.png", name: "ground" };
-                this.$http.post(`api/types/${projectId}`, type);
-
-
-            });
-        }
-
-        viewTeams(index) {
-            localStorage.setItem("projectId", this.userId[index].projectId);
-            localStorage.setItem("projectName", this.userId[index].projectName);
-            this.$location.path('/createTeam');
-        }
-
-        viewLevels(index) {
-            localStorage.setItem("projectId", this.userId[index].projectId);
-            localStorage.setItem("projectName", this.userId[index].projectName);
-            this.$location.path('/levelAdmin');
-        }
-
-        viewNonAdminLevels(index) {
-            localStorage.setItem("projectId", this.nonAdmin[index].projectId);
-            localStorage.setItem("projectName", this.nonAdmin[index].projectName);
-            this.$location.path('/levelNonAdmin');
-        }
-
-        deleteProject(index) {
-            let theProjectId = this.userId[index].projectId;
-            this.$http.delete('/api/projects/'+theProjectId).then(()=>{
-                this.loadProjectList();
-            });
-        }
-
-        loadProjectList() {
-            this.$http.get('/api/projects').then((res) => {
-                this.userId = res.data;
-            });
-        }
-
-        loadNonAdminList() {
-            this.$http.get('/api/members').then((res) => {
-                this.nonAdmin = res.data;
-            });
-        }
-
-        constructor(private $http: ng.IHttpService, private $location: ng.ILocationService) {
-            this.loadProjectList();
-            this.loadNonAdminList();
-        }
-
-    }
-
-    export class ProjectDTO {
-        public projectId;
-        public projectName;
-    }
-
-    export class LevelAdminController {
-
-        public projectId;
-        public projectName;
-        public levelRoster;
-        public levelName;
-
-        getLevels() {
-            this.$http.get('/api/projects/'+this.projectId+'/levels').then((res)=>{
-                this.levelRoster = res.data;
-            });
-        }
-
-        addLevel() {
-            let data = { Name: this.levelName };
-            this.$http.post('/api/levels/'+this.projectId, data).then(() => {
-                this.getLevels();
-            });
-        }
-
-        editLevel(index) {
-            localStorage.setItem("levelId", this.levelRoster[index].levelId);
-            localStorage.setItem("levelName", this.levelRoster[index].name);
-            this.$location.path('/level');
-
-        }
-
-        deleteLevel(index) {
-            let theLevelId = this.levelRoster[index].levelId;
-            this.$http.delete('/api/levels/' + theLevelId).then(() => {
-                this.getLevels();
-            });
-
-        }
-
-        gotoEditTileTypes() {
-
-            this.$location.path('/editTileTypes');
-
-        }
-
-
-        constructor(private $http: ng.IHttpService, private $location: ng.ILocationService) {
-            this.projectId = localStorage.getItem("projectId");
-            this.projectName = localStorage.getItem("projectName");
-            this.getLevels();
-        }
-
-    }
-
-    export class LevelNonAdminController {
-
-        public projectId;
-        public projectName;
-        public levelRoster;
-        public levelName;
-
-        getLevels() {
-            this.$http.get('/api/projects/'+this.projectId+'/levels').then((res) => {
-                this.levelRoster = res.data;
-            });
-        }
-
-        addLevel() {
-            let data = { Name: this.levelName };
-            this.$http.post('/api/levels/' + this.projectId, data).then(() => {
-                this.getLevels();
-            });
-        }
-
-        editLevelNonAdmin(index) {
-            localStorage.setItem("levelId", this.levelRoster[index].levelId);
-            localStorage.setItem("levelName", this.levelRoster[index].name);
-            this.$location.path('/level');
-
-        }
-
-        gotoEditTileTypes() {
-
-            this.$location.path('/editTileTypes');
-
-        }
-
-        constructor(private $http: ng.IHttpService, private $location: ng.ILocationService) {
-            this.projectId = localStorage.getItem("projectId");
-            this.projectName = localStorage.getItem("projectName");
-
-            this.getLevels();
-        }
-
-    }
-
-    export class EditTileTypesController {
-
-        public projectId;
-        public projectName;
-
-        public tileTypes;
-
-        public newTypeName;
-        public newTypeURL: string;
-        public displayURL;
-
-        getTileTypes() {
-
-            this.$http.get('api/types/'+this.projectId).then((res) => {
-                this.tileTypes = res.data;
-            });
-
-        }
-
-        addTileType() {
-            
-            if (this.newTypeURL.length > 25) {
-                let l = this.newTypeURL.length;
-                this.displayURL = "..."+this.newTypeURL.substring(l-25,l-1);
-            }
-            else
-            {
-                this.displayURL = this.newTypeURL;
-            }
-            this.tileTypes.push({ name: this.newTypeName, tileModel: this.newTypeURL, displayUrl: this.displayURL });
-
-
-            let data = { tileModel: this.newTypeURL, name: this.newTypeName };
-
-            
-            this.$http.post(`api/types/${this.projectId}`, data);
-
-
-        }
-
-        
-        constructor(private $http: ng.IHttpService) {
-            this.projectId = localStorage.getItem("projectId");
-            this.projectName = localStorage.getItem("projectName");
-            this.getTileTypes();
-        }
-
-    }
-
-    export class LevelInfoDTO {
-        public levelId: string;
-        public name: string;
-    }
-
-    export class AboutController {
-        public message = 'Hello from the about page!';
-    }
 }
