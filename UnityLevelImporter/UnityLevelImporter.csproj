@@ -12,15 +12,12 @@
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.5.0f3</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -48,14 +45,15 @@
     <Reference Include="System" />
     <Reference Include="System.XML" />
     <Reference Include="System.Core" />
-    <Reference Include="Unity.Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>Assets\packages\Unity.Newtonsoft.Json.7.0.0.0\lib\net35-Client\Unity.Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
+    <Reference Include="Boo.Lang" />
+    <Reference Include="UnityScript.Lang" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="UnityEngine">
       <HintPath>Library\UnityAssemblies\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Advertisements">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Advertisements.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
@@ -71,6 +69,9 @@
     </Reference>
     <Reference Include="UnityEngine.HoloLens">
       <HintPath>Library\UnityAssemblies\UnityEngine.HoloLens.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Purchasing">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Purchasing.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.VR">
       <HintPath>Library\UnityAssemblies\UnityEngine.VR.dll</HintPath>
@@ -90,20 +91,58 @@
     <Reference Include="UnityEditor.iOS.Extensions.Common">
       <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Common.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Newtonsoft.Json">
+      <HintPath>Assets\packages\Unity.Newtonsoft.Json.7.0.0.0\lib\net35-Client\Unity.Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.abstractions">
+      <HintPath>Assets\packages\xunit.abstractions.2.0.0\lib\net35\xunit.abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.runner.utility.desktop">
+      <HintPath>Assets\packages\xunit.extensibility.core.2.1.0\lib\dotnet\xunit.runner.utility.desktop.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.runner.utility.desktop">
+      <HintPath>Assets\packages\xunit.extensibility.core.2.1.0\lib\portable-net45+win8+wp8+wpa81\xunit.runner.utility.desktop.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.abstractions">
+      <HintPath>Assets\packages\xunit.runner.visualstudio.2.1.0\build\_common\xunit.abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.runner.utility.desktop">
+      <HintPath>Assets\packages\xunit.runner.visualstudio.2.1.0\build\_common\xunit.runner.utility.desktop.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.runner.visualstudio.testadapter">
+      <HintPath>Assets\packages\xunit.runner.visualstudio.2.1.0\build\_common\xunit.runner.visualstudio.testadapter.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Classes\AssemblyLevelAttributes.cs" />
     <Compile Include="Assets\Classes\DotNetStreamLevelImporter.cs" />
     <Compile Include="Assets\Classes\HashHelper.cs" />
     <Compile Include="Assets\Classes\ImportedLevelChunk.cs" />
-    <Compile Include="Assets\Classes\LevelImporter.cs" />
+    <Compile Include="Assets\Classes\Importers\LevelImporter.cs" />
+    <Compile Include="Assets\Classes\Importers\StreamLevelImporter.cs" />
     <Compile Include="Assets\Classes\Rectangle.cs" />
     <Compile Include="Assets\Classes\StringLevelImporter.cs" />
     <Compile Include="Assets\Classes\TileIndex.cs" />
     <Compile Include="Assets\Scripts\LevelImporterScript.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="Assets\packages\Unity.Newtonsoft.Json.7.0.0.0\lib\net35-Client\Unity.Newtonsoft.Json.xml" />
+    <None Include="Assets\packages\xunit.abstractions.2.0.0\lib\net35\xunit.abstractions.xml" />
+    <None Include="Assets\packages\xunit.abstractions.2.0.0\lib\portable-net45+win+wpa81+wp80+monotouch+monoandroid+Xamarin.iOS\xunit.abstractions.xml" />
+    <None Include="Assets\packages\xunit.assert.2.1.0\lib\dotnet\xunit.assert.xml" />
+    <None Include="Assets\packages\xunit.assert.2.1.0\lib\portable-net45+win8+wp8+wpa81\xunit.assert.xml" />
+    <None Include="Assets\packages\xunit.extensibility.core.2.1.0\lib\dotnet\xunit.core.xml" />
+    <None Include="Assets\packages\xunit.extensibility.core.2.1.0\lib\portable-net45+win8+wp8+wpa81\xunit.core.xml" />
+    <None Include="Assets\packages\xunit.extensibility.execution.2.1.0\lib\dnx451\xunit.execution.dotnet.xml" />
+    <None Include="Assets\packages\xunit.extensibility.execution.2.1.0\lib\dotnet\xunit.execution.dotnet.xml" />
+    <None Include="Assets\packages\xunit.extensibility.execution.2.1.0\lib\monoandroid\xunit.execution.dotnet.xml" />
+    <None Include="Assets\packages\xunit.extensibility.execution.2.1.0\lib\monotouch\xunit.execution.dotnet.xml" />
+    <None Include="Assets\packages\xunit.extensibility.execution.2.1.0\lib\net45\xunit.execution.desktop.xml" />
+    <None Include="Assets\packages\xunit.extensibility.execution.2.1.0\lib\portable-net45+win8+wp8+wpa81\xunit.execution.dotnet.xml" />
+    <None Include="Assets\packages\xunit.extensibility.execution.2.1.0\lib\win8\xunit.execution.dotnet.xml" />
+    <None Include="Assets\packages\xunit.extensibility.execution.2.1.0\lib\wp8\xunit.execution.dotnet.xml" />
+    <None Include="Assets\packages\xunit.extensibility.execution.2.1.0\lib\wpa81\xunit.execution.dotnet.xml" />
+    <None Include="Assets\packages\xunit.extensibility.execution.2.1.0\lib\xamarinios\xunit.execution.dotnet.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
