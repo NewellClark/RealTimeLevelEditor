@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 namespace UnityLevelImporter
 {
 	[Serializable]
-	struct TileIndex : IEquatable<TileIndex>
+	public struct TileIndex : IEquatable<TileIndex>
 	{
 		public TileIndex(int x, int y)
 		{

@@ -8,7 +8,7 @@ using UnityEngine;
 namespace UnityLevelImporter
 {
 	[Serializable]
-	struct Rectangle : IEquatable<Rectangle>
+	public struct Rectangle : IEquatable<Rectangle>
 	{
 		public Rectangle(int left, int top, int width, int height)
 		{

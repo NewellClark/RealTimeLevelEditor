@@ -8,7 +8,7 @@ using Newtonsoft.Json.Converters;
 namespace UnityLevelImporter
 {
 	[Serializable]
-	class ImportedLevelChunk
+	public class ImportedLevelChunk
 	{
 		[JsonProperty]
 		public Rectangle Region { get; private set; }
@@ -18,7 +18,7 @@ namespace UnityLevelImporter
 	}
 
 	[Serializable]
-	class Tile
+	public class Tile
 	{
 		public Tile() { }
 

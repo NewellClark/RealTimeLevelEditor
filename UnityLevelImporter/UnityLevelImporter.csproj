@@ -93,6 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Classes\AssemblyLevelAttributes.cs" />
+    <Compile Include="Assets\Classes\DotNetStreamLevelImporter.cs" />
     <Compile Include="Assets\Classes\HashHelper.cs" />
     <Compile Include="Assets\Classes\ImportedLevelChunk.cs" />
     <Compile Include="Assets\Classes\LevelImporter.cs" />

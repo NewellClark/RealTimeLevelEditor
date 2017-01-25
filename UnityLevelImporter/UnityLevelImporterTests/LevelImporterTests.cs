@@ -4,10 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
+using UnityLevelImporter;
+using System.IO;
 
 namespace UnityLevelImporterTests
 {
-	class LevelImporterTests
+	public abstract class LevelImporterTests
 	{
+		/// <summary>
+		/// Serializes the specified level and returns a text-reader to the serialized level.
+		/// </summary>
+		/// <param name="levelToSerializeAndRead"></param>
+		/// <returns></returns>
+		protected abstract TextReader GetTextReader(IEnumerable<ImportedLevelChunk> levelToSerializeAndRead);
+
+
 	}
 }
