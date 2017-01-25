@@ -12,7 +12,7 @@ using System.IO;
 
 namespace ConsoleTestApp
 { 
-	public class Program
+	public class Program 
 	{
 		public static void Main(string[] args)
 		{
