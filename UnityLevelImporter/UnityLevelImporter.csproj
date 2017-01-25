@@ -92,11 +92,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Classes\AssemblyLevelAttributes.cs" />
     <Compile Include="Assets\Classes\HashHelper.cs" />
-    <Compile Include="Assets\Classes\ImportedLevel.cs" />
+    <Compile Include="Assets\Classes\ImportedLevelChunk.cs" />
+    <Compile Include="Assets\Classes\LevelImporter.cs" />
     <Compile Include="Assets\Classes\Rectangle.cs" />
     <Compile Include="Assets\Classes\TileIndex.cs" />
-    <Compile Include="Assets\Scripts\LevelImporter.cs" />
+    <Compile Include="Assets\Scripts\LevelImporterScript.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Plugins\Newtonsoft.Json.XML" />
