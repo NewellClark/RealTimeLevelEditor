@@ -22,7 +22,7 @@ namespace UnityLevelImporter
 			using (JsonReader jsonReader = new JsonTextReader(textReader))
 			{
 				var serializer = new JsonSerializer();
-				var chunks = (ImportedLevelChunk[])serializer.Deserialize(jsonReader);
+				var chunks = (LevelChunk[])serializer.Deserialize(jsonReader);
 				foreach (var chunk in chunks)
 				{
 					PopulateChunk(chunk);
@@ -36,7 +36,7 @@ namespace UnityLevelImporter
 		/// <returns></returns>
 		protected abstract TextReader GetLevelDataReader();
 
-		private void PopulateChunk(ImportedLevelChunk chunk)
+		private void PopulateChunk(LevelChunk chunk)
 		{
 			HashSet<TileIndex> loadedIndeces = new HashSet<TileIndex>();
 			foreach (var tile in chunk.Tiles)
