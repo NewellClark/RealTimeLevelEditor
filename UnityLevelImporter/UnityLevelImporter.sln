@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityLevelImporter", "UnityLevelImporter.csproj", "{A1861124-8024-9545-9613-3A399CA13670}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityLevelImporter.Editor", "UnityLevelImporter.Editor.csproj", "{CC586951-499A-055C-6312-08C088BFBBE3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityLevelImporterTests", "UnityLevelImporterTests\UnityLevelImporterTests.csproj", "{9883E631-09F5-457F-8D3A-126E8C853833}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A1861124-8024-9545-9613-3A399CA13670}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1861124-8024-9545-9613-3A399CA13670}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1861124-8024-9545-9613-3A399CA13670}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1861124-8024-9545-9613-3A399CA13670}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC586951-499A-055C-6312-08C088BFBBE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC586951-499A-055C-6312-08C088BFBBE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC586951-499A-055C-6312-08C088BFBBE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC586951-499A-055C-6312-08C088BFBBE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9883E631-09F5-457F-8D3A-126E8C853833}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9883E631-09F5-457F-8D3A-126E8C853833}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9883E631-09F5-457F-8D3A-126E8C853833}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9883E631-09F5-457F-8D3A-126E8C853833}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
