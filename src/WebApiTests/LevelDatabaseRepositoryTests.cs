@@ -34,7 +34,7 @@ namespace WebApiTests
 		{
 			using (var db = new DbProvider())
 			{
-                Guid projectId = new Guid();
+				Guid projectId = new Guid();
 				var repo = new LoadedLevelService<string>(db.DbContext);
 				var level = repo.Create(_testOwnerId, projectId, GetTestName());
 				var loaded = repo.Load(level.Info.LevelId);
