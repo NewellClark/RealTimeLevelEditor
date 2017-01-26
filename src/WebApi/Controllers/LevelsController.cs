@@ -168,15 +168,17 @@ namespace WebApi.Controllers
 				return Forbid();
 
 			var loadedLevel = _levelLoader.Load(levelId);
-			var exporter = new LevelExporter();
+			var exporter = new SerializableLevelExporter();
 
 			using (var memoryStream = new MemoryStream())
 			using (var writer = new StreamWriter(memoryStream))
 			{
 				exporter.Export(writer, loadedLevel.Level);
+				byte[] binary = memoryStream.ToArray();
+
 				return File(
-					memoryStream.ToArray(), 
-					"text/plain", 
+					binary,
+					"application/octet-stream",
 					GetLevelDownloadName(loadedLevel));
 			}
 		}

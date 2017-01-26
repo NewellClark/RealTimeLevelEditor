@@ -10,7 +10,7 @@ namespace RealTimeLevelEditor
 	/// <summary>
 	/// Serializes <c>Level`T'</c> into a format that is compatible with various external tools.
 	/// </summary>
-	public class LevelExporter
+	public class SerializableLevelExporter
 	{
 		private class ExportableLevel<T>
 		{
@@ -38,8 +38,12 @@ namespace RealTimeLevelEditor
 				.ToArray();
 			var exportable = new ExportableLevel<T>(chunks);
 
-			var serializer = new JsonSerializer();
-			serializer.Serialize(textWriter, exportable);
+			using (var jsonWriter = new JsonTextWriter(textWriter))
+			{
+				var serializer = new JsonSerializer();
+				serializer.Formatting = Formatting.Indented;
+				serializer.Serialize(jsonWriter, exportable);
+			}
 		}
 	}
 }

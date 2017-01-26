@@ -40,7 +40,14 @@ export class LevelAdminController {
 	}
 
 	public downloadLevel(index) {
-		console.log("downloadLevel(index) not implimented yet :/");
+		let levelId = this.levelRoster[index].levelId;
+		let url = `/api/levels/${levelId}/download`;
+
+		this.$location.path(url);
+		let element = document.createElement("a");
+		element.setAttribute("href", url);
+		element.setAttribute("target", "blank");
+		element.click();
 	}
 
 	constructor(private $http: ng.IHttpService, private $location: ng.ILocationService) {
