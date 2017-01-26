@@ -151,10 +151,19 @@ namespace RealTimeLevelEditor
 			}
 		}
 
+		/// <summary>
+		/// Gets all the non-empty chunks in the current level.
+		/// </summary>
+		/// <returns>All the chunks in the current level that are not empty.</returns>
+		public IEnumerable<Tile<LevelChunk<T>>> GetChunks()
+		{
+			return _repo.Indeces
+				.Select(x => _repo.Load(x));
+		}
+
 		public override IEnumerator<Tile<T>> GetEnumerator()
 		{
-			var chunks = _repo.Indeces
-				.Select(x => _repo.Load(x));
+			var chunks = GetChunks();
 
 			foreach (var chunk in chunks)
 			{
