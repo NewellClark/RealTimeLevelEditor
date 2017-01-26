@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace UnityLevelImporter
 {
-	[CustomPropertyDrawer(typeof(PrefabTilePair))]
+	//[CustomPropertyDrawer(typeof(PrefabTilePair))]
 	public class PrefabTilePairDrawer : PropertyDrawer
 	{
 		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
@@ -15,14 +15,19 @@ namespace UnityLevelImporter
 			var serializedObject = property.serializedObject;
 			var targetObject = serializedObject.targetObject;
 
-			var target = (PrefabTilePair)EditorHelpers.GetFieldValueFromPath(targetObject, property.propertyPath) ??
-				new PrefabTilePair();
+			//var target = (PrefabTilePair)EditorHelpers.GetFieldValueFromPath(targetObject, property.propertyPath) ??
+			//	new PrefabTilePair();
+
+			//EditorHelpers.DrawFieldsOnOneLine(
+			//	position, 0,
+			//	x => target.Type = EditorGUI.TextField(x, target.Type),
+			//	x => target.Prefab = (GameObject)EditorGUI.ObjectField(x, target.Prefab, typeof(GameObject), true)
+			//	);
 
 			EditorHelpers.DrawFieldsOnOneLine(
 				position, 0,
-				x => target.Type = EditorGUI.TextField(x, target.Type),
-				x => target.Prefab = (GameObject)EditorGUI.ObjectField(x, target.Prefab, typeof(GameObject), true)
-				);
+				x => EditorGUI.PropertyField(x, property.FindPropertyRelative("_type")),
+				x => EditorGUI.PropertyField(x, property.FindPropertyRelative("_prefab")));
 		}
 	}
 }
