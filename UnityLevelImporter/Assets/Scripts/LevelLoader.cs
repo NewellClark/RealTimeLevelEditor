@@ -46,7 +46,7 @@ namespace UnityLevelImporter
 				}
 
 				Instantiate(prefabLookup[tile.Data],
-					new Vector3(tile.Index.X, tile.Index.Y), Quaternion.identity);
+					new Vector3(tile.Index.X, tile.Index.Y), Quaternion.identity, transform);
 			}
 		}
 
