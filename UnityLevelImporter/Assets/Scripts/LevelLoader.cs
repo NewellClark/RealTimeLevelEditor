@@ -40,12 +40,17 @@ namespace UnityLevelImporter
 			foreach (var tile in GetTilesInLevel(level))
 			{
 				GameObject prefab;
+				if (tile.Data == null)
+				{
+					Debug.Log("Tile data null in LoadLevel()");
+					continue;
+				}
 				if (!prefabLookup.TryGetValue(tile.Data, out prefab))
 				{
 					throw new KeyNotFoundException("No prefab defined for `" + tile.Data + "'");
 				}
 
-				Instantiate(prefabLookup[tile.Data],
+				Instantiate(prefab,
 					new Vector3(tile.Index.X, tile.Index.Y), Quaternion.identity, transform);
 			}
 		}
@@ -66,7 +71,7 @@ namespace UnityLevelImporter
 			}
 		}
 
-		
+
 	}
 
 	[System.Serializable]
