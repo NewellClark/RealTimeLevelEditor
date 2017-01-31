@@ -40,9 +40,11 @@ export class EditTileTypesController {
     }
 
 
-    constructor(private $http: ng.IHttpService) {
-        this.projectId = localStorage.getItem("projectId");
-        this.projectName = localStorage.getItem("projectName");
+	constructor(
+		private $http: ng.IHttpService,
+	private $stateParams: ng.ui.IStateParamsService) {
+		this.projectId = $stateParams[ParamNames.projectId];
+		this.projectName = $stateParams[ParamNames.projectName];
         this.getTileTypes();
     }
 

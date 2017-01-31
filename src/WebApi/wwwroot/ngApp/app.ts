@@ -2,12 +2,15 @@ namespace WebApi {
 	//	From now on, define magic strings here.
 
 	//	State params for "level" state.
-	export class LevelParamNames {
+	export class ParamNames {
 		public static readonly levelId: string = "levelId";
 		public static readonly projectId: string = "projectId";
 		public static readonly projectName: string = "projectName";
 		public static readonly levelName: string = "levelName";
 	}
+
+	//	Pass this into $state.go() for the "params" parameter when
+	//		navigating to the level editing page.
 	export class LevelParams {
 		public constructor(
 			public readonly projectId: string,
@@ -16,6 +19,14 @@ namespace WebApi {
 			public readonly levelName: string) {
 
 		}
+	}
+
+	//	pass this into $state.go() for the "params" parameter
+	//		when navigating to page that shows a single project.
+	export class ProjectParams {
+		public constructor(
+			public readonly projectId: string,
+			public readonly projectName: string) { }
 	}
 
 	export class States {
@@ -43,7 +54,7 @@ namespace WebApi {
 				templateUrl: "/ngApp/views/home.html"
 			})
 			.state(States.level, {
-				url: `/level/:${LevelParamNames.projectId}/:${LevelParamNames.projectName}/:${LevelParamNames.levelId}/:${LevelParamNames.levelName}`,
+				url: `/level/:${ParamNames.projectId}/:${ParamNames.projectName}/:${ParamNames.levelId}/:${ParamNames.levelName}`,
 				templateUrl: '/ngApp/views/level.html',
 				controller: WebApi.Controllers.HomeController,
 				controllerAs: 'controller'
@@ -61,7 +72,7 @@ namespace WebApi {
 				controllerAs: 'controller'
 			})
 			.state(States.createTeam, {
-				url: '/createTeam',
+				url: `/createTeam/:${ParamNames.projectId}/:${ParamNames.projectName}`,
 				templateUrl: '/ngApp/views/createTeam.html',
 				controller: WebApi.Controllers.CreateTeamController,
 				controllerAs: 'controller'
@@ -73,19 +84,19 @@ namespace WebApi {
 				controllerAs: 'controller'
 			})
 			.state(States.levelAdmin, {
-				url: `/levelAdmin/:${LevelParamNames.projectId}/:${LevelParamNames.projectName}`,
+				url: `/levelAdmin/:${ParamNames.projectId}/:${ParamNames.projectName}`,
 				templateUrl: '/ngApp/views/levelAdmin.html',
 				controller: WebApi.Controllers.LevelAdminController,
 				controllerAs: 'controller'
 			})
 			.state(States.levelNonAdmin, {
-				url: '/levelNonAdmin',
+				url: `/levelNonAdmin/:${ParamNames.projectId}/:${ParamNames.projectName}`,
 				templateUrl: '/ngApp/views/levelNonAdmin.html',
 				controller: WebApi.Controllers.LevelNonAdminController,
 				controllerAs: 'controller'
 			})
 			.state(States.editTileTypes, {
-				url: '/editTileTypes',
+				url: `/editTileTypes/:${ParamNames.projectId}/:${ParamNames.projectName}`,
 				templateUrl: '/ngApp/views/editTileTypes.html',
 				controller: WebApi.Controllers.EditTileTypesController,
 				controllerAs: 'controller'

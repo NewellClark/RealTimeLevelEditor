@@ -16,14 +16,14 @@ namespace WebApi.Controllers {
 
 		//Toggle scrolling
 		public scroll = false;
-	  
+
 
 		/////////////////////////
 		//Tile type image files
 		public tileImages = [];
-	   
+
 		public tileImagesFiles = [];
-	   
+
 		public selectedTiles = [];
 
 
@@ -40,10 +40,10 @@ namespace WebApi.Controllers {
 			this.RenderCanvas20();
 
 		}
-			  
+
 		//////////////////////////////////
 		//Action buttons
-				
+
 		Scroll() {
 
 			this.homeService.Scroll();
@@ -128,7 +128,7 @@ namespace WebApi.Controllers {
 			this.homeService.getScaleFactor();
 
 		}
-		
+
 		//////////////////////////////
 		//Chunk 2.0 Code
 
@@ -149,7 +149,6 @@ namespace WebApi.Controllers {
 
 
 		public loadTypes() {
-
 			this.$http.get(`api/types/${this.projectId}`).then((res) => {
 				let types = <WebApi.Controllers.DTOType[]>res.data;
 
@@ -164,9 +163,7 @@ namespace WebApi.Controllers {
 					this.tileImages.push({ id: i + 1, name: types[i].name });
 					this.tileImagesFiles.push(types[i].tileModel);
 				}
-
 			});
-
 		}
 
 
@@ -176,56 +173,49 @@ namespace WebApi.Controllers {
 
 		}
 
-        registerLevelInfo(levelInfo) {
-            this.homeService.registerLevelInfo(levelInfo);
-        }
+		registerLevelInfo(levelInfo) {
+			this.homeService.registerLevelInfo(levelInfo);
+		}
 
-        registerLevelInfoLocal() {
+		registerLevelInfoLocal() {
+			let levelInfo = { levelId: null, levelName: null, projectId: null, projectName: null };
 
-            let levelInfo = { levelId: null, levelName: null, projectId: null, projectName: null };
+			levelInfo.levelId = this.$stateParams[ParamNames.levelId];
+			levelInfo.levelName = this.$stateParams[ParamNames.levelName];
+			levelInfo.projectId = this.$stateParams[ParamNames.projectId];
+			levelInfo.projectName = this.$stateParams[ParamNames.projectName];
 
-            levelInfo.levelId = this.$stateParams['levelId'];
-            levelInfo.levelName = this.$stateParams['levelName'];
-            levelInfo.projectId = this.$stateParams['projectId'];
-            levelInfo.projectName = this.$stateParams['projectName'];
+			this.levelId = levelInfo.levelId;
+			this.levelName = levelInfo.levelName;
+			this.projectId = levelInfo.projectId;
+			this.projectName = levelInfo.projectName;
+		}
 
-            
+		clearMap() {
 
-            this.levelId = levelInfo.levelId;
-            this.levelName = levelInfo.levelName;
-            this.projectId = levelInfo.projectId;
-            this.projectName = levelInfo.projectName;
+			this.homeService.clearMap();
 
-        }
+		}
 
-        clearMap() {
+		//////////////////////////////
+		////Chunk loading/unloading code
 
-            this.homeService.clearMap();
+		constructor(private homeService: WebApi.Services.HomeService,
+			private $http: ng.IHttpService,
+			private $scope: ng.IScope,
+			private $stateParams: ng.ui.IStateParamsService) {
 
-        }
+			this.registerLevelInfoLocal();
 
-        //////////////////////////////
-        ////Chunk loading/unloading code
+			this.loadTypes();
 
-            constructor(private homeService: WebApi.Services.HomeService,
-                private $http: ng.IHttpService, private $scope: ng.IScope,
-                private $stateParams: ng.ui.IStateParamsService) {
+			this.clearMap();
+			this.loadRegionObjects(0, 0, 1, 1);
 
-            //this.levelId = localStorage.getItem("levelId");
-            //this.levelName = localStorage.getItem("levelName");
-            //this.projectId = localStorage.getItem("projectId");
-            //this.projectName = localStorage.getItem("projectName");
-                this.registerLevelInfoLocal(); 
-     
-            this.loadTypes();
+			this.ToggleDraw();
 
-            this.clearMap();
-            this.loadRegionObjects(0, 0, 1, 1);
-
-            this.ToggleDraw();
-
-           // this.$scope.$apply();
-        }
+			// this.$scope.$apply();
+		}
 
 	}
 

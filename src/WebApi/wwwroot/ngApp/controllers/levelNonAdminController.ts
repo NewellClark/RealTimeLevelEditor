@@ -45,8 +45,8 @@ export class LevelNonAdminController {
 		private $stateParams: ng.ui.IStateParamsService) {
         //this.projectId = localStorage.getItem("projectId");
         //this.projectName = localStorage.getItem("projectName");
-		this.projectId = $stateParams[LevelParamNames.projectId];
-		this.projectName = $stateParams[LevelParamNames.projectName];
+		this.projectId = $stateParams[ParamNames.projectId];
+		this.projectName = $stateParams[ParamNames.projectName];
         this.getLevels();
     }
 
