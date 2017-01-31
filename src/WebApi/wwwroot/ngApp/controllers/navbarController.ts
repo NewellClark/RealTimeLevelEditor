@@ -65,7 +65,7 @@
 		private $state: ng.ui.IStateService) {
 			this.actions = [];
 			let args = new ActionArgs($location, $state);
-			this.home = this.addAction(new NavbarAction("Home", "home", args));
+			this.home = this.addAction(new NavbarAction("Home", States.home, args));
 			this.projects = this.addAction(new RequiresLoggedInAction("Projects", States.projects, args));
 			this.login = this.addAction(new RequiresLoggedOutAction("Login", States.login, args));
 			this.logout = this.addAction(new LogoutAction("Logout", this.home.path, args));

@@ -9,6 +9,7 @@ namespace WebApi {
 	}
 
 	export class States {
+		public static readonly home: string = "home";
 		public static readonly level: string = "level";
 		public static readonly login: string = "login";
 		public static readonly register: string = "register";
@@ -34,7 +35,7 @@ namespace WebApi {
 				controllerAs: 'controller'
 			})
 			.state(States.login, {
-				url: '/',
+				url: '/login',
 				templateUrl: '/ngApp/views/login.html',
 				controller: WebApi.Controllers.LoginController,
 				controllerAs: 'controller'
