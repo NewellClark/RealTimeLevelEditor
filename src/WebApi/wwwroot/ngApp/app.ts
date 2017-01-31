@@ -7,8 +7,8 @@ namespace WebApi {
 	) => {
 		// Define routes
 		$stateProvider
-			.state('home', {
-				url: '/level',
+			.state('level', {
+                url: '/level/:levelId/:levelName/:projectId/:projectName',
 				templateUrl: '/ngApp/views/home.html',
 				controller: WebApi.Controllers.HomeController,
 				controllerAs: 'controller'

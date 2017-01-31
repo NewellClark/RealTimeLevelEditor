@@ -23,8 +23,15 @@ export class LevelAdminController {
 	public editLevel(index) {
 		localStorage.setItem("levelId", this.levelRoster[index].levelId);
 		localStorage.setItem("levelName", this.levelRoster[index].name);
-		this.$location.path('/level');
+		//this.$location.path('/level');
+        this.$state.go('level', {
+            levelId: this.levelRoster[index].levelId,
+            levelName: this.levelRoster[index].name,
+            projectId: this.projectId,
+            projectName: this.projectName
+        });
 
+        
 	}
 
 	public deleteLevel(index) {
@@ -37,6 +44,7 @@ export class LevelAdminController {
 
 	public gotoEditTileTypes() {
 		this.$location.path('/editTileTypes');
+        
 	}
 
 	public downloadLevel(index) {
@@ -50,7 +58,8 @@ export class LevelAdminController {
 		element.click();
 	}
 
-	constructor(private $http: ng.IHttpService, private $location: ng.ILocationService) {
+    constructor(private $http: ng.IHttpService, private $location: ng.ILocationService,
+                private $state: ng.ui.IStateService    ) {
 		this.projectId = localStorage.getItem("projectId");
 		this.projectName = localStorage.getItem("projectName");
 		this.getLevels();

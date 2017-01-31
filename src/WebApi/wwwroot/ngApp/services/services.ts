@@ -12,6 +12,8 @@ namespace WebApi.Services {
         public mapPositionX = 0;
         public mapPositionY = 0;
 
+        public cursorMode = 'draw';
+
         public projectId;
         public projectName;
 
@@ -57,6 +59,7 @@ namespace WebApi.Services {
         public addToSelect;
 
         public tileImagesData = [];
+        public tileImagesLoaded = [];
 
         public chunks = [];// [{ x: 0, y: 0, inRange: true, toBeDeleted: false, deleteTimer: -1 }];
 
@@ -128,7 +131,7 @@ namespace WebApi.Services {
         }
 
         ToggleDraw() {
-            this.selecting = false;
+            this.cursorMode = 'draw';
             this.anchoring = false;
             this.selectAnchoring = false;
             this.scroll = false;
@@ -141,9 +144,10 @@ namespace WebApi.Services {
 
         }
 
-        RenderCanvas20() {
+        RenderCanvas20 = () => {
 
             let canvas = <HTMLCanvasElement>document.getElementById('theCanvas');
+            if (canvas == null) return;
             let canvasContext: CanvasRenderingContext2D = canvas.getContext('2d');
 
             this.getScaleFactor();
@@ -167,7 +171,8 @@ namespace WebApi.Services {
                             if (this.tileTypes[i].name == j)
                                 imageIndex = i;
                         }
-                        if (imageIndex > -1) canvasContext.drawImage(this.tileImagesData[imageIndex], tx, ty, td, td);
+                        if (imageIndex > -1 && this.tileImagesLoaded[imageIndex] == true)
+                            canvasContext.drawImage(this.tileImagesData[imageIndex], tx, ty, td, td);
                     }
                 }
             }
@@ -258,23 +263,24 @@ namespace WebApi.Services {
         }
 
         Scroll() {
-            this.selecting = false;
-            this.scroll = !this.scroll;
+            this.cursorMode = 'scroll';
+            //this.selecting = false;
+            //this.scroll = !this.scroll;
         }
 
         mouseDown(event) {
             let canvas = <HTMLCanvasElement>document.getElementById('theCanvas');
 
-            if (this.selecting == true) {
-                this.selectX0 = event.x;
-                this.selectY0 = event.y;
-                this.selectX1 = event.x + 1;
-                this.selectY1 = event.y + 1;
-                this.selectAnchoring = true;
-                return;
-            }
+            //if (this.selecting == true) {
+            //    this.selectX0 = event.x;
+            //    this.selectY0 = event.y;
+            //    this.selectX1 = event.x + 1;
+            //    this.selectY1 = event.y + 1;
+            //    this.selectAnchoring = true;
+            //    return;
+            //}
 
-            if (this.scroll == false) {
+            if (this.cursorMode == 'draw') {
 
 
                 if (event.button == 0) {
@@ -287,7 +293,7 @@ namespace WebApi.Services {
                     this.RenderCanvas20();
                 }
             }
-            else {
+            if (this.cursorMode == 'scroll'){
                 this.setAnchorPoint(event.x - canvas.offsetLeft, event.y - canvas.offsetTop);
                 this.anchoring = true;
             }
@@ -304,12 +310,12 @@ namespace WebApi.Services {
                 this.selectY1 = event.y;
             }
 
-            if (this.scroll == true) this.findTilePosition();
-            this.RenderCanvas20();
+            if (this.cursorMode == 'scroll') this.findTilePosition();
+           // this.RenderCanvas20();
         }
 
         mouseUp(event) {
-            if (this.anchoring && this.Scroll) {
+            if (this.anchoring && this.cursorMode == 'scroll') {
                 this.mapPositionX += this.mapOffSetX;
                 this.mapPositionY += this.mapOffSetY;
                 this.mapOffSetX = 0;
@@ -321,16 +327,16 @@ namespace WebApi.Services {
 
             }
 
-            if (this.selecting == true) {
+            //if (this.selecting == true) {
 
-                this.selectTiles();
-                this.selectAnchoring = false;
-                //this.hasSelection = false;
+            //    this.selectTiles();
+            //    this.selectAnchoring = false;
+            //    //this.hasSelection = false;
 
-                this.RenderCanvas();
+            //    this.RenderCanvas();
 
 
-            }
+            //}
 
         }
 
@@ -398,6 +404,10 @@ namespace WebApi.Services {
 
             for (let i = 0; i < this.tileImagesFiles.length; i++) {
                 this.tileImagesData.push(new Image());
+                this.tileImagesLoaded.push(false);
+                this.tileImagesData[i].onload = () => {
+                    this.tileImagesLoaded[i] = true;
+                }
                 this.tileImagesData[i].src = this.tileImagesFiles[i];
             }
 
@@ -472,6 +482,10 @@ namespace WebApi.Services {
 
         public loadRegionObjects(x, y, w, h) {
 
+            this.levelId = localStorage.getItem("levelId");
+            this.levelName = localStorage.getItem("levelName");
+            this.projectId = localStorage.getItem("projectId");
+            this.projectName = localStorage.getItem("projectName");
 
 
             let requestBody = {
@@ -691,6 +705,7 @@ namespace WebApi.Services {
             this.updateChunkStatus();
 
             let canvas = <HTMLCanvasElement>document.getElementById('theCanvas');
+            if (canvas == null) return;
             let canvasContext: CanvasRenderingContext2D = canvas.getContext('2d');
 
             let rBound = document.getElementById('sideMenu').clientLeft;
@@ -738,25 +753,54 @@ namespace WebApi.Services {
         }
 
 
+        registerLevelInfo(levelInfo) {
 
+            this.levelId = levelInfo.levelId;
+            this.levelName = levelInfo.levelName;
+            this.projectId = levelInfo.projectId;
+            this.projectName = levelInfo.projectName;
 
-        constructor(private $http: ng.IHttpService) {
+        }
 
-            this.levelId = localStorage.getItem("levelId");
-            this.levelName = localStorage.getItem("levelName");
-            this.projectId = localStorage.getItem("projectId");
-            this.projectName = localStorage.getItem("projectName");
+        clearMap() {
+
+            this.Region20 = [];
+            this.chunks = [];
+            this.mapPositionX = 0;
+            this.mapPositionY = 0;
+
+        }
+
+        constructor(private $http: ng.IHttpService, private $interval: ng.IIntervalService,
+            private $stateParams: ng.ui.IStateParamsService ) {
+
+            //this.levelId = localStorage.getItem("levelId");
+            //this.levelName = localStorage.getItem("levelName");
+            //this.projectId = localStorage.getItem("projectId");
+            //this.projectName = localStorage.getItem("projectName");
 
             this.getScaleFactor();
             this.addToSelect = false;
 
-            this.loadRegionObjects(0, 0, 1, 1);
+            let levelInfo = { levelId: null, levelName: null, projectId: null, projectName: null };
+
+            levelInfo.levelId = this.$stateParams['levelId'];
+            levelInfo.levelName = this.$stateParams['levelName'];
+            levelInfo.projectId = this.$stateParams['projectId'];
+            levelInfo.projectName = this.$stateParams['projectName'];
+
+            this.registerLevelInfo(levelInfo);            
 
             this.loadTypes();
+
+
 
             window.addEventListener("resize", this.getScaleFactor);
             window.addEventListener("keydown", this.keyDown);
             window.addEventListener("keyup", this.keyUp);
+
+            let x = this.$interval(this.RenderCanvas20, 30);
+            let y = x;
         }
 
 

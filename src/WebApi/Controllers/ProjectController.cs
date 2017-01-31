@@ -129,6 +129,10 @@ namespace WebApi.Controllers
 
             //get the user id from the user email
         var theUser = _db.Users.FirstOrDefault(x => x.Email == userEmail);
+
+            //if no user exists with that email, return
+            if (theUser == null) return;
+
         var theProject = _db.Projects.FirstOrDefault(x => x.Id == projectId);
 
         

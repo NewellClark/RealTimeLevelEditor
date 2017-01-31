@@ -176,21 +176,55 @@ namespace WebApi.Controllers {
 
         }
 
+        registerLevelInfo(levelInfo) {
+            this.homeService.registerLevelInfo(levelInfo);
+        }
+
+        registerLevelInfoLocal() {
+
+            let levelInfo = { levelId: null, levelName: null, projectId: null, projectName: null };
+
+            levelInfo.levelId = this.$stateParams['levelId'];
+            levelInfo.levelName = this.$stateParams['levelName'];
+            levelInfo.projectId = this.$stateParams['projectId'];
+            levelInfo.projectName = this.$stateParams['projectName'];
+
+            
+
+            this.levelId = levelInfo.levelId;
+            this.levelName = levelInfo.levelName;
+            this.projectId = levelInfo.projectId;
+            this.projectName = levelInfo.projectName;
+
+        }
+
+        clearMap() {
+
+            this.homeService.clearMap();
+
+        }
+
         //////////////////////////////
         ////Chunk loading/unloading code
 
             constructor(private homeService: WebApi.Services.HomeService,
-                        private $http: ng.IHttpService) {
+                private $http: ng.IHttpService, private $scope: ng.IScope,
+                private $stateParams: ng.ui.IStateParamsService) {
 
-            this.levelId = localStorage.getItem("levelId");
-            this.levelName = localStorage.getItem("levelName");
-            this.projectId = localStorage.getItem("projectId");
-            this.projectName = localStorage.getItem("projectName");
-
-            
+            //this.levelId = localStorage.getItem("levelId");
+            //this.levelName = localStorage.getItem("levelName");
+            //this.projectId = localStorage.getItem("projectId");
+            //this.projectName = localStorage.getItem("projectName");
+                this.registerLevelInfoLocal(); 
      
             this.loadTypes();
 
+            this.clearMap();
+            this.loadRegionObjects(0, 0, 1, 1);
+
+            this.ToggleDraw();
+
+           // this.$scope.$apply();
         }
 
     }
