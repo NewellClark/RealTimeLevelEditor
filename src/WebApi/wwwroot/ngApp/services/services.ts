@@ -265,15 +265,6 @@ namespace WebApi.Services {
 		mouseDown(event) {
 			let canvas = <HTMLCanvasElement>document.getElementById('theCanvas');
 
-			//if (this.selecting == true) {
-			//    this.selectX0 = event.x;
-			//    this.selectY0 = event.y;
-			//    this.selectX1 = event.x + 1;
-			//    this.selectY1 = event.y + 1;
-			//    this.selectAnchoring = true;
-			//    return;
-			//}
-
 			if (this.cursorMode == 'draw') {
 
 
@@ -320,18 +311,6 @@ namespace WebApi.Services {
 				this.anchoring = false;
 
 			}
-
-			//if (this.selecting == true) {
-
-			//    this.selectTiles();
-			//    this.selectAnchoring = false;
-			//    //this.hasSelection = false;
-
-			//    this.RenderCanvas();
-
-
-			//}
-
 		}
 
 		drawSelection() {
@@ -515,8 +494,6 @@ namespace WebApi.Services {
 
 				this.tileImages = []; this.tileImagesFiles = [];
 
-			   // this.tileImages.push({ id: 0, name: "---------" });
-			   // this.tileImagesFiles.push("--------");
 				for (let i = 0; i < types.length; i++) {
 					this.tileImages.push({ id: i+2, name: types[i].name });
 					this.tileImagesFiles.push(types[i].tileModel);
