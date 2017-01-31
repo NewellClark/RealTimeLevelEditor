@@ -27,7 +27,7 @@ export class LevelAdminController {
 		let params = {
 			id: this.levelRoster[index].levelId
 		}
-		this.$state.go("level", params);
+		this.$state.go(States.level, params);
 
 	}
 
