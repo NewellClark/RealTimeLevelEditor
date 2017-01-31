@@ -1,40 +1,56 @@
 <html ng-app="WebApi">
 <head>
-    <title>Level Editor</title>
-    <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" />
-   
-    <base href="/login" />
+	<title>Level Editor</title>
+	<link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" />
+
+	<base href="/login" />
 </head>
-<!--<body ng-controller="AccountController as account">-->
-        
+<body ng-controller="AccountController as account">
+	<nav class="navbar navbar-inverse" ng-controller="NavbarController as nav">
+		<div class="container-fluid">
+			<span ng-repeat="link in nav.links">
+				<button class="btn navbar-btn"
+						ng-click="link.navigate()"
+						ng-show="link.isVisible(account)">
+					{{link.displayName()}}
+				</button>
+				<button class="btn navbar-btn" disabled="disabled"
+						ng-click="link.navigate()"
+						ng-show="!link.isVisible(account) && nav.showDisabledLinks">
+					{{link.displayName()}}
+				</button>
+				
+			</span>
+		</div>
+	</nav>
 
-        <ui-view></ui-view>
-    
-    <!-- Library Files -->
-    <script src="/bower_components/angular/angular.js"></script>
-    <script src="/bower_components/angular-resource/angular-resource.js"></script>
-    <script src="/bower_components/angular-animate/angular-animate.js"></script>
-    <script src="/bower_components/angular-touch/angular-touch.js"></script>
-    <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-    <script src="/bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-    
- 
-    <!-- App Files-->
-    <script src="/ngapp/app.js"></script>
-    <script src="/ngapp/services/services.js"></script>
-    <script src="/ngapp/controllers/controllers.js"></script>
-    <script src="/ngapp/controllers/createTeamController.js"></script>
-    <script src="/ngapp/controllers/editTileTypesController.js"></script>
-    <script src="/ngapp/controllers/levelAdminController.js"></script>
-    <script src="/ngapp/controllers/levelNonAdminController.js"></script>
-    <script src="/ngapp/controllers/projectsController.js"></script>
-    <script src="/ngapp/controllers/types.js"></script>
+	<ui-view></ui-view>
+
+	<!-- Library Files -->
+	<script src="/bower_components/angular/angular.js"></script>
+	<script src="/bower_components/angular-resource/angular-resource.js"></script>
+	<script src="/bower_components/angular-animate/angular-animate.js"></script>
+	<script src="/bower_components/angular-touch/angular-touch.js"></script>
+	<script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+	<script src="/bower_components/angular-ui-router/release/angular-ui-router.js"></script>
 
 
-    <!-- Security -->
-    <script src="/ngapp/controllers/accountcontroller.js"></script>
-    <script src="/ngapp/services/accountservice.js"></script>
+	<!-- App Files-->
+	<script src="/ngapp/app.js"></script>
+	<script src="/ngapp/services/services.js"></script>
+	<script src="/ngapp/controllers/controllers.js"></script>
+	<script src="/ngapp/controllers/createTeamController.js"></script>
+	<script src="/ngapp/controllers/editTileTypesController.js"></script>
+	<script src="/ngapp/controllers/levelAdminController.js"></script>
+	<script src="/ngapp/controllers/levelNonAdminController.js"></script>
+	<script src="/ngapp/controllers/projectsController.js"></script>
+	<script src="/ngapp/controllers/types.js"></script>
+	<script src="~/ngApp/controllers/navbarController.js"></script>
 
-<!--</body>-->
+	<!-- Security -->
+	<script src="/ngapp/controllers/accountcontroller.js"></script>
+	<script src="/ngapp/services/accountservice.js"></script>
+
+</body>
 </html>

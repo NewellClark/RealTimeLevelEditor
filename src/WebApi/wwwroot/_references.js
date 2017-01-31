@@ -19,6 +19,7 @@
 /// <reference path="ngapp/controllers/edittiletypescontroller.js" />
 /// <reference path="ngapp/controllers/leveladmincontroller.js" />
 /// <reference path="ngapp/controllers/levelnonadmincontroller.js" />
+/// <reference path="ngapp/controllers/navbarcontroller.js" />
 /// <reference path="ngapp/controllers/projectscontroller.js" />
 /// <reference path="ngapp/controllers/types.js" />
 /// <reference path="ngapp/services/accountservice.js" />
