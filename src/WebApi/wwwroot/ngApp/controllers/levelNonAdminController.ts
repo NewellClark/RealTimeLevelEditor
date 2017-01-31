@@ -21,22 +21,32 @@ export class LevelNonAdminController {
     }
 
     editLevelNonAdmin(index) {
-        localStorage.setItem("levelId", this.levelRoster[index].levelId);
-        localStorage.setItem("levelName", this.levelRoster[index].name);
-        this.$location.path('/level');
-
+        //localStorage.setItem("levelId", this.levelRoster[index].levelId);
+        //localStorage.setItem("levelName", this.levelRoster[index].name);
+        //this.$location.path('/level');
+		let params = new LevelParams(
+			this.projectId,
+			this.projectName,
+			this.levelRoster[index].levelId,
+			this.levelRoster[index].name);
+		this.$state.go(States.level, params);
     }
 
     gotoEditTileTypes() {
 
-        this.$location.path('/editTileTypes');
-
+        //this.$location.path('/editTileTypes');
+		this.$state.go(States.editTileTypes);
     }
 
-    constructor(private $http: ng.IHttpService, private $location: ng.ILocationService) {
-        this.projectId = localStorage.getItem("projectId");
-        this.projectName = localStorage.getItem("projectName");
-
+	constructor(
+		private $http: ng.IHttpService,
+		private $location: ng.ILocationService,
+		private $state: ng.ui.IStateService,
+		private $stateParams: ng.ui.IStateParamsService) {
+        //this.projectId = localStorage.getItem("projectId");
+        //this.projectName = localStorage.getItem("projectName");
+		this.projectId = $stateParams[ParamNames.projectId];
+		this.projectName = $stateParams[ParamNames.projectName];
         this.getLevels();
     }
 

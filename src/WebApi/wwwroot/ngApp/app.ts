@@ -1,4 +1,46 @@
 namespace WebApi {
+	//	From now on, define magic strings here.
+
+	//	State params for "level" state.
+	export class ParamNames {
+		public static readonly levelId: string = "levelId";
+		public static readonly projectId: string = "projectId";
+		public static readonly projectName: string = "projectName";
+		public static readonly levelName: string = "levelName";
+	}
+
+	//	Pass this into $state.go() for the "params" parameter when
+	//		navigating to the level editing page.
+	export class LevelParams {
+		public constructor(
+			public readonly projectId: string,
+			public readonly projectName: string,
+			public readonly levelId: string,
+			public readonly levelName: string) {
+
+		}
+	}
+
+	//	pass this into $state.go() for the "params" parameter
+	//		when navigating to page that shows a single project.
+	export class ProjectParams {
+		public constructor(
+			public readonly projectId: string,
+			public readonly projectName: string) { }
+	}
+
+	export class States {
+		public static readonly home: string = "home";
+		public static readonly level: string = "level";
+		public static readonly login: string = "login";
+		public static readonly register: string = "register";
+		public static readonly createTeam: string = "createTeam";
+		public static readonly projects: string = "projects";
+		public static readonly levelAdmin: string = "leveladmin";
+		public static readonly levelNonAdmin: string = "levelnonadmin";
+		public static readonly editTileTypes: string = "editTileTypes";
+		public static readonly notFound: string = "notFound";
+	}
 
 	angular.module('WebApi', ['ui.router', 'ngResource', 'ui.bootstrap']).config((
 		$stateProvider: ng.ui.IStateProvider,
@@ -7,55 +49,59 @@ namespace WebApi {
 	) => {
 		// Define routes
 		$stateProvider
-			.state('level', {
-                url: '/level/:levelId/:levelName/:projectId/:projectName',
-				templateUrl: '/ngApp/views/home.html',
+			.state(States.home, {
+				url: "/",
+				templateUrl: "/ngApp/views/home.html"
+			})
+			.state(States.level, {
+				url: `/level/:${ParamNames.projectId}/:${ParamNames.projectName}/:${ParamNames.levelId}/:${ParamNames.levelName}`,
+				templateUrl: '/ngApp/views/level.html',
 				controller: WebApi.Controllers.HomeController,
 				controllerAs: 'controller'
 			})
-			.state('login', {
-				url: '/',
+			.state(States.login, {
+				url: '/login',
 				templateUrl: '/ngApp/views/login.html',
 				controller: WebApi.Controllers.LoginController,
 				controllerAs: 'controller'
 			})
-			.state('register', {
+			.state(States.register, {
 				url: '/register',
 				templateUrl: '/ngApp/views/register.html',
 				controller: WebApi.Controllers.RegisterController,
 				controllerAs: 'controller'
 			})
-			.state('createTeam', {
-				url: '/createTeam',
+			.state(States.createTeam, {
+				url: `/createTeam/:${ParamNames.projectId}/:${ParamNames.projectName}`,
 				templateUrl: '/ngApp/views/createTeam.html',
 				controller: WebApi.Controllers.CreateTeamController,
 				controllerAs: 'controller'
 			})
-			.state('projects', {
+			.state(States.projects, {
 				url: '/projects',
 				templateUrl: '/ngApp/views/projects.html',
 				controller: WebApi.Controllers.ProjectsController,
 				controllerAs: 'controller'
 			})
-			.state('leveladmin', {
-				url: '/levelAdmin',
+			.state(States.levelAdmin, {
+				url: `/levelAdmin/:${ParamNames.projectId}/:${ParamNames.projectName}`,
 				templateUrl: '/ngApp/views/levelAdmin.html',
 				controller: WebApi.Controllers.LevelAdminController,
 				controllerAs: 'controller'
 			})
-			.state('levelnonadmin', {
-				url: '/levelNonAdmin',
+			.state(States.levelNonAdmin, {
+				url: `/levelNonAdmin/:${ParamNames.projectId}/:${ParamNames.projectName}`,
 				templateUrl: '/ngApp/views/levelNonAdmin.html',
 				controller: WebApi.Controllers.LevelNonAdminController,
 				controllerAs: 'controller'
 			})
-			.state('editTileTypes', {
-				url: '/editTileTypes',
+			.state(States.editTileTypes, {
+				url: `/editTileTypes/:${ParamNames.projectId}/:${ParamNames.projectName}`,
 				templateUrl: '/ngApp/views/editTileTypes.html',
 				controller: WebApi.Controllers.EditTileTypesController,
 				controllerAs: 'controller'
 			})
-			.state('notFound', {
+			.state(States.notFound, {
 				url: '/notFound',
 				templateUrl: '/ngApp/views/notFound.html'
 			});

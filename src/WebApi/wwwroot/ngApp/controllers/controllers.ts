@@ -1,233 +1,223 @@
 namespace WebApi.Controllers {
 
-    export class HomeController {
+	export class HomeController {
 
-        //////////////////////////////
-        //Level information
-        public projectId;
-        public projectName;
+		//////////////////////////////
+		//Level information
+		public projectId;
+		public projectName;
 
-        public levelId;
-        public levelName;
+		public levelId;
+		public levelName;
 
-        /////////////////////////////
-        //Tile types for tile type selector    
-        public tileTypes = [];
+		/////////////////////////////
+		//Tile types for tile type selector    
+		public tileTypes = [];
 
-        //Toggle scrolling
-        public scroll = false;
-      
+		//Toggle scrolling
+		public scroll = false;
 
-        /////////////////////////
-        //Tile type image files
-        public tileImages = [];
-       
-        public tileImagesFiles = [];
-       
-        public selectedTiles = [];
 
+		/////////////////////////
+		//Tile type image files
+		public tileImages = [];
 
-        //////////////////////////////////
-        //Rendering code
+		public tileImagesFiles = [];
 
-        RenderCanvas() {
+		public selectedTiles = [];
 
-            this.homeService.RenderCanvas();
-        }
 
-        RenderCanvas20() {
+		//////////////////////////////////
+		//Rendering code
 
-            this.RenderCanvas20();
+		RenderCanvas() {
 
-        }
-              
-        //////////////////////////////////
-        //Action buttons
-                
-        Scroll() {
+			this.homeService.RenderCanvas();
+		}
 
-            this.homeService.Scroll();
+		RenderCanvas20() {
 
-        }
+			this.RenderCanvas20();
 
-        ToggleSelect() {
+		}
 
-            this.homeService.ToggleSelect();
+		//////////////////////////////////
+		//Action buttons
 
-        }
+		Scroll() {
 
-        ToggleDraw() {
+			this.homeService.Scroll();
 
-            this.homeService.ToggleDraw();
+		}
 
-        }
+		ToggleSelect() {
 
-        //////////////////////////////////
-        //Mouse events
+			this.homeService.ToggleSelect();
 
-        mouseDown(event) {
+		}
 
-            this.homeService.mouseDown(event);
+		ToggleDraw() {
 
-        }
+			this.homeService.ToggleDraw();
 
-        mouseMove(event) {
+		}
 
-            this.homeService.mouseMove(event);
+		//////////////////////////////////
+		//Mouse events
 
-        }
+		mouseDown(event) {
 
-        mouseUp(event) {
+			this.homeService.mouseDown(event);
 
-            this.homeService.mouseUp(event);
+		}
 
-        }
+		mouseMove(event) {
 
-        //////////////////////////////////
-        //Keyboard events
+			this.homeService.mouseMove(event);
 
-        public keyDown = (evt: KeyboardEvent) => {
+		}
 
-            this.homeService.keyDown(evt);
+		mouseUp(event) {
 
-        }
+			this.homeService.mouseUp(event);
 
+		}
 
-        public keyUp = (evt: KeyboardEvent) => {
+		//////////////////////////////////
+		//Keyboard events
 
-            this.homeService.keyUp(evt);
+		public keyDown = (evt: KeyboardEvent) => {
 
-        }
+			this.homeService.keyDown(evt);
 
-        //drawSelection() {
+		}
 
-        //    this.homeService.drawSelection();
 
-        //}
+		public keyUp = (evt: KeyboardEvent) => {
 
-        setAnchorPoint(x, y) {
+			this.homeService.keyUp(evt);
 
-            this.homeService.setAnchorPoint(x, y);
+		}
 
-        }
+		//drawSelection() {
 
-        resizeWindow() {
+		//    this.homeService.drawSelection();
 
-            this.homeService.resizeWindow();
+		//}
 
-        }
+		setAnchorPoint(x, y) {
 
-        moveByAnchor(x, y) {
+			this.homeService.setAnchorPoint(x, y);
 
-            this.homeService.moveByAnchor(x, y);
+		}
 
-        }
+		resizeWindow() {
 
-        getScaleFactor() {
+			this.homeService.resizeWindow();
 
-            this.homeService.getScaleFactor();
+		}
 
-        }
-        
-        //////////////////////////////
-        //Chunk 2.0 Code
+		moveByAnchor(x, y) {
 
-        public loadRegionObjects(x, y, w, h) {
+			this.homeService.moveByAnchor(x, y);
 
-            this.homeService.loadRegionObjects(x, y, w, h);
+		}
 
-        }
+		getScaleFactor() {
 
-        //////////////////////////////
-        //Type code
+			this.homeService.getScaleFactor();
 
-        public testType() {
+		}
 
-            this.homeService.testType();
+		//////////////////////////////
+		//Chunk 2.0 Code
 
-        }
+		public loadRegionObjects(x, y, w, h) {
 
+			this.homeService.loadRegionObjects(x, y, w, h);
 
-        public loadTypes() {
+		}
 
-            this.$http.get(`api/types/${this.projectId}`).then((res) => {
-                let types = <WebApi.Controllers.DTOType[]>res.data;
+		//////////////////////////////
+		//Type code
 
-                console.log(types);
-                this.tileTypes = types;
+		public testType() {
 
-                this.tileImages = []; this.tileImagesFiles = [];
+			this.homeService.testType();
 
-                this.tileImages.push({ id: 0, name: "---------" });
-                this.tileImagesFiles.push("--------");
-                for (let i = 0; i < types.length; i++) {
-                    this.tileImages.push({ id: i + 1, name: types[i].name });
-                    this.tileImagesFiles.push(types[i].tileModel);
-                }
+		}
 
-            });
 
-        }
+		public loadTypes() {
+			this.$http.get(`api/types/${this.projectId}`).then((res) => {
+				let types = <WebApi.Controllers.DTOType[]>res.data;
 
+				console.log(types);
+				this.tileTypes = types;
 
-        loadProperty(name) {
+				this.tileImages = []; this.tileImagesFiles = [];
 
-            this.homeService.loadProperty(name);
+				this.tileImages.push({ id: 0, name: "---------" });
+				this.tileImagesFiles.push("--------");
+				for (let i = 0; i < types.length; i++) {
+					this.tileImages.push({ id: i + 1, name: types[i].name });
+					this.tileImagesFiles.push(types[i].tileModel);
+				}
+			});
+		}
 
-        }
 
-        registerLevelInfo(levelInfo) {
-            this.homeService.registerLevelInfo(levelInfo);
-        }
+		loadProperty(name) {
 
-        registerLevelInfoLocal() {
+			this.homeService.loadProperty(name);
 
-            let levelInfo = { levelId: null, levelName: null, projectId: null, projectName: null };
+		}
 
-            levelInfo.levelId = this.$stateParams['levelId'];
-            levelInfo.levelName = this.$stateParams['levelName'];
-            levelInfo.projectId = this.$stateParams['projectId'];
-            levelInfo.projectName = this.$stateParams['projectName'];
+		registerLevelInfo(levelInfo) {
+			this.homeService.registerLevelInfo(levelInfo);
+		}
 
-            
+		registerLevelInfoLocal() {
+			let levelInfo = { levelId: null, levelName: null, projectId: null, projectName: null };
 
-            this.levelId = levelInfo.levelId;
-            this.levelName = levelInfo.levelName;
-            this.projectId = levelInfo.projectId;
-            this.projectName = levelInfo.projectName;
+			levelInfo.levelId = this.$stateParams[ParamNames.levelId];
+			levelInfo.levelName = this.$stateParams[ParamNames.levelName];
+			levelInfo.projectId = this.$stateParams[ParamNames.projectId];
+			levelInfo.projectName = this.$stateParams[ParamNames.projectName];
 
-        }
+			this.levelId = levelInfo.levelId;
+			this.levelName = levelInfo.levelName;
+			this.projectId = levelInfo.projectId;
+			this.projectName = levelInfo.projectName;
+		}
 
-        clearMap() {
+		clearMap() {
 
-            this.homeService.clearMap();
+			this.homeService.clearMap();
 
-        }
+		}
 
-        //////////////////////////////
-        ////Chunk loading/unloading code
+		//////////////////////////////
+		////Chunk loading/unloading code
 
-            constructor(private homeService: WebApi.Services.HomeService,
-                private $http: ng.IHttpService, private $scope: ng.IScope,
-                private $stateParams: ng.ui.IStateParamsService) {
+		constructor(private homeService: WebApi.Services.HomeService,
+			private $http: ng.IHttpService,
+			private $scope: ng.IScope,
+			private $stateParams: ng.ui.IStateParamsService) {
 
-            //this.levelId = localStorage.getItem("levelId");
-            //this.levelName = localStorage.getItem("levelName");
-            //this.projectId = localStorage.getItem("projectId");
-            //this.projectName = localStorage.getItem("projectName");
-                this.registerLevelInfoLocal(); 
-     
-            this.loadTypes();
+			this.registerLevelInfoLocal();
 
-            this.clearMap();
-            this.loadRegionObjects(0, 0, 1, 1);
+			this.loadTypes();
 
-            this.ToggleDraw();
+			this.clearMap();
+			this.loadRegionObjects(0, 0, 1, 1);
 
-           // this.$scope.$apply();
-        }
+			this.ToggleDraw();
 
-    }
+			// this.$scope.$apply();
+		}
 
-    angular.module('WebApi').controller('homeController', HomeController);
+	}
+
+	angular.module('WebApi').controller('homeController', HomeController);
 }
