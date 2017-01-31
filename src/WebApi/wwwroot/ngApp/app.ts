@@ -73,7 +73,7 @@ namespace WebApi {
 				controllerAs: 'controller'
 			})
 			.state(States.levelAdmin, {
-				url: '/levelAdmin',
+				url: `/levelAdmin/:${LevelParamNames.projectId}/:${LevelParamNames.projectName}`,
 				templateUrl: '/ngApp/views/levelAdmin.html',
 				controller: WebApi.Controllers.LevelAdminController,
 				controllerAs: 'controller'
