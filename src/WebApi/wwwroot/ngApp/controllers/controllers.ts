@@ -1,199 +1,201 @@
 namespace WebApi.Controllers {
 
-    export class HomeController {
+	export class HomeController {
 
-        //////////////////////////////
-        //Level information
-        public projectId;
-        public projectName;
+		//////////////////////////////
+		//Level information
+		public projectId;
+		public projectName;
 
-        public levelId;
-        public levelName;
+		public levelId;
+		public levelName;
 
-        /////////////////////////////
-        //Tile types for tile type selector    
-        public tileTypes = [];
+		/////////////////////////////
+		//Tile types for tile type selector    
+		public tileTypes = [];
 
-        //Toggle scrolling
-        public scroll = false;
-      
+		//Toggle scrolling
+		public scroll = false;
+	  
 
-        /////////////////////////
-        //Tile type image files
-        public tileImages = [];
-       
-        public tileImagesFiles = [];
-       
-        public selectedTiles = [];
+		/////////////////////////
+		//Tile type image files
+		public tileImages = [];
+	   
+		public tileImagesFiles = [];
+	   
+		public selectedTiles = [];
 
 
-        //////////////////////////////////
-        //Rendering code
+		//////////////////////////////////
+		//Rendering code
 
-        RenderCanvas() {
+		RenderCanvas() {
 
-            this.homeService.RenderCanvas();
-        }
+			this.homeService.RenderCanvas();
+		}
 
-        RenderCanvas20() {
+		RenderCanvas20() {
 
-            this.RenderCanvas20();
+			this.RenderCanvas20();
 
-        }
-              
-        //////////////////////////////////
-        //Action buttons
-                
-        Scroll() {
+		}
+			  
+		//////////////////////////////////
+		//Action buttons
+				
+		Scroll() {
 
-            this.homeService.Scroll();
+			this.homeService.Scroll();
 
-        }
+		}
 
-        ToggleSelect() {
+		ToggleSelect() {
 
-            this.homeService.ToggleSelect();
+			this.homeService.ToggleSelect();
 
-        }
+		}
 
-        ToggleDraw() {
+		ToggleDraw() {
 
-            this.homeService.ToggleDraw();
+			this.homeService.ToggleDraw();
 
-        }
+		}
 
-        //////////////////////////////////
-        //Mouse events
+		//////////////////////////////////
+		//Mouse events
 
-        mouseDown(event) {
+		mouseDown(event) {
 
-            this.homeService.mouseDown(event);
+			this.homeService.mouseDown(event);
 
-        }
+		}
 
-        mouseMove(event) {
+		mouseMove(event) {
 
-            this.homeService.mouseMove(event);
+			this.homeService.mouseMove(event);
 
-        }
+		}
 
-        mouseUp(event) {
+		mouseUp(event) {
 
-            this.homeService.mouseUp(event);
+			this.homeService.mouseUp(event);
 
-        }
+		}
 
-        //////////////////////////////////
-        //Keyboard events
+		//////////////////////////////////
+		//Keyboard events
 
-        public keyDown = (evt: KeyboardEvent) => {
+		public keyDown = (evt: KeyboardEvent) => {
 
-            this.homeService.keyDown(evt);
+			this.homeService.keyDown(evt);
 
-        }
+		}
 
 
-        public keyUp = (evt: KeyboardEvent) => {
+		public keyUp = (evt: KeyboardEvent) => {
 
-            this.homeService.keyUp(evt);
+			this.homeService.keyUp(evt);
 
-        }
+		}
 
-        //drawSelection() {
+		//drawSelection() {
 
-        //    this.homeService.drawSelection();
+		//    this.homeService.drawSelection();
 
-        //}
+		//}
 
-        setAnchorPoint(x, y) {
+		setAnchorPoint(x, y) {
 
-            this.homeService.setAnchorPoint(x, y);
+			this.homeService.setAnchorPoint(x, y);
 
-        }
+		}
 
-        resizeWindow() {
+		resizeWindow() {
 
-            this.homeService.resizeWindow();
+			this.homeService.resizeWindow();
 
-        }
+		}
 
-        moveByAnchor(x, y) {
+		moveByAnchor(x, y) {
 
-            this.homeService.moveByAnchor(x, y);
+			this.homeService.moveByAnchor(x, y);
 
-        }
+		}
 
-        getScaleFactor() {
+		getScaleFactor() {
 
-            this.homeService.getScaleFactor();
+			this.homeService.getScaleFactor();
 
-        }
-        
-        //////////////////////////////
-        //Chunk 2.0 Code
+		}
+		
+		//////////////////////////////
+		//Chunk 2.0 Code
 
-        public loadRegionObjects(x, y, w, h) {
+		public loadRegionObjects(x, y, w, h) {
 
-            this.homeService.loadRegionObjects(x, y, w, h);
+			this.homeService.loadRegionObjects(x, y, w, h);
 
-        }
+		}
 
-        //////////////////////////////
-        //Type code
+		//////////////////////////////
+		//Type code
 
-        public testType() {
+		public testType() {
 
-            this.homeService.testType();
+			this.homeService.testType();
 
-        }
+		}
 
 
-        public loadTypes() {
+		public loadTypes() {
 
-            this.$http.get(`api/types/${this.projectId}`).then((res) => {
-                let types = <WebApi.Controllers.DTOType[]>res.data;
+			this.$http.get(`api/types/${this.projectId}`).then((res) => {
+				let types = <WebApi.Controllers.DTOType[]>res.data;
 
-                console.log(types);
-                this.tileTypes = types;
+				console.log(types);
+				this.tileTypes = types;
 
-                this.tileImages = []; this.tileImagesFiles = [];
+				this.tileImages = []; this.tileImagesFiles = [];
 
-                this.tileImages.push({ id: 0, name: "---------" });
-                this.tileImagesFiles.push("--------");
-                for (let i = 0; i < types.length; i++) {
-                    this.tileImages.push({ id: i + 1, name: types[i].name });
-                    this.tileImagesFiles.push(types[i].tileModel);
-                }
+				this.tileImages.push({ id: 0, name: "---------" });
+				this.tileImagesFiles.push("--------");
+				for (let i = 0; i < types.length; i++) {
+					this.tileImages.push({ id: i + 1, name: types[i].name });
+					this.tileImagesFiles.push(types[i].tileModel);
+				}
 
-            });
+			});
 
-        }
+		}
 
 
-        loadProperty(name) {
+		loadProperty(name) {
 
-            this.homeService.loadProperty(name);
+			this.homeService.loadProperty(name);
 
-        }
+		}
 
-        //////////////////////////////
-        ////Chunk loading/unloading code
+		//////////////////////////////
+		////Chunk loading/unloading code
 
-            constructor(private homeService: WebApi.Services.HomeService,
-                        private $http: ng.IHttpService) {
+			constructor(private homeService: WebApi.Services.HomeService,
+				private $http: ng.IHttpService,
+			private $stateParams: ng.ui.IStateParamsService) {
 
-            this.levelId = localStorage.getItem("levelId");
-            this.levelName = localStorage.getItem("levelName");
-            this.projectId = localStorage.getItem("projectId");
-            this.projectName = localStorage.getItem("projectName");
+			//this.levelId = localStorage.getItem("levelId");
+				this.levelId = $stateParams["id"];
+			this.levelName = localStorage.getItem("levelName");
+			this.projectId = localStorage.getItem("projectId");
+			this.projectName = localStorage.getItem("projectName");
 
-            
-     
-            this.loadTypes();
+			
+	 
+			this.loadTypes();
 
-        }
+		}
 
-    }
+	}
 
-    angular.module('WebApi').controller('homeController', HomeController);
+	angular.module('WebApi').controller('homeController', HomeController);
 }

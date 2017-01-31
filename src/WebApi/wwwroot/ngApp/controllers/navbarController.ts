@@ -66,10 +66,10 @@
 			this.actions = [];
 			let args = new ActionArgs($location, $state);
 			this.home = this.addAction(new NavbarAction("Home", "home", args));
-			this.projects = this.addAction(new RequiresLoggedInAction("Projects", "projects", args));
-			this.login = this.addAction(new RequiresLoggedOutAction("Login", "login", args));
+			this.projects = this.addAction(new RequiresLoggedInAction("Projects", States.projects, args));
+			this.login = this.addAction(new RequiresLoggedOutAction("Login", States.login, args));
 			this.logout = this.addAction(new LogoutAction("Logout", this.home.path, args));
-			this.register = this.addAction(new RequiresLoggedOutAction("Register", "register", args));
+			this.register = this.addAction(new RequiresLoggedOutAction("Register", States.register, args));
 		}
 
 		public readonly actions: NavbarAction[];

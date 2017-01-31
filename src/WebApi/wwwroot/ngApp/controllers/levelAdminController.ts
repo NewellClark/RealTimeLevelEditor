@@ -21,9 +21,13 @@ export class LevelAdminController {
 	}
 
 	public editLevel(index) {
-		localStorage.setItem("levelId", this.levelRoster[index].levelId);
-		localStorage.setItem("levelName", this.levelRoster[index].name);
-		this.$location.path('/level');
+		//localStorage.setItem("levelId", this.levelRoster[index].levelId);
+		//localStorage.setItem("levelName", this.levelRoster[index].name);
+		//this.$location.path('/level');
+		let params = {
+			id: this.levelRoster[index].levelId
+		}
+		this.$state.go("level", params);
 
 	}
 
@@ -50,7 +54,11 @@ export class LevelAdminController {
 		element.click();
 	}
 
-	constructor(private $http: ng.IHttpService, private $location: ng.ILocationService) {
+	constructor(
+		private $http: ng.IHttpService,
+		private $location: ng.ILocationService,
+		private $state: ng.ui.IStateService,
+		private $stateParams: ng.ui.IStateParamsService) {
 		this.projectId = localStorage.getItem("projectId");
 		this.projectName = localStorage.getItem("projectName");
 		this.getLevels();
