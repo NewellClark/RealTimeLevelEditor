@@ -2,10 +2,20 @@ namespace WebApi {
 	//	From now on, define magic strings here.
 
 	//	State params for "level" state.
-	export class LevelParams {
+	export class LevelParamNames {
 		public static readonly levelId: string = "levelId";
 		public static readonly projectId: string = "projectId";
+		public static readonly projectName: string = "projectName";
 		public static readonly levelName: string = "levelName";
+	}
+	export class LevelParams {
+		public constructor(
+			public readonly projectId: string,
+			public readonly projectName: string,
+			public readonly levelId: string,
+			public readonly levelName: string) {
+
+		}
 	}
 
 	export class States {
@@ -28,9 +38,13 @@ namespace WebApi {
 	) => {
 		// Define routes
 		$stateProvider
-			.state('level', {
-                url: '/level/:levelId/:levelName/:projectId/:projectName',
-				templateUrl: '/ngApp/views/home.html',
+			.state(States.home, {
+				url: "/",
+				templateUrl: "/ngApp/views/home.html"
+			})
+			.state(States.level, {
+				url: `/level/:${LevelParamNames.projectId}/:${LevelParamNames.projectName}/:${LevelParamNames.levelId}/:${LevelParamNames.levelName}`,
+				templateUrl: '/ngApp/views/level.html',
 				controller: WebApi.Controllers.HomeController,
 				controllerAs: 'controller'
 			})
