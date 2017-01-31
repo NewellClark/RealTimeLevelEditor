@@ -24,12 +24,10 @@ export class LevelAdminController {
 		localStorage.setItem("levelId", this.levelRoster[index].levelId);
 		localStorage.setItem("levelName", this.levelRoster[index].name);
 		//this.$location.path('/level');
-        this.$state.go('level', {
-            levelId: this.levelRoster[index].levelId,
-            levelName: this.levelRoster[index].name,
-            projectId: this.projectId,
-            projectName: this.projectName
-        });
+		let params = {
+			id: this.levelRoster[index].levelId
+		}
+		this.$state.go(States.level, params);
 
         
 	}
