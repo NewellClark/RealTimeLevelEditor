@@ -9,18 +9,21 @@
 <body ng-controller="AccountController as account">
 	<nav class="navbar navbar-inverse" ng-controller="NavbarController as nav">
 		<div class="container-fluid">
-			<span ng-repeat="link in nav.links">
+			<span ng-repeat="action in nav.actions">
+				<!--Navbar link is enabled.-->
 				<button class="btn navbar-btn"
-						ng-click="link.navigate()"
-						ng-show="link.isVisible(account)">
-					{{link.displayName()}}
+						ng-click="action.execute(account)"
+						ng-show="action.isVisible(account)">
+					{{action.displayName()}}
 				</button>
+
+				<!--Navbar link is disabled but navbar is set to show hidden links in a disabled
+					state instead of hiding them.-->
 				<button class="btn navbar-btn" disabled="disabled"
-						ng-click="link.navigate()"
-						ng-show="!link.isVisible(account) && nav.showDisabledLinks">
-					{{link.displayName()}}
+						ng-click="action.execute(account)"
+						ng-show="!action.isVisible(account) && nav.showDisabledLinks">
+					{{action.displayName()}}
 				</button>
-				
 			</span>
 		</div>
 	</nav>
