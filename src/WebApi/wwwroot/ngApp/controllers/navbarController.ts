@@ -64,11 +64,6 @@
 			private $http: ng.IHttpService,
 		private $state: ng.ui.IStateService) {
 			this.actions = [];
-			//this.home = this.addAction(new NavbarAction("Home", "/", $location));
-			//this.projects = this.addAction(new RequiresLoggedInAction("Projects", "/projects", $location));
-			//this.logout = this.addAction(new LogoutAction("Logout", this.home.path, $location));
-			//this.login = this.addAction(new RequiresLoggedOutAction("Login", this.home.path, $location));
-			//this.register = this.addAction(new RequiresLoggedOutAction("Register", "/register", $location));
 			let args = new ActionArgs($location, $state);
 			this.home = this.addAction(new NavbarAction("Home", "home", args));
 			this.projects = this.addAction(new RequiresLoggedInAction("Projects", "projects", args));

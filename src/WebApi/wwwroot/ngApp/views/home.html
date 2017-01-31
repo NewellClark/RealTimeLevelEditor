@@ -7,12 +7,12 @@
 	</div>
 	<div class="btn-group" role="group" aria-label="Third group">
 		<div style="color: white; font-size: large;">{{controller.projectName}} : {{controller.levelName}}</div>
-        </div>
+		</div>
 </div>
 
 <div id="sideMenu" style="width: 150px; height: 100%; position: absolute; right: 0px; background-color: gainsboro;">
 	Select tile type: <br/><br/>	
-    <select ng-model="controller.BMPIndex" ng-change="controller.handleBMPSelect()" name="repeatSelect" id="repeatSelect">
+	<select ng-model="controller.BMPIndex" ng-change="controller.handleBMPSelect()" name="repeatSelect" id="repeatSelect">
 			<option ng-repeat="option in controller.tileImages" value="{{option.id}}">{{option.name}}</option>
 		</select>
 </div>
