@@ -62,7 +62,7 @@
 		constructor(
 			private $location: ng.ILocationService,
 			private $http: ng.IHttpService,
-		private $state: ng.ui.IStateService) {
+			private $state: ng.ui.IStateService) {
 			this.actions = [];
 			let args = new ActionArgs($location, $state);
 			this.home = this.addAction(new NavbarAction("Home", States.home, args));
@@ -85,6 +85,10 @@
 		public readonly logout: NavbarAction;
 
 		public readonly showDisabledLinks: boolean = true;
+
+		public isVisible(): boolean {
+			return this.$state.current.name != States.level;
+		}
 
 		private addAction(action: NavbarAction): NavbarAction {
 			this.actions.push(action);

@@ -7,7 +7,8 @@
 	<base href="/login" />
 </head>
 <body ng-controller="AccountController as account">
-	<nav class="navbar navbar-inverse" ng-controller="NavbarController as nav">
+	<nav class="navbar navbar-inverse" ng-controller="NavbarController as nav"
+		 ng-show="nav.isVisible()">
 		<div class="container-fluid">
 			<span ng-repeat="action in nav.actions">
 				<!--Navbar link is enabled.-->
@@ -16,6 +17,7 @@
 						ng-show="action.isVisible(account)">
 					{{action.displayName()}}
 				</button>
+
 				<!--Navbar link is disabled but navbar is set to show hidden links in a disabled
 					state instead of hiding them.-->
 				<button class="btn navbar-btn" disabled="disabled"

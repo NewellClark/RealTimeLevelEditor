@@ -5,16 +5,38 @@
 	</div>
 	<div class="btn-group mr-2" role="group" aria-label="Second group">
 	</div>
+
+	<nav class="navbar navbar-inverse" ng-controller="NavbarController as nav">
+		<div class="container-fluid">
+			<span ng-repeat="action in nav.actions">
+				<!--Navbar link is enabled.-->
+				<button class="btn navbar-btn"
+						ng-click="action.execute(account)"
+						ng-show="action.isVisible(account)">
+					{{action.displayName()}}
+				</button>
+
+				<!--Navbar link is disabled but navbar is set to show hidden links in a disabled
+					state instead of hiding them.-->
+				<button class="btn navbar-btn" disabled="disabled"
+						ng-click="action.execute(account)"
+						ng-show="!action.isVisible(account) && nav.showDisabledLinks">
+					{{action.displayName()}}
+				</button>
+			</span>
+		</div>
+	</nav>
+
 	<div class="btn-group" role="group" aria-label="Third group">
 		<div style="color: white; font-size: large;">{{controller.projectName}} : {{controller.levelName}}</div>
-		</div>
+	</div>
 </div>
 
 <div id="sideMenu" style="width: 150px; height: 100%; position: absolute; right: 0px; background-color: gainsboro;">
-	Select tile type: <br/><br/>	
+	Select tile type: <br /><br />
 	<select ng-model="controller.BMPIndex" ng-change="controller.handleBMPSelect()" name="repeatSelect" id="repeatSelect">
-			<option ng-repeat="option in controller.tileImages" value="{{option.id}}">{{option.name}}</option>
-		</select>
+		<option ng-repeat="option in controller.tileImages" value="{{option.id}}">{{option.name}}</option>
+	</select>
 </div>
 
 

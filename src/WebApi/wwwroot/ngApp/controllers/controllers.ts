@@ -200,7 +200,8 @@ namespace WebApi.Controllers {
 		//////////////////////////////
 		////Chunk loading/unloading code
 
-		constructor(private homeService: WebApi.Services.HomeService,
+		constructor(
+			private homeService: WebApi.Services.HomeService,
 			private $http: ng.IHttpService,
 			private $scope: ng.IScope,
 			private $stateParams: ng.ui.IStateParamsService) {
