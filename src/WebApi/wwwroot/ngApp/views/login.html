@@ -3,18 +3,7 @@
     <fieldset>
 
         <h1>WebApi</h1>
-        <div>
-            <a href="/">Home</a> /
-            <a href="/about">About</a> /
-            <a href="/register">Register</a>
-            <a href="/" ng-show="!account.isLoggedIn()"></a>
 
-            <a href="#" ng-click="account.logout()" ng-show="account.isLoggedIn()"> / Logout</a>
-            <div ng-show="account.isLoggedIn()">
-                [{{account.getUserName()}}]
-                <button ng-click="controller.gotoProjects()">Go to Projects</button>
-            </div>
-        </div>
         <hr />
 
         <legend>Login Locally</legend>
