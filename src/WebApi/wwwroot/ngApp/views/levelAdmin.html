@@ -2,26 +2,26 @@
 <br />
 <br />
 <h3>User owned levels</h3>
-<table class="table table-bordered table-striped">
+<table class="table table-responsive">
 	<tr ng-repeat="level in controller.levelRoster">
 		<td>{{level.name}}</td>
-		<td><button class="btn" ng-click="controller.editLevel($index)">Edit Level</button></td>
+		<td><button class="btn normal-button" ng-click="controller.editLevel($index)">Edit Level</button></td>
+		<td><button class="btn normal-button" ng-click="controller.downloadLevel($index)">Download</button></td>
 		<td><button class="btn btn-danger" ng-click="controller.deleteLevel($index)">Delete Level</button></td>
-		<td><button class="btn" ng-click="controller.downloadLevel($index)">Download</button></td>
 	</tr>
 </table>
 <br />
 <br />
 <h3>Project actions</h3>
-<table class="table table-bordered table-striped">
+<table class="table table-bordered">
 	<tr>
 		<td>Add new level:</td>
 		<td><input ng-model="controller.levelName" /></td>
-		<td><button class="btn" ng-click="controller.addLevel()">Add</button></td>
+		<td><button class="btn normal-button" ng-click="controller.addLevel()">Add</button></td>
 	</tr>
 	<tr>
 		<td>Edit tile types</td>
 		<td></td>
-		<td><button class="btn" ng-click="controller.gotoEditTileTypes()">Edit</button></td>
+		<td><button class="btn normal-button" ng-click="controller.gotoEditTileTypes()">Edit</button></td>
 	</tr>
 </table>

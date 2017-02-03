@@ -1,0 +1,16 @@
+﻿body {
+	color: #ff9d14;
+}
+table {
+	/*background-color:#ad14ff;*/
+	background-color:#640b91;
+	color:#ff9d14;
+}
+
+.btn {
+	background-color:#14b9ff;
+}
+
+h1, h2, h3, h4 {
+	text-align:center;
+}

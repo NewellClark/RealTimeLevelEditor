@@ -1,0 +1,11 @@
+﻿body {
+	color:#0ae2ff;
+}
+.normal-button {
+	background-color: #7707ff;
+}
+
+.normal-button:hover {
+	background-color:#0720ff;
+}
+

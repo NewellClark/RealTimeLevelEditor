@@ -1,24 +1,26 @@
 ﻿<h3>Admin Projects</h3><br />
-<table class="table table-bordered table-striped">
+<table class="table table-bordered">
 	<tr ng-repeat="project in controller.userId">
-	<td>{{project.projectName}}</td>
-	<td><button class="btn" ng-click="controller.viewTeams($index)">Team View</button></td>
-	<td><button class="btn" ng-click="controller.viewLevels($index)">View Levels</button></td>
-	<td><button class="btn btn-danger" ng-click="controller.deleteProject($index)">Delete Project</button></td>
+		<td>{{project.projectName}}</td>
+		<td><button class="btn normal-button" ng-click="controller.viewTeams($index)">Team View</button></td>
+		<td><button class="btn normal-button" ng-click="controller.viewLevels($index)">View Levels</button></td>
+		<td><button class="btn btn-danger" ng-click="controller.deleteProject($index)">Delete Project</button></td>
 	</tr>
 </table>
 <div>
-<label>Project name:</label><input ng-model="controller.newProjectName" />
-<button ng-click="controller.addProject()"
-		class="btn">Add Project</button>
+	<label>Project name:</label><input ng-model="controller.newProjectName" />
+	<button ng-click="controller.addProject()" class="btn normal-button">Add Project</button>
 </div>
-<br/>
+<br />
 <h3>Non-admin Projects</h3><br />
-<table class="table table-bordered table-striped">
+<table class="table table-bordered">
 	<tr ng-repeat="project in controller.nonAdmin">
 		<td>{{project.projectName}}</td>
-		<td><button class="btn"
-					ng-click="controller.viewNonAdminLevels($index)">View Levels</button></td>
+		<td>
+			<button class="btn normal-button" ng-click="controller.viewNonAdminLevels($index)">
+				View Levels
+			</button>
+		</td>
 	</tr>
 </table>
 
