@@ -3,7 +3,8 @@
 	<title>Level Editor</title>
 	<link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
 	<link href="/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" />
-
+	<link href="~/css/site.css" rel="stylesheet" />
+	<link href="~/css/purpleCyanMediumBlue.css" rel="stylesheet" />
 	<base href="/login" />
 </head>
 <body ng-controller="AccountController as account">
@@ -12,7 +13,7 @@
 		<div class="container-fluid">
 			<span ng-repeat="action in nav.actions">
 				<!--Navbar link is enabled.-->
-				<button class="btn navbar-btn"
+				<button class="btn normal-button navbar-btn"
 						ng-click="action.execute(account)"
 						ng-show="action.isVisible(account)">
 					{{action.displayName()}}
@@ -20,7 +21,7 @@
 
 				<!--Navbar link is disabled but navbar is set to show hidden links in a disabled
 					state instead of hiding them.-->
-				<button class="btn navbar-btn" disabled="disabled"
+				<button class="btn normal-button navbar-btn" disabled="disabled"
 						ng-click="action.execute(account)"
 						ng-show="!action.isVisible(account) && nav.showDisabledLinks">
 					{{action.displayName()}}
