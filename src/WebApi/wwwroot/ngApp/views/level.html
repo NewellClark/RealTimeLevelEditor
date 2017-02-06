@@ -4,20 +4,20 @@
 
 	<!--Draw and Scroll buttons-->
 	<div class="btn-group mr-2" role="group" aria-label="First group">
-		<button ng-click="controller.Scroll()" type="button" class="btn">Scroll</button>
-		<button ng-click="controller.ToggleDraw()" type="button" class="btn btn-secondary">Draw</button>
+		<button ng-click="controller.Scroll()" type="button" class="btn normal-button">Scroll</button>
+		<button ng-click="controller.ToggleDraw()" type="button" class="btn normal-button btn-secondary">Draw</button>
 	</div>
 
 	<!--Navigation buttons-->
 	<div class="btn-group mr-2" role="group" aria-label="Second group">
 		<span ng-repeat="action in nav.actions">
-			<button class="btn navbar-btn" type="button"
+			<button class="btn normal-button navbar-btn" type="button"
 					ng-click="action.execute(account)"
 					ng-show="action.isVisible(account)">
 				{{action.displayName()}}
 			</button>
 
-			<button class="btn navbar-btn" disabled="disabled"
+			<button class="btn normal-button navbar-btn" disabled="disabled"
 					ng-click="action.execute(account)"
 					ng-show="!action.isVisible(account) && nav.showDisabledLinks">
 				{{action.displayName()}}
@@ -32,7 +32,7 @@
 </nav>
 
 <div id="sideMenu" style="width: 150px; height: 100%; position: absolute; right: 0px; background-color: gainsboro;">
-	Select tile type: <br /><br <br /><br />
+	Select tile type: <br /><br /><br /><br />
 	<select ng-model="controller.BMPIndex" ng-change="controller.handleBMPSelect()" name="repeatSelect" id="repeatSelect">
 		<option ng-repeat="option in controller.tileImages" value="{{option.id}}">{{option.name}}</option>
 	</select>
@@ -40,5 +40,5 @@
 
 
 
-<!--<button ng-click="controller.Scroll()" style="position:absolute;">Scroll</button>-->
+<!--<button class="btn normal-button" ng-click="controller.Scroll()" style="position:absolute;">Scroll</button>-->
 <canvas style="cursor: crosshair;" ng-mousedown="controller.mouseDown($event)" ng-mousemove="controller.mouseMove($event)" ng-mouseup="controller.mouseUp($event)" width="450" height="450" id="theCanvas" />
