@@ -1,14 +1,11 @@
-
-<nav class="navbar navbar-inverse" ng-controller="NavbarController as nav"
+<!--<nav class="navbar navbar-inverse" ng-controller="NavbarController as nav"
 	 style="background-color: ThreeDDarkShadow; position: absolute; width: 100%;">
 
-	<!--Draw and Scroll buttons-->
 	<div class="btn-group mr-2" role="group" aria-label="First group">
 		<button ng-click="controller.Scroll()" type="button" class="btn normal-button">Scroll</button>
 		<button ng-click="controller.ToggleDraw()" type="button" class="btn normal-button btn-secondary">Draw</button>
 	</div>
 
-	<!--Navigation buttons-->
 	<div class="btn-group mr-2" role="group" aria-label="Second group">
 		<span ng-repeat="action in nav.actions">
 			<button class="btn normal-button navbar-btn" type="button"
@@ -25,20 +22,58 @@
 		</span>
 	</div>
 
-	<!--Project title banner-->
 	<div class="btn-group" role="group" aria-label="Third group">
 		<div style="color: white; font-size: large;">{{controller.projectName}} : {{controller.levelName}}</div>
 	</div>
+</nav>-->
+
+
+<!--Same as global navbar, but embedded directly in level-editing
+	page to avoid scrolling issues.-->
+<nav class="navbar navbar-default" ng-controller="NavbarController as nav" 
+	 style="background-color: ThreeDDarkShadow; position: absolute; width: 100%;">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#level-editor-navbar-collapse">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+		</div>
+
+		<div class="collapse navbar-collapse" id="level-editor-navbar-collapse">
+			<ul class="nav navbar-nav">
+				<li>
+					<div class="btn-group mr-2" role="group" aria-label="First group">
+						<button ng-click="controller.Scroll()" type="button" class="btn normal-button">Scroll</button>
+						<button ng-click="controller.ToggleDraw()" type="button" class="btn normal-button btn-secondary">Draw</button>
+					</div>
+				</li>
+				<li id="sideMenu">
+					<select ng-model="controller.BMPIndex" ng-change="controller.handleBMPSelect()" name="repeatSelect" id="repeatSelect">
+						<option ng-repeat="option in controller.tileImages" value="{{option.id}}">{{option.name}}</option>
+					</select>
+				</li>
+				<li ng-repeat="action in nav.actions" ng-show="action.isVisible(account)" class="{{action.getLiItemClass()}}">
+					<a href="#" ng-click="action.execute(account)">
+						{{action.displayName()}} <span class="sr-only" ng-show="action.isCurrentPage()">(current)</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
 </nav>
 
-<div id="sideMenu" style="width: 150px; height: 100%; position: absolute; right: 0px; background-color: gainsboro;">
+<!--<div id="sideMenu" style="width: 150px; height: 100%; position: absolute; right: 0px; background-color: gainsboro;">
 	Select tile type: <br /><br /><br /><br />
 	<select ng-model="controller.BMPIndex" ng-change="controller.handleBMPSelect()" name="repeatSelect" id="repeatSelect">
 		<option ng-repeat="option in controller.tileImages" value="{{option.id}}">{{option.name}}</option>
 	</select>
-</div>
+</div>-->
 
 
 
 <!--<button class="btn normal-button" ng-click="controller.Scroll()" style="position:absolute;">Scroll</button>-->
-<canvas style="cursor: crosshair;" ng-mousedown="controller.mouseDown($event)" ng-mousemove="controller.mouseMove($event)" ng-mouseup="controller.mouseUp($event)" width="450" height="450" id="theCanvas" />
+<canvas style="cursor: crosshair;" ng-mousedown="controller.mouseDown($event)" ng-mousemove="controller.mouseMove($event)" 
+		ng-mouseup="controller.mouseUp($event)" width="450" height="450" id="theCanvas" />
