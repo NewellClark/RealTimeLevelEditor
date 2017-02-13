@@ -1,33 +1,3 @@
-<!--<nav class="navbar navbar-inverse" ng-controller="NavbarController as nav"
-	 style="background-color: ThreeDDarkShadow; position: absolute; width: 100%;">
-
-	<div class="btn-group mr-2" role="group" aria-label="First group">
-		<button ng-click="controller.Scroll()" type="button" class="btn normal-button">Scroll</button>
-		<button ng-click="controller.ToggleDraw()" type="button" class="btn normal-button btn-secondary">Draw</button>
-	</div>
-
-	<div class="btn-group mr-2" role="group" aria-label="Second group">
-		<span ng-repeat="action in nav.actions">
-			<button class="btn normal-button navbar-btn" type="button"
-					ng-click="action.execute(account)"
-					ng-show="action.isVisible(account)">
-				{{action.displayName()}}
-			</button>
-
-			<button class="btn normal-button navbar-btn" disabled="disabled"
-					ng-click="action.execute(account)"
-					ng-show="!action.isVisible(account) && nav.showDisabledLinks">
-				{{action.displayName()}}
-			</button>
-		</span>
-	</div>
-
-	<div class="btn-group" role="group" aria-label="Third group">
-		<div style="color: white; font-size: large;">{{controller.projectName}} : {{controller.levelName}}</div>
-	</div>
-</nav>-->
-
-
 <!--Same as global navbar, but embedded directly in level-editing
 	page to avoid scrolling issues.-->
 <nav class="navbar navbar-default" ng-controller="NavbarController as nav" 

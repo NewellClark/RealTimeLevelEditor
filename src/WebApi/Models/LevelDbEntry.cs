@@ -16,15 +16,15 @@ namespace WebApi.Models
 
 		public DateTime DateCreated { get; set; }
 
-        public Guid ProjectId { get; set; }
-        
-        public DateTime LastEdited { get; set; }
-        
-        public Guid LastEditorId { get; set; }        
-        /// <summary>
-        /// Descriptive name given by the user.
-        /// </summary>
-        public string Name { get; set; }
+		public Guid ProjectId { get; set; }
+		
+		public DateTime LastEdited { get; set; }
+		
+		public Guid LastEditorId { get; set; }        
+		/// <summary>
+		/// Descriptive name given by the user.
+		/// </summary>
+		public string Name { get; set; }
 
 		public long ChunkWidth { get; set; }
 

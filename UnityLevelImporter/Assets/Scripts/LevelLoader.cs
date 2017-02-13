@@ -50,8 +50,10 @@ namespace UnityLevelImporter
 					throw new KeyNotFoundException("No prefab defined for `" + tile.Data + "'");
 				}
 
-				Instantiate(prefab,
-					new Vector3(tile.Index.X, tile.Index.Y), Quaternion.identity, transform);
+				//Instantiate(prefab,
+				//	new Vector3(tile.Index.X, tile.Index.Y), Quaternion.identity, transform);
+				var obj = Instantiate(prefab, transform);
+				obj.transform.localPosition = new Vector3(tile.Index.X, tile.Index.Y);
 			}
 		}
 
