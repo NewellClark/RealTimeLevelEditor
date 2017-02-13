@@ -36,17 +36,17 @@
 				let projectId = data.projectId;
 				this.loadProjectList();
 
-				let type = { tileModel: "../../images/tileblock.png", name: "block" };
+				let type = { tileModel: "../../images/red.png", name: "red" };
 				this.$http.post(`api/types/${projectId}`, type);
-				type = { tileModel: "../../images/tilemario.png", name: "mario" };
+				type = { tileModel: "../../images/green.png", name: "green" };
 				this.$http.post(`api/types/${projectId}`, type);
-				type = { tileModel: "../../images/tilegoomba.png", name: "goomba" };
+				type = { tileModel: "../../images/blue.png", name: "blue" };
 				this.$http.post(`api/types/${projectId}`, type);
-				type = { tileModel: "../../images/tilebrick.png", name: "brick" };
+				type = { tileModel: "../../images/magenta.png", name: "magenta" };
 				this.$http.post(`api/types/${projectId}`, type);
-				type = { tileModel: "../../images/tileitem.png", name: "item" };
+				type = { tileModel: "../../images/cyan.png", name: "cyan" };
 				this.$http.post(`api/types/${projectId}`, type);
-				type = { tileModel: "../../images/tileground.png", name: "ground" };
+				type = { tileModel: "../../images/yellow.png", name: "yellow" };
 				this.$http.post(`api/types/${projectId}`, type);
 
 

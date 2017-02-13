@@ -147,7 +147,6 @@ namespace WebApi.Controllers {
 
 		}
 
-
 		public loadTypes() {
 			this.$http.get(`api/types/${this.projectId}`).then((res) => {
 				let types = <WebApi.Controllers.DTOType[]>res.data;
@@ -214,8 +213,15 @@ namespace WebApi.Controllers {
 			this.loadRegionObjects(0, 0, 1, 1);
 
 			this.ToggleDraw();
-
 			// this.$scope.$apply();
+
+			homeService.ToggleSelect();
+			
+			homeService.addTile20(0, 0);
+			//if (homeService.refreshRequired) {
+			//	homeService.refreshRequired = false;
+			//	location.reload(true);
+			//}
 		}
 
 	}
