@@ -1,6 +1,8 @@
 namespace WebApi.Services {
 
 	export class HomeService {
+		public refreshRequired: boolean = true;
+
 		public anchorX = 0;
 		public anchorY = 0;
 		public anchoring = false;
@@ -187,8 +189,6 @@ namespace WebApi.Services {
 			this.drawRadar();
 		}
 
-
-
 		//2.0 versions of add and remove tile
 		//////////////////////////////////////
 		addTile20(pixelX, pixelY) {
@@ -197,15 +197,25 @@ namespace WebApi.Services {
 
 			let imageInfo = null;
 			if (select.selectedIndex > 0) {
-				imageInfo = this.tileTypes[select.selectedIndex-1].name;//this.tileImagesFiles[select.selectedIndex];
+				imageInfo = this.tileTypes[select.selectedIndex - 1].name;//this.tileImagesFiles[select.selectedIndex];
 				let x = 0;
 			}
 
 			let bx = Math.floor(pixelX / this.scaleFactor);
 			let by = Math.floor(pixelY / this.scaleFactor);
 
-			this.$http.put(`api/levels/${this.levelId}/tiles`, [{ data: imageInfo, index: { x: bx, y: by } }]).then(() => {
-			});
+			this.$http.put(`api/levels/${this.levelId}/tiles`, [{ data: imageInfo, index: { x: bx, y: by } }]).then(() => { });
+
+
+			//let chunkX = this.whichChunkX(bx);
+			//let chunkY = this.whichChunkY(by);
+			//if (this.isChunkEmpty(chunkX, chunkY))
+			//	this.Region20.push({
+			//		index: { x: chunkX, y: chunkY }, data: {
+			//			region: { left: chunkX, top: chunkY, width: this.chunkWidth, height: this.chunkHeight },
+			//			tiles: []
+			//		}
+			//	});
 
 			for (let i = 0; i < this.Region20.length; i++) {
 				let left = this.Region20[i].data.region.left;
@@ -220,8 +230,19 @@ namespace WebApi.Services {
 					this.Region20[i].data.tiles.push({ data: imageInfo, index: { x: bx, y: by } });
 			}
 
+
 			this.RenderCanvas20();
 		}
+
+		//private isChunkEmpty(chunkX: number, chunkY: number): boolean {
+		//	for (let i = 0; i < this.Region20.length; i++) {
+		//		if (Math.floor(this.Region20[i].index.x) == chunkX &&
+		//			Math.floor(this.Region20[i].index.y) == chunkY)
+		//			return true;
+		//	}
+
+		//	return false;
+		//}
 
 		removeTile20(pixelX, pixelY) {
 
@@ -278,7 +299,7 @@ namespace WebApi.Services {
 					this.RenderCanvas20();
 				}
 			}
-			if (this.cursorMode == 'scroll'){
+			if (this.cursorMode == 'scroll') {
 				this.setAnchorPoint(event.x - canvas.offsetLeft, event.y - canvas.offsetTop);
 				this.anchoring = true;
 			}
@@ -296,7 +317,7 @@ namespace WebApi.Services {
 			}
 
 			if (this.cursorMode == 'scroll') this.findTilePosition();
-		   // this.RenderCanvas20();
+			// this.RenderCanvas20();
 		}
 
 		mouseUp(event) {
@@ -356,7 +377,6 @@ namespace WebApi.Services {
 		}
 
 		getScaleFactor() {
-
 			let td = 1;
 			let canvas = <HTMLCanvasElement>document.getElementById('theCanvas');
 			canvas.width = window.innerWidth;
@@ -495,12 +515,12 @@ namespace WebApi.Services {
 				this.tileImages = []; this.tileImagesFiles = [];
 
 				for (let i = 0; i < types.length; i++) {
-					this.tileImages.push({ id: i+2, name: types[i].name });
+					this.tileImages.push({ id: i + 2, name: types[i].name });
 					this.tileImagesFiles.push(types[i].tileModel);
 				}
 				this.loadImageTiles();
 				// this.loadProperties();
-				
+
 			});
 		}
 
@@ -755,11 +775,9 @@ namespace WebApi.Services {
 			levelInfo.projectId = this.$stateParams[ParamNames.projectId];
 			levelInfo.projectName = this.$stateParams[ParamNames.projectName];
 
-			this.registerLevelInfo(levelInfo);            
+			this.registerLevelInfo(levelInfo);
 
 			this.loadTypes();
-
-
 
 			window.addEventListener("resize", this.getScaleFactor);
 			window.addEventListener("keydown", this.keyDown);
@@ -767,10 +785,14 @@ namespace WebApi.Services {
 
 			let x = this.$interval(this.RenderCanvas20, 30);
 			let y = x;
+
+			let hasReloaded = localStorage.getItem("hasReloaded");
+			if (!hasReloaded) {
+				localStorage.setItem("hasReloaded", "true");
+				location.reload(true);
+			}
+
 		}
-
-
-
 	}
 
 	angular.module('WebApi').service('homeService', HomeService);
