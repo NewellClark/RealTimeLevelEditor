@@ -13,10 +13,10 @@ namespace WebApi.Controllers
 {
 	public class TypeDTO
 	{
-		public string tileModel { get; set; }
-		public string inGameModel { get; set; }
+		public string TileModel { get; set; }
+		public string InGameModel { get; set; }
 		
-		public string name { get; set; }
+		public string Name { get; set; }
 	}
 
 	[Route("api/types")]
@@ -35,9 +35,9 @@ namespace WebApi.Controllers
 				.Select(m =>
 				new TypeDTO
 				{
-					inGameModel = m.InGameModel,
-					tileModel = m.EditorModel,
-					name = m.PropertiesJSON
+					InGameModel = m.InGameModel,
+					TileModel = m.EditorModel,
+					Name = m.PropertiesJSON
 				}).ToList();
 		}
 
@@ -47,9 +47,9 @@ namespace WebApi.Controllers
 		{
 			var addType = new TypeDbEntry
 			{
-				EditorModel = type.tileModel,
-				InGameModel = type.inGameModel,
-				PropertiesJSON = type.name,
+				EditorModel = type.TileModel,
+				InGameModel = type.InGameModel,
+				PropertiesJSON = type.Name,
 				LevelId = projectId    
 			};
 			
@@ -63,9 +63,9 @@ namespace WebApi.Controllers
 		{
 			TypeDbEntry type = _db.TilesTypes.FirstOrDefault(x => x.LevelId == projectId && x.PropertiesJSON == typeName);
 
-			type.PropertiesJSON = typeUpdate.name;
-			type.EditorModel = typeUpdate.tileModel;
-			type.InGameModel = typeUpdate.inGameModel;
+			type.PropertiesJSON = typeUpdate.Name;
+			type.EditorModel = typeUpdate.TileModel;
+			type.InGameModel = typeUpdate.InGameModel;
 
 			_db.Update(type);
 			_db.SaveChanges();
