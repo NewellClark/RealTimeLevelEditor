@@ -1,54 +1,35 @@
 ﻿<h1>WebApi</h1>
-<div>
-    <a href="/">Home</a> /
-    <a href="/about">About</a> /
-    <a href="/register">Register</a> /
-    <a href="/login" ng-show="!account.isLoggedIn()">Login</a>
-
-    <a href="#" ng-click="account.logout()" ng-show="account.isLoggedIn()">Logout</a>
-    <div ng-show="account.isLoggedIn()">
-        [{{account.getUserName()}}]
-    </div>
-</div>
 <hr />
 <fieldset>
-    <legend>Local Registration</legend>
-        <div ng-repeat="message in controller.validationMessages"></div>
-            {{message}}
-    <form ng-submit="controller.register()" class="form-horizontal">
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="email">Email:</label>
-            <div class="col-sm-10">
-                <input ng-model="controller.registerUser.email" type="email" required class="form-control" id="email" placeholder="Enter email">
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="pwd">Password:</label>
-            <div class="col-sm-10">
-                <input ng-model="controller.registerUser.password" type="password" required class="form-control" id="pwd" placeholder="Enter password">
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="pwd">Confirm Password:</label>
-            <div class="col-sm-10">
-                <input ng-model="controller.registerUser.confirmPassword" type="password" required class="form-control" id="pwd" placeholder="Confirm password">
-            </div>
-        </div>
-        <!--
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <div class="checkbox">
-                    <label><input type="checkbox"> Remember me</label>
-                </div>
-            </div>
-        </div>
-        -->
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn normal-button">Submit</button>
-                <a href="/login">       Login</a>
-            </div>
-        </div>
-            
-    </form>
+	<legend>Local Registration</legend>
+
+	<div class="panel panel-danger">
+		<div ng-repeat="message in controller.validationMessages">{{message}}</div>
+	</div>
+	<form ng-submit="controller.register()" class="form-horizontal">
+		<div class="form-group">
+			<label class="control-label col-sm-2" for="email">Email:</label>
+			<div class="col-sm-10">
+				<input ng-model="controller.registerUser.email" type="email" required class="form-control" id="email" placeholder="Enter email">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-2" for="pwd">Password:</label>
+			<div class="col-sm-10">
+				<input ng-model="controller.registerUser.password" type="password" required class="form-control" id="pwd" placeholder="Enter password">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-2" for="pwd">Confirm Password:</label>
+			<div class="col-sm-10">
+				<input ng-model="controller.registerUser.confirmPassword" type="password" required class="form-control" id="pwd" placeholder="Confirm password">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<button type="submit" class="btn normal-button">Submit</button>
+			</div>
+		</div>
+	</form>
 </fieldset>

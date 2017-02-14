@@ -66,7 +66,11 @@ namespace WebApi.Controllers {
 
 	export class RegisterController {
 		public registerUser;
-		public validationMessages;
+		public validationMessages: string[] = [];
+
+		public showErrors(): boolean {
+			return this.validationMessages.length > 0;
+		}
 
 		public register() {
 			this.accountService.register(this.registerUser).then(() => {
