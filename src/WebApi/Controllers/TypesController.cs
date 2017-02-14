@@ -11,88 +11,85 @@ using WebApi.Models;
 
 namespace WebApi.Controllers
 {
+	public class TypeDTO
+	{
+		public string tileModel { get; set; }
+		public string inGameModel { get; set; }
+		
+		public string name { get; set; }
+	}
 
+	[Route("api/types")]
+	public class TypesController : Controller
+	{
+		public TypesController(ApplicationDbContext db)
+		{
+			_db = db;
+		}
+	 
+		// GET api/values/5
+		[HttpGet("{projectId}")]
+		public IEnumerable<TypeDTO> Get(string projectId)
+		{
+			return _db.TilesTypes.Where(x => x.LevelId == projectId)
+				.Select(m =>
+				new TypeDTO
+				{
+					inGameModel = m.InGameModel,
+					tileModel = m.EditorModel,
+					name = m.PropertiesJSON
+				}).ToList();
+		}
 
-    public class TypeDTO
-    {
-        public string tileModel { get; set; }
-        public string inGameModel { get; set; }
-        
-        public string name { get; set; }
-    }
+		// POST api/values
+		[HttpPost("{projectId}")]
+		public void Post(string projectId, [FromBody]TypeDTO type)
+		{
+			var addType = new TypeDbEntry
+			{
+				EditorModel = type.tileModel,
+				InGameModel = type.inGameModel,
+				PropertiesJSON = type.name,
+				LevelId = projectId    
+			};
+			
+			_db.TilesTypes.Add(addType);
+			_db.SaveChanges();
+		}
 
-    [Route("api/types")]
-    public class TypesController : Controller
-    {
+		// PUT api/values/5
+		[HttpPut("{projectId}/{typeName}")]
+		public void Put(string projectId, string typeName, [FromBody]TypeDTO typeUpdate)
+		{
+			TypeDbEntry type = _db.TilesTypes.FirstOrDefault(x => x.LevelId == projectId && x.PropertiesJSON == typeName);
 
+			type.PropertiesJSON = typeUpdate.name;
+			type.EditorModel = typeUpdate.tileModel;
+			type.InGameModel = typeUpdate.inGameModel;
 
-        ApplicationDbContext _db;
+			_db.Update(type);
+			_db.SaveChanges();
 
-        public TypesController(ApplicationDbContext db)
-        {
-            _db = db;
-        }
-     
-        // GET api/values/5
-        [HttpGet("{projectId}")]
-        public IEnumerable<TypeDTO> Get(string projectId)
-        {
+		}
 
-            return _db.TilesTypes.Where(x => x.LevelId == projectId)
-                .Select(m =>
-                new TypeDTO
-                {
-                    inGameModel = m.InGameModel,
-                    tileModel = m.EditorModel,
-                    name = m.PropertiesJSON
-                }).ToList();
+		// DELETE api/values/5
+		[HttpDelete("{projectId}/{typeName}")]
+		public void Delete(string projectId, string typeName)
+		{
+			TypeDbEntry type = _db.TilesTypes.FirstOrDefault(x => x.LevelId == projectId && x.PropertiesJSON == typeName);
+			_db.Remove(type);
+			_db.SaveChanges();
+		}
 
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing)
+			{
+				_db?.Dispose();
+			}
+			base.Dispose(disposing);
+		}
 
-        }
-
-        // POST api/values
-        [HttpPost("{projectId}")]
-        public void Post(string projectId, [FromBody]TypeDTO type)
-        {
-            
-            var addType = new TypeDbEntry
-            {
-                EditorModel = type.tileModel,
-                InGameModel = type.inGameModel,
-                PropertiesJSON = type.name,
-                LevelId = projectId    
-            };
-
-            
-            _db.TilesTypes.Add(addType);
-            _db.SaveChanges();
-            
-
-
-        }
-
-        // PUT api/values/5
-        [HttpPut("{projectId}/{typeName}")]
-        public void Put(string projectId, string typeName, [FromBody]TypeDTO typeUpdate)
-        {
-            TypeDbEntry type = _db.TilesTypes.FirstOrDefault(x => x.LevelId == projectId && x.PropertiesJSON == typeName);
-
-            type.PropertiesJSON = typeUpdate.name;
-            type.EditorModel = typeUpdate.tileModel;
-            type.InGameModel = typeUpdate.inGameModel;
-
-            _db.Update(type);
-            _db.SaveChanges();
-
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{projectId}/{typeName}")]
-        public void Delete(string projectId, string typeName)
-        {
-            TypeDbEntry type = _db.TilesTypes.FirstOrDefault(x => x.LevelId == projectId && x.PropertiesJSON == typeName);
-            _db.Remove(type);
-            _db.SaveChanges();
-        }
-    }
+		private readonly ApplicationDbContext _db;
+	}
 }

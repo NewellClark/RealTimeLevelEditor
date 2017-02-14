@@ -11,104 +11,93 @@ using Microsoft.AspNetCore.Identity;
 
 namespace WebApi.Controllers
 {
+	[Route("api/members")]
+	public class UsersController : Controller
+	{
+		public UsersController(ApplicationDbContext db, UserManager<ApplicationUser> userManager)
+		{
+			_db = db;
+			_userManager = userManager;
+		} 
 
-    //public class UserIdDTO
-    //{
-    //    public string UserId;
-    //    public string UserEmail;
-    //}
-    //public class ProjectIdDTO
-    //{
-    //    public Guid ProjectId;
-    //    public string ProjectName;
-    //}
+		//API dealing with the non-owner users of a project
+		[HttpGet]
+		//Will return non-owned projects of logged in user
+		public IEnumerable<ProjectIdDTO> Get()
+		{
+			var userId = _userManager.GetUserId(User);
 
+			return _db.UserProjects.Where(x => x.UserId == userId)
+				.Select(m =>
+				new ProjectIdDTO
+				{
+					ProjectId = m.ProjectId,
+					ProjectName = m.ProjectName
+				}).ToList();
+		}
 
-    [Route("api/members")]
-    public class UsersController : Controller
-    {
+		//get all the users on a given project referenced by projectId (not project name)
+		[HttpGet("{projectId}/getusers")]
+		public IEnumerable<UserIdDTO> Get(Guid projectId)
+		{
 
-        private readonly UserManager<ApplicationUser> _userManager;
+			return _db.UserProjects.Where(x => x.ProjectId == projectId)
+				.Select(m =>
+				new UserIdDTO
+				{
+					UserId = m.UserId,
+					UserEmail = m.UserEmail
+				}).ToList();
+		}
 
+		// POST api/values
+		[HttpPost("{projectId}/{userId}")]
+		public void Post(Guid projectId, string userId)
+		{
+			//todo: get actual user Id 
+			// string opl = System.Security.Principal.WindowsIdentity.GetCurrent().Name.ToString();
 
-        //public class ProjectIdDTO
-        //{
-        //    public Guid ProjectId;
-        //}
+			//Guid guid;
+			//guid = Guid.NewGuid();
+			var theProject = _db.Projects.FirstOrDefault(x => x.Id == projectId);
+			var theUser = _db.Users.FirstOrDefault(x => x.Id == userId);
 
-        ApplicationDbContext _db;
+			var newUserProject = new JoinUserProject
+			{
+				ProjectId = projectId,
+				Project = theProject,
+				UserId = userId,
+				User = theUser    
+			};
 
-        public UsersController(ApplicationDbContext db, UserManager<ApplicationUser> userManager)
-        {
-            _db = db;
-            _userManager = userManager;
-        } 
+			
+			_db.UserProjects.Add(newUserProject);
+			_db.SaveChanges();
+		}
 
-        //API dealing with the non-owner users of a project
-        [HttpGet]
-        //Will return non-owned projects of logged in user
-        public IEnumerable<ProjectIdDTO> Get()
-        {
-            var userId = _userManager.GetUserId(User);
+		// PUT api/values/5
+		[HttpPut("{id}")]
+		public void Put(int id, [FromBody]string value)
+		{
+		}
 
-            return _db.UserProjects.Where(x => x.UserId == userId)
-                .Select(m =>
-                new ProjectIdDTO
-                {
-                    ProjectId = m.ProjectId,
-                    ProjectName = m.ProjectName
-                }).ToList();
-        }
+		// DELETE api/values/5
+		[HttpDelete("{id}")]
+		public void Delete(int id)
+		{
+		}
 
-        //get all the users on a given project referenced by projectId (not project name)
-        [HttpGet("{projectId}/getusers")]
-        public IEnumerable<UserIdDTO> Get(Guid projectId)
-        {
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing)
+			{
+				_userManager?.Dispose();
+				_db?.Dispose();
+			}
+			base.Dispose(disposing);
+		}
 
-            return _db.UserProjects.Where(x => x.ProjectId == projectId)
-                .Select(m =>
-                new UserIdDTO
-                {
-                    UserId = m.UserId,
-                    UserEmail = m.UserEmail
-                }).ToList();
-        }
-
-        // POST api/values
-        [HttpPost("{projectId}/{userId}")]
-        public void Post(Guid projectId, string userId)
-        {
-            //todo: get actual user Id 
-            // string opl = System.Security.Principal.WindowsIdentity.GetCurrent().Name.ToString();
-
-            //Guid guid;
-            //guid = Guid.NewGuid();
-            var theProject = _db.Projects.FirstOrDefault(x => x.Id == projectId);
-            var theUser = _db.Users.FirstOrDefault(x => x.Id == userId);
-
-            var newUserProject = new JoinUserProject
-            {
-                ProjectId = projectId,
-                Project = theProject,
-                UserId = userId,
-                User = theUser    
-            };
-
-            
-            _db.UserProjects.Add(newUserProject);
-            _db.SaveChanges();
-        }
-
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
-    }
+		private readonly UserManager<ApplicationUser> _userManager;
+		private readonly ApplicationDbContext _db;
+	}
 }

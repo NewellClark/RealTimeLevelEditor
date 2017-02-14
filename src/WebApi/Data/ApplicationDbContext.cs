@@ -14,7 +14,7 @@ namespace WebApi.Data
 			: base(options)
 		{
 
-		 }
+		}
 
 		public DbSet<LevelDbEntry> Levels { get; set; }
 

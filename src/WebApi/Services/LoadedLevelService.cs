@@ -9,7 +9,7 @@ using WebApi.ViewModels.Levels;
 
 namespace WebApi.Services
 {
-	public class LoadedLevelService<T> : ILoadedLevelService<T>
+	public sealed class LoadedLevelService<T> : ILoadedLevelService<T>
 	{
 		public LoadedLevelService(ApplicationDbContext db)
 		{
@@ -26,6 +26,8 @@ namespace WebApi.Services
 		/// <exception cref="ArgumentException">No level with specified <paramref name="id"/> exists.</exception>
 		public ILoadedLevel<T> Load(Guid id)
 		{
+			ThrowIfDisposed();
+
 			var data = _db.Levels
 				.Where(x => x.Id == id)
 				.SingleOrDefault();
@@ -44,10 +46,12 @@ namespace WebApi.Services
 
 		public ILoadedLevel<T> Create(string ownerId, Guid projectId, string levelName)
 		{
+			ThrowIfDisposed();
+
 			var data = new LevelDbEntry();
 			data.Name = levelName;
 			data.OwnerId = ownerId;
-            data.ProjectId = projectId;
+			data.ProjectId = projectId;
 			data.DateCreated = DateTime.UtcNow;
 			data.ChunkWidth = _defaultChunkSize.X;
 			data.ChunkHeight = _defaultChunkSize.Y;
@@ -65,6 +69,8 @@ namespace WebApi.Services
 
 		public IEnumerable<LevelInfoViewModel> FindLevelsForUser(string ownerId)
 		{
+			ThrowIfDisposed();
+
 			var levels = _db.Levels
 				.Where(x => x.OwnerId == ownerId)
 				.ToArray()	//	Without this I've gotten TargetInvocationException.
@@ -75,6 +81,8 @@ namespace WebApi.Services
 
 		public bool Delete(Guid levelId)
 		{
+			ThrowIfDisposed();
+
 			var data = _db.Levels
 				.Where(x => x.Id == levelId)
 				.SingleOrDefault();
@@ -95,14 +103,19 @@ namespace WebApi.Services
 
 		public bool Exists(Guid levelId)
 		{
+			ThrowIfDisposed();
+
 			var data = _db.Levels
 				.Where(x => x.Id == levelId)
 				.SingleOrDefault();
+
 			return data != null;
 		}
 
 		public LevelInfoViewModel GetInfo(Guid levelId)
 		{
+			ThrowIfDisposed();
+
 			var level = _db.Levels
 				.Where(x => x.Id == levelId)
 				.SingleOrDefault();
@@ -115,6 +128,14 @@ namespace WebApi.Services
 			return result;
 		}
 
+		public void Dispose()
+		{
+			if (_isDisposed)
+				return;
+
+			_db?.Dispose();
+			_isDisposed = true;
+		}
 
 		private class LoadedLevel : ILoadedLevel<T>
 		{
@@ -122,7 +143,14 @@ namespace WebApi.Services
 			public LevelInfoViewModel Info { get; set; }
 		}
 
+		private void ThrowIfDisposed()
+		{
+			if (_isDisposed)
+				throw new ObjectDisposedException(nameof(LoadedLevelService<T>));
+		}
+
 		private ApplicationDbContext _db;
 		private readonly Size _defaultChunkSize;
+		private bool _isDisposed;
 	}
 }

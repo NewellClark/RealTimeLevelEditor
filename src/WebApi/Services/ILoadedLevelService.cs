@@ -7,7 +7,7 @@ using WebApi.ViewModels.Levels;
 
 namespace WebApi.Services
 {
-	public interface ILoadedLevelService<T>
+	public interface ILoadedLevelService<T> : IDisposable
 	{
 		ILoadedLevel<T> Load(Guid levelId);
 		ILoadedLevel<T> Create(string ownerId, Guid projectId, string levelName);

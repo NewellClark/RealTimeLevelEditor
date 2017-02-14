@@ -12,7 +12,7 @@ using MiscHelpers;
 
 namespace WebApi.Services
 {
-	public class ChunkDatabaseRepository<T> : IChunkRepository<T>
+	public sealed class ChunkDatabaseRepository<T> : IChunkRepository<T>, IDisposable
 	{
 		public ChunkDatabaseRepository(
 			Guid levelId,
@@ -26,18 +26,29 @@ namespace WebApi.Services
 		{
 			get
 			{
-				foreach (var data in _db.Chunks.Where(x => x.LevelId == _levelId))
-					yield return data.ChunkIndex;
+				ThrowIfDisposed();
+
+				return GetIndecesItterator();
 			}
+		}
+
+		private IEnumerable<TileIndex> GetIndecesItterator()
+		{
+			foreach (var data in _db.Chunks.Where(x => x.LevelId == _levelId))
+				yield return data.ChunkIndex;
 		}
 
 		public bool Contains(TileIndex chunkIndex)
 		{
+			ThrowIfDisposed();
+
 			return LoadChunkDataFromDatabase(chunkIndex) != null;
 		}
 
 		public bool Delete(TileIndex chunkIndex)
 		{
+			ThrowIfDisposed();
+
 			var data = LoadChunkDataFromDatabase(chunkIndex);
 			if (data == null)
 				return false;
@@ -48,6 +59,8 @@ namespace WebApi.Services
 
 		public Tile<LevelChunk<T>> Load(TileIndex chunkIndex)
 		{
+			ThrowIfDisposed();
+
 			ChunkDbEntry data = LoadChunkDataFromDatabase(chunkIndex);
 			if (data == null)
 				throw new ArgumentException(
@@ -58,6 +71,8 @@ namespace WebApi.Services
 
 		public void Save(Tile<LevelChunk<T>> chunk)
 		{
+			ThrowIfDisposed();
+
 			var data = LoadChunkDataFromDatabase(chunk.Index);
 			if (data == null)
 			{
@@ -76,13 +91,26 @@ namespace WebApi.Services
 			_db.SaveChanges();
 		}
 
+		public void Dispose()
+		{
+			if (_isDisposed)
+				return;
+
+			_db?.Dispose();
+			_isDisposed = true;
+		}
+
 		private ApplicationDbContext _db;
 		private Guid _levelId;
+		private bool _isDisposed;
 
 		private ChunkDbEntry LoadChunkDataFromDatabase(TileIndex chunkIndex)
 		{
+			//	Throws when MultipleActiveResults (in connection string) is false.
 			var data = _db.Chunks
+				//.ToList()
 				.Where(x => new ChunkKeyMembers(x) == new ChunkKeyMembers(_levelId, chunkIndex))
+				//.ToList()
 				.SingleOrDefault();
 			return data;
 		}
@@ -96,6 +124,12 @@ namespace WebApi.Services
 				Y = chunk.Index.Y,
 				JsonData = JsonConvert.SerializeObject(chunk, Formatting.Indented)
 			};
+		}
+
+		private void ThrowIfDisposed()
+		{
+			if (_isDisposed)
+				throw new ObjectDisposedException(nameof(ChunkDatabaseRepository<T>));
 		}
 
 		private class ChunkKeyMembers
