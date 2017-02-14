@@ -9,7 +9,7 @@ namespace RealTimeLevelEditor
 	/// Wraps an IChunkRepository`T. Caches loaded chunks for faster lookups.
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
-	public class CachedChunkRepository<T> : IChunkRepository<T> 
+	public class CachedChunkRepository<T> : IChunkRepository<T>
 	{
 		public CachedChunkRepository(IChunkRepository<T> inner)
 		{
@@ -22,6 +22,8 @@ namespace RealTimeLevelEditor
 
 		public Tile<LevelChunk<T>> Load(TileIndex chunkIndex)
 		{
+			ThrowIfDisposed();
+
 			if (!_cache.Contains(chunkIndex))
 			{
 				var result = _inner.Load(chunkIndex);
@@ -34,6 +36,8 @@ namespace RealTimeLevelEditor
 
 		public void Save(Tile<LevelChunk<T>> chunk)
 		{
+			ThrowIfDisposed();
+
 			_indeces.Value.Add(chunk.Index);
 			_cache.AddOrUpdate(chunk);
 			_inner.Save(chunk);
@@ -41,11 +45,15 @@ namespace RealTimeLevelEditor
 
 		public bool Contains(TileIndex chunkIndex)
 		{
+			ThrowIfDisposed();
+
 			return _indeces.Value.Contains(chunkIndex);
 		}
 
 		public bool Delete(TileIndex chunkIndex)
 		{
+			ThrowIfDisposed();
+
 			if (_indeces.Value.Remove(chunkIndex))
 			{
 				_cache.Delete(chunkIndex);
@@ -58,7 +66,19 @@ namespace RealTimeLevelEditor
 
 		public IEnumerable<TileIndex> Indeces
 		{
-			get { return _indeces.Value; }
+			get
+			{
+				ThrowIfDisposed();
+				return _indeces.Value;
+			}
+		}
+
+		public void Dispose()
+		{
+			if (_isDisposed)
+				return;
+			_isDisposed = true;
+			_inner?.Dispose();
 		}
 
 
@@ -67,9 +87,17 @@ namespace RealTimeLevelEditor
 			return new HashSet<TileIndex>(_inner.Indeces);
 		}
 
+		private void ThrowIfDisposed()
+		{
+			if (_isDisposed)
+				throw new ObjectDisposedException(
+					$@"{nameof(CachedChunkRepository<T>)} containing {_inner?.GetType().Name}");
+		}
+
 		private Lazy<HashSet<TileIndex>> _indeces;
 		private Lazy<IEnumerable<TileIndex>> _readOnlyIndeces;
 		private VariableSizeTileCollection<LevelChunk<T>> _cache;
 		private IChunkRepository<T> _inner;
+		private bool _isDisposed;
 	}
 }

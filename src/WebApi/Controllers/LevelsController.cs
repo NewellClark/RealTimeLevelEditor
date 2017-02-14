@@ -213,9 +213,20 @@ namespace WebApi.Controllers
 			return GetUserId(User.Identity.Name);
 		}
 
-		private ILoadedLevelService<string> _levelLoader;
-		private ApplicationUserService _userService;
+		private readonly ILoadedLevelService<string> _levelLoader;
+		private readonly ApplicationUserService _userService;
 		private const string uri = "api/levels";
 		private static readonly string _levelFileExtension = "json";
+
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing)
+			{
+				_levelLoader?.Dispose();
+				_userService?.Dispose();
+			}
+
+			base.Dispose(disposing);
+		}
 	}
 }

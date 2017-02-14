@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace RealTimeLevelEditor
 {
-	public interface IChunkRepository<T>
+	public interface IChunkRepository<T> : IDisposable
 	{
 		/// <summary>
 		/// Loads the chunk with the specified index from the repository.

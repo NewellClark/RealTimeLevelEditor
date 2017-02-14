@@ -17,6 +17,8 @@ namespace RealTimeLevelEditor
 		{
 			get
 			{
+				ThrowIfDisposed();
+
 				var files = _directory.EnumerateFiles();
 				foreach (var file in files)
 				{
@@ -30,6 +32,8 @@ namespace RealTimeLevelEditor
 
 		public Tile<LevelChunk<T>> Load(TileIndex chunkIndex)
 		{
+			ThrowIfDisposed();
+
 			string path = GetFilePathForChunkIndex(chunkIndex);
 
 			using (Stream stream = File.OpenRead(path))
@@ -44,6 +48,8 @@ namespace RealTimeLevelEditor
 
 		public void Save(Tile<LevelChunk<T>> chunk)
 		{
+			ThrowIfDisposed();
+
 			string path = GetFilePathForChunkIndex(chunk.Index);
 
 			using (FileStream stream = File.Create(path))
@@ -57,11 +63,15 @@ namespace RealTimeLevelEditor
 
 		public bool Contains(TileIndex chunkIndex)
 		{
+			ThrowIfDisposed();
+
 			return Indeces.Contains(chunkIndex);
 		}
 
 		public bool Delete(TileIndex chunkIndex)
 		{
+			ThrowIfDisposed();
+
 			if (!Contains(chunkIndex))
 				return false;
 
@@ -70,5 +80,20 @@ namespace RealTimeLevelEditor
 
 			return true;
 		}
+
+		public void Dispose()
+		{
+			if (_isDisposed)
+				return;
+			_isDisposed = true;
+		}
+
+		private void ThrowIfDisposed()
+		{
+			if (_isDisposed)
+				throw new ObjectDisposedException(nameof(FileChunkRepository<T>));
+
+		}
+		private bool _isDisposed;
 	}
 }
